@@ -1,0 +1,165 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb
+        [title]="'Waiting Room'"
+        [items]="['Telemedicine']"
+        [active_item]="'Waiting Room'"
+      ></app-breadcrumb>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="wr-stats-row">
+      <div class="wr-stat-card wr-stat-card--total">
+        <span class="material-icons-outlined wr-stat-icon">groups</span>
+        <div>
+          <div class="wr-stat-value">{{ stats().total }}</div>
+          <div class="wr-stat-label">Total Today</div>
+        </div>
+      </div>
+      <div class="wr-stat-card wr-stat-card--waiting">
+        <span class="material-icons-outlined wr-stat-icon">hourglass_empty</span>
+        <div>
+          <div class="wr-stat-value">{{ stats().waiting }}</div>
+          <div class="wr-stat-label">Waiting</div>
+        </div>
+      </div>
+      <div class="wr-stat-card wr-stat-card--call">
+        <span class="material-icons-outlined wr-stat-icon">video_call</span>
+        <div>
+          <div class="wr-stat-value">{{ stats().inCall }}</div>
+          <div class="wr-stat-label">In Call</div>
+        </div>
+      </div>
+      <div class="wr-stat-card wr-stat-card--ready">
+        <span class="material-icons-outlined wr-stat-icon">check_circle_outline</span>
+        <div>
+          <div class="wr-stat-value">{{ stats().ready }}</div>
+          <div class="wr-stat-label">Ready</div>
+        </div>
+      </div>
+      <div class="wr-stat-card wr-stat-card--avg">
+        <span class="material-icons-outlined wr-stat-icon">timer</span>
+        <div>
+          <div class="wr-stat-value">{{ stats().avgWait }}<small>min</small></div>
+          <div class="wr-stat-label">Avg Wait</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="wr-filter-row">
+      <button
+        class="wr-filter-btn"
+        [class.active]="selectedFilter() === 'all'"
+        (click)="setFilter('all')"
+      >All Patients</button>
+      <button
+        class="wr-filter-btn"
+        [class.active]="selectedFilter() === 'waiting'"
+        (click)="setFilter('waiting')"
+      >Waiting</button>
+      <button
+        class="wr-filter-btn"
+        [class.active]="selectedFilter() === 'in-call'"
+        (click)="setFilter('in-call')"
+      >In Call</button>
+      <button
+        class="wr-filter-btn"
+        [class.active]="selectedFilter() === 'ready'"
+        (click)="setFilter('ready')"
+      >Ready</button>
+      <button
+        class="wr-filter-btn"
+        [class.active]="selectedFilter() === 'no-show'"
+        (click)="setFilter('no-show')"
+      >No Show</button>
+    </div>
+
+    <!-- Queue Cards -->
+    <div class="wr-queue">
+      @if (filteredPatients().length === 0) {
+        <div class="wr-empty">
+          <span class="material-icons-outlined wr-empty-icon">event_busy</span>
+          <p class="wr-empty-title">No patients found</p>
+          <p class="wr-empty-sub">There are no patients matching this filter.</p>
+        </div>
+      }
+
+      @for (patient of filteredPatients(); track patient.id) {
+        <div class="wr-card" [class.wr-card--urgent]="patient.priority === 'urgent'">
+          <!-- Priority badge -->
+          @if (patient.priority === 'urgent') {
+            <div class="wr-urgent-badge">
+              <span class="material-icons-outlined">priority_high</span> Urgent
+            </div>
+          }
+
+          <div class="wr-card__left">
+            <div class="wr-avatar" [attr.data-initials]="patient.avatar">
+              {{ patient.avatar }}
+            </div>
+            <div class="wr-patient-info">
+              <div class="wr-patient-name">{{ patient.name }}</div>
+              <div class="wr-patient-meta">
+                <span>{{ patient.age }} yrs</span>
+                <span class="dot">·</span>
+                <span>{{ patient.gender }}</span>
+                <span class="dot">·</span>
+                <span class="wr-pid">{{ patient.id }}</span>
+              </div>
+              <div class="wr-condition">{{ patient.condition }}</div>
+            </div>
+          </div>
+
+          <div class="wr-card__mid">
+            <div class="wr-info-row">
+              <span class="material-icons-outlined wr-meta-icon">person</span>
+              <span>{{ patient.doctor }}</span>
+            </div>
+            <div class="wr-info-row">
+              <span class="material-icons-outlined wr-meta-icon">medical_services</span>
+              <span>{{ patient.specialty }}</span>
+            </div>
+            <div class="wr-info-row">
+              <span class="material-icons-outlined wr-meta-icon">schedule</span>
+              <span>Scheduled: {{ patient.scheduledTime }}</span>
+            </div>
+            <div class="wr-info-row">
+              <span class="material-icons-outlined wr-meta-icon">login</span>
+              <span>Joined: {{ patient.joinedAt }}</span>
+            </div>
+          </div>
+
+          <div class="wr-card__right">
+            @if (patient.status === 'waiting') {
+              <div class="wr-wait-time">
+                <span class="wr-wait-num">{{ patient.waitingMinutes }}</span>
+                <span class="wr-wait-unit">min wait</span>
+              </div>
+            }
+            <span class="wr-status-badge wr-status-badge--{{ patient.status }}">
+              {{ getStatusLabel(patient.status) }}
+            </span>
+
+            <div class="wr-actions">
+              @if (patient.status === 'waiting' || patient.status === 'ready') {
+                <button class="wr-btn wr-btn--admit" (click)="admitPatient(patient)"
+                  matTooltip="Start Call">
+                  <span class="material-icons-outlined">video_call</span>
+                  Start Call
+                </button>
+              }
+              @if (patient.status === 'waiting') {
+                <button class="wr-btn wr-btn--noshow" (click)="markNoShow(patient)"
+                  matTooltip="Mark No Show">
+                  <span class="material-icons-outlined">person_off</span>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

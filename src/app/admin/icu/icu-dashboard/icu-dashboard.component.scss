@@ -1,0 +1,599 @@
+.vital-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  overflow: visible;
+  padding: 10px;
+
+  .mat-mdc-card-content {
+    padding: 15px;
+  }
+
+  .vital-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    mat-icon {
+      border-radius: 8px;
+      padding: 4px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .vital-title {
+      font-weight: 600;
+      color: #666;
+      font-size: 15px;
+    }
+  }
+
+  .vital-icon-danger {
+    background: rgba(255, 77, 77, 0.1);
+  }
+
+  .vital-icon-warning {
+    background: rgba(255, 193, 7, 0.1);
+  }
+
+  .vital-icon-info {
+    background: rgba(0, 188, 212, 0.1);
+  }
+
+  .vital-icon-success {
+    background: rgba(76, 175, 80, 0.1);
+  }
+  .vital-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .vital-body {
+    margin-top: 15px;
+    .vital-value {
+      h3 {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1;
+        color: #333;
+      }
+      small {
+        color: #999;
+        font-weight: 500;
+      }
+    }
+    .vital-chart {
+      margin-bottom: -15px;
+      margin-right: -10px;
+    }
+  }
+}
+
+.dashboard-card {
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .mat-mdc-card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    .mat-mdc-card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+
+  .mat-mdc-card-content {
+    padding: 0 20px 20px 20px;
+  }
+}
+
+/* Modern Alerts styling */
+.modern-alert-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border-left: 4px solid transparent;
+  background: #fdfdfd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: #fafafa;
+  }
+
+  &.danger {
+    border-left-color: #ff4d4d;
+    background: rgba(255, 77, 77, 0.02);
+    .alert-icon-container {
+      background: rgba(255, 77, 77, 0.1);
+      color: #ff4d4d;
+    }
+  }
+
+  &.warning {
+    border-left-color: #ffc107;
+    background: rgba(255, 193, 7, 0.02);
+    .alert-icon-container {
+      background: rgba(255, 193, 7, 0.1);
+      color: #ff9800;
+    }
+  }
+
+  &.info {
+    border-left-color: #00bcd4;
+    background: rgba(0, 188, 212, 0.02);
+    .alert-icon-container {
+      background: rgba(0, 188, 212, 0.1);
+      color: #00bcd4;
+    }
+  }
+
+  .alert-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    margin-right: 12px;
+    flex-shrink: 0;
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .alert-details {
+    flex-grow: 1;
+  }
+
+  .alert-message {
+    font-size: 13.5px;
+    color: #444;
+    line-height: 1.4;
+    strong {
+      color: #111;
+    }
+  }
+
+  .alert-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+    font-size: 11px;
+  }
+
+  .alert-time {
+    color: #888;
+  }
+
+  .alert-action-link {
+    color: #3f51b5;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* ICU Capacity & Chart styling */
+.capacity-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 250px;
+}
+
+.capacity-stats {
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  padding-top: 15px;
+
+  .stat-item {
+    position: relative;
+    padding: 0 8px;
+  }
+
+  .stat-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-bottom: 4px;
+
+    &.occupied {
+      background-color: #ff4d4d;
+    }
+    &.available {
+      background-color: #4caf50;
+    }
+    &.total {
+      background-color: #9c27b0;
+    }
+  }
+
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    font-size: 14px;
+    color: #333;
+  }
+}
+
+/* Recent Admissions List */
+.recent-admissions-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.admission-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+    &.avatar-color-0 {
+      background: linear-gradient(135deg, #7f00ff, #e100ff);
+    }
+    &.avatar-color-1 {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+    }
+    &.avatar-color-2 {
+      background: linear-gradient(135deg, #11998e, #38ef7d);
+    }
+  }
+
+  .avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .admission-info {
+    .patient-name {
+      font-size: 14px;
+      color: #333;
+    }
+    .patient-meta {
+      font-size: 12px;
+      margin-top: 2px;
+    }
+  }
+}
+
+/* Soft Badges */
+.modern-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.badge-danger-soft {
+  background-color: rgba(255, 77, 77, 0.08);
+  color: #ff4d4d;
+}
+.badge-warning-soft {
+  background-color: rgba(255, 193, 7, 0.08);
+  color: #ff9800;
+}
+.badge-info-soft {
+  background-color: rgba(0, 188, 212, 0.08);
+  color: #00bcd4;
+}
+.badge-success-soft {
+  background-color: rgba(76, 175, 80, 0.08);
+  color: #4caf50;
+}
+
+.badge-danger {
+  background: rgba(255, 77, 77, 0.1);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 77, 77, 0.2);
+}
+.badge-warning {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ff9800;
+  border: 1px solid rgba(255, 193, 7, 0.2);
+}
+.badge-info {
+  background: rgba(0, 188, 212, 0.1);
+  color: #00bcd4;
+  border: 1px solid rgba(0, 188, 212, 0.2);
+}
+.badge-success {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.table th {
+  font-weight: 600;
+  color: #666;
+  border-top: none;
+}
+.table td {
+  vertical-align: middle;
+}
+
+.ai-forecast-btn {
+  border-radius: 20px;
+  height: 40px;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #a855f7, #6366f1) !important;
+  color: white;
+}
+
+.bp-diastolic {
+  font-size: 18px;
+  color: #888;
+}
+
+.section-title-weight {
+  font-weight: 500;
+}
+
+.forecast-label {
+  font-size: 12px;
+}
+
+.forecast-value {
+  font-weight: 500;
+}
+
+.advisory-title {
+  font-weight: 500;
+}
+
+.advisory-text {
+  font-size: 13px;
+}
+
+.badge-font-sm {
+  font-size: 11px;
+}
+
+.ai-forecast-card {
+  border-radius: 16px;
+  border: 1px solid rgba(63, 81, 181, 0.15);
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(63, 81, 181, 0.08);
+  margin-bottom: 24px;
+}
+
+.forecast-metric-card {
+  background: #f8f9fa;
+  border: 1px solid #6777ef;
+  padding: 15px;
+}
+
+.advisory-box {
+  background: #f8f9fa !important;
+  border-left: 4px solid #3f51b5;
+}
+
+.spinning {
+  animation: spin 1.5s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark Theme Overrides */
+:host-context(body.dark) {
+  .vital-card {
+    background: #1a202e;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+    .vital-header {
+      .vital-title {
+        color: #a5abb1;
+      }
+    }
+
+    .vital-body {
+      .vital-value {
+        h3 {
+          color: #ffffff;
+        }
+        small {
+          color: #888888;
+        }
+      }
+    }
+  }
+
+  .dashboard-card {
+    background: #1a202e;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .mat-mdc-card-header {
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+      .mat-mdc-card-title {
+        color: #ffffff;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .ai-forecast-card {
+    background: rgba(63, 81, 181, 0.05);
+    border-color: rgba(63, 81, 181, 0.4);
+  }
+
+  .forecast-metric-card {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .advisory-box {
+    background: rgba(255, 255, 255, 0.03) !important;
+  }
+
+  .modern-alert-item {
+    background: #252d3d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background: #2b3447;
+    }
+
+    &.danger {
+      background: rgba(255, 77, 77, 0.05);
+    }
+
+    &.warning {
+      background: rgba(255, 193, 7, 0.05);
+    }
+
+    &.info {
+      background: rgba(0, 188, 212, 0.05);
+    }
+
+    .alert-message {
+      color: #b2becd;
+      strong {
+        color: #ffffff;
+      }
+    }
+
+    .alert-time {
+      color: #7d8b9d;
+    }
+
+    .alert-action-link {
+      color: #7784d5;
+    }
+  }
+
+  .capacity-stats {
+    border-top-color: rgba(255, 255, 255, 0.08);
+
+    .stat-value {
+      color: #ffffff;
+    }
+  }
+
+  .admission-item {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+
+    .admission-info {
+      .patient-name {
+        color: #ffffff;
+      }
+      .patient-meta {
+        color: #8c9ba5 !important;
+      }
+    }
+  }
+
+  .table th {
+    color: #a5abb1;
+  }
+}
+
+/* Glassmorphism Theme Overrides */
+:host-context(body.layout-glassmorphism) {
+  .vital-card,
+  .dashboard-card {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05) !important;
+  }
+
+  .ai-forecast-card {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05) !important;
+  }
+
+  .modern-alert-item {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(5px) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  /* Dark + Glassmorphism combined */
+  &.dark {
+    .vital-card,
+    .dashboard-card,
+    .ai-forecast-card {
+      background: rgba(15, 23, 42, 0.55) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .modern-alert-item {
+      background: rgba(255, 255, 255, 0.03) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}

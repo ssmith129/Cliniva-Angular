@@ -1,0 +1,125 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb
+        [title]="'Consultation Schedule'"
+        [items]="['Telemedicine']"
+        [active_item]="'Consultation Schedule'"
+      ></app-breadcrumb>
+    </div>
+
+    <!-- Stats -->
+    <div class="cs-stats-row">
+      <div class="cs-stat cs-stat--all" (click)="setFilter('all')" [class.active]="filterStatus() === 'all'">
+        <span class="cs-stat-num">{{ stats().total }}</span>
+        <span class="cs-stat-label">Total</span>
+      </div>
+      <div class="cs-stat cs-stat--scheduled" (click)="setFilter('scheduled')" [class.active]="filterStatus() === 'scheduled'">
+        <span class="cs-stat-num">{{ stats().scheduled }}</span>
+        <span class="cs-stat-label">Scheduled</span>
+      </div>
+      <div class="cs-stat cs-stat--completed" (click)="setFilter('completed')" [class.active]="filterStatus() === 'completed'">
+        <span class="cs-stat-num">{{ stats().completed }}</span>
+        <span class="cs-stat-label">Completed</span>
+      </div>
+      <div class="cs-stat cs-stat--cancelled" (click)="setFilter('cancelled')" [class.active]="filterStatus() === 'cancelled'">
+        <span class="cs-stat-num">{{ stats().cancelled }}</span>
+        <span class="cs-stat-label">Cancelled</span>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="cs-toolbar">
+      <div class="cs-search-wrap">
+        <span class="material-icons-outlined cs-search-icon">search</span>
+        <input class="cs-search-input" placeholder="Search patient or doctor..." />
+      </div>
+      <div class="cs-view-toggle">
+        <button class="cs-view-btn" [class.active]="viewMode() === 'list'" (click)="setView('list')">
+          <span class="material-icons-outlined">view_list</span>
+        </button>
+        <button class="cs-view-btn" [class.active]="viewMode() === 'calendar'" (click)="setView('calendar')">
+          <span class="material-icons-outlined">calendar_month</span>
+        </button>
+      </div>
+      <button class="cs-add-btn">
+        <span class="material-icons-outlined">add</span> Schedule
+      </button>
+    </div>
+
+    <!-- List View -->
+    @if (viewMode() === 'list') {
+      @if (groupedByDate().length === 0) {
+        <div class="cs-empty">
+          <span class="material-icons-outlined">event_busy</span>
+          <p>No appointments found</p>
+        </div>
+      }
+
+      @for (group of groupedByDate(); track group.date) {
+        <div class="cs-date-group">
+          <div class="cs-date-header">
+            <span class="cs-date-label">{{ formatDate(group.date) }}</span>
+            @if (isToday(group.date)) {
+              <span class="cs-today-badge">Today</span>
+            }
+            <span class="cs-count-badge">{{ group.apts.length }} appointment{{ group.apts.length !== 1 ? 's' : '' }}</span>
+          </div>
+
+          <div class="cs-apts-list">
+            @for (apt of group.apts; track apt.id) {
+              <div class="cs-apt-card cs-apt-card--{{ apt.status }}">
+                <div class="cs-apt-time-col">
+                  <span class="cs-time">{{ formatTime(apt.time) }}</span>
+                  <span class="cs-dur">{{ apt.duration }} min</span>
+                  <span class="cs-type-icon material-icons-outlined cs-type-icon--{{ apt.type }}">
+                    {{ getTypeIcon(apt.type) }}
+                  </span>
+                </div>
+
+                <div class="cs-apt-main">
+                  <div class="cs-apt-top">
+                    <div class="cs-avatar">{{ apt.patientAvatar }}</div>
+                    <div>
+                      <div class="cs-patient-name">{{ apt.patientName }}</div>
+                      <div class="cs-doctor-info">
+                        <span class="material-icons-outlined">person</span>
+                        {{ apt.doctor }} · {{ apt.specialty }}
+                      </div>
+                    </div>
+                  </div>
+                  @if (apt.notes) {
+                    <div class="cs-notes">{{ apt.notes }}</div>
+                  }
+                </div>
+
+                <div class="cs-apt-right">
+                  <span class="cs-status-badge cs-status-badge--{{ apt.status }}">{{ apt.status }}</span>
+                  <div class="cs-apt-actions">
+                    @if (apt.status === 'scheduled') {
+                      <button class="cs-action-btn cs-action-btn--start" matTooltip="Start Call">
+                        <span class="material-icons-outlined">video_call</span>
+                      </button>
+                      <button class="cs-action-btn cs-action-btn--cancel" matTooltip="Cancel">
+                        <span class="material-icons-outlined">close</span>
+                      </button>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
+
+    <!-- Calendar View Placeholder -->
+    @if (viewMode() === 'calendar') {
+      <div class="cs-calendar-placeholder">
+        <span class="material-icons-outlined">calendar_month</span>
+        <p>Calendar view — interactive calendar integration available.</p>
+        <p class="cs-sub">Showing all {{ stats().total }} appointments across the schedule.</p>
+      </div>
+    }
+  </div>
+</section>

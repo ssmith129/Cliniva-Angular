@@ -1,0 +1,232 @@
+.status-legend {
+  .legend-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+
+    &.occupied {
+      background-color: rgba(255, 77, 77, 0.1);
+      color: #ff4d4d;
+      border: 1px solid rgba(255, 77, 77, 0.2);
+    }
+    &.available {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: #4caf50;
+      border: 1px solid rgba(76, 175, 80, 0.2);
+    }
+    &.cleaning {
+      background-color: rgba(255, 193, 7, 0.1);
+      color: #ff9800;
+      border: 1px solid rgba(255, 193, 7, 0.2);
+    }
+    &.maintenance {
+      background-color: rgba(158, 158, 158, 0.1);
+      color: #777;
+      border: 1px solid rgba(158, 158, 158, 0.2);
+    }
+  }
+}
+
+.form-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+
+  .mat-mdc-card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    .mat-mdc-card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+}
+
+.modern-bed-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+    .card-actions {
+      opacity: 1;
+    }
+  }
+
+  .status-indicator-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0.2; // default subtle state, fully visible on card hover
+    transition: opacity 0.2s ease;
+
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .bed-icon-bg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+
+    .bed-icon-md {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .bed-title {
+    font-size: 18px;
+    color: #222;
+  }
+
+  .bed-status-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .patient-container {
+    .patient-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 14px;
+      border-radius: 30px;
+      background-color: #f1f5f9;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
+
+      &.empty-pill {
+        background-color: #fafafa;
+        color: #94a3b8;
+        border-style: dashed;
+        border-color: #cbd5e1;
+      }
+    }
+  }
+}
+
+/* Dark Theme Overrides */
+:host-context(body.dark) {
+  .form-card,
+  .modern-bed-card {
+    background: #1a202e;
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+    .mat-mdc-card-header {
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+      .mat-mdc-card-title {
+        color: #ffffff;
+      }
+    }
+
+    .bed-title {
+      color: #ffffff;
+    }
+
+    .patient-container {
+      .patient-pill {
+        background-color: #2d3748;
+        color: #e2e8f0;
+        border-color: rgba(255, 255, 255, 0.05);
+
+        &.empty-pill {
+          background-color: #1e293b;
+          color: #64748b;
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+
+  .legend-badge {
+    &.maintenance {
+      color: #999 !important;
+    }
+  }
+}
+
+/* Glassmorphism Theme Overrides */
+:host-context(body.layout-glassmorphism) {
+  .form-card,
+  .modern-bed-card {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05) !important;
+  }
+
+  .patient-pill {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+
+    &.empty-pill {
+      background-color: rgba(255, 255, 255, 0.15) !important;
+      border-color: rgba(255, 255, 255, 0.25) !important;
+    }
+  }
+
+  /* Dark + Glassmorphism combined */
+  &.dark {
+    .form-card,
+    .modern-bed-card {
+      background: rgba(15, 23, 42, 0.55) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .patient-pill {
+      background-color: rgba(255, 255, 255, 0.03) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}

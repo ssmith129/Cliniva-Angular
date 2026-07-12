@@ -1,0 +1,74 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="avatarDetails">
+      <div class="modalTitle">
+        Prescription Details
+      </div>
+    </div>
+    <button mat-icon-button (click)="onClose()" class="modal-close-button" aria-label="Close dialog" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+<div mat-dialog-content class="pt-0">
+  <div class="row details-section mt-3">
+    <div class="col-md-6 mb-3">
+      <span class="detail-label">Patient ID</span>
+      <div class="detail-value">{{ data.patientId }}</div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <span class="detail-label">Patient Name</span>
+      <div class="detail-value">{{ data.patientName }}</div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <span class="detail-label">Phone</span>
+      <div class="detail-value">{{ data.phone }}</div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <span class="detail-label">Prescribing Doctor</span>
+      <div class="detail-value">{{ data.doctor }}</div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <span class="detail-label">Date</span>
+      <div class="detail-value">{{ data.date }}</div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <span class="detail-label">Status</span>
+      <div class="detail-value mt-1">
+        <span class="badge" [ngClass]="{
+          'badge-solid-green': data.status === 'Fulfilled',
+          'badge-solid-orange': data.status === 'Pending',
+          'badge-solid-red': data.status === 'Cancelled'
+        }">{{ data.status }}</span>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="mb-3"></mat-divider>
+
+  <h5 class="mb-2">Prescribed Medications</h5>
+  <mat-list>
+    @for (item of parsedItems; track item) {
+      <mat-list-item>
+        <mat-icon matListItemIcon class="text-blue">medication</mat-icon>
+        <div matListItemTitle>{{ item }}</div>
+      </mat-list-item>
+    }
+  </mat-list>
+
+  <mat-divider class="mt-2 mb-3"></mat-divider>
+
+  <h5 class="mb-2">Notes</h5>
+  <p class="text-muted">{{ data.notes }}</p>
+</div>
+
+<div mat-dialog-actions align="end" class="pb-3 pr-3">
+  @if (data.status === 'Pending') {
+    <button mat-flat-button color="warn" class="mr-2" (click)="onCancel()">Cancel Prescription</button>
+    <button mat-flat-button color="primary" (click)="onFulfill()">Fulfill Prescription</button>
+  }
+  @if (data.status !== 'Pending') {
+    <button mat-flat-button (click)="onClose()">Close</button>
+  }
+</div>
+</div>

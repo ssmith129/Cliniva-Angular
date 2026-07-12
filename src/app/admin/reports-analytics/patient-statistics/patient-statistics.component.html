@@ -1,0 +1,146 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Patient Statistics'" [items]="['Reports & Analytics']"
+                [active_item]="'Patient Statistics'">
+            </app-breadcrumb>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="row clearfix">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-teal">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Total Patients (YTD)</p>
+                                <h3 class="kpi-value">8,425</h3>
+                                <p class="kpi-sub">
+                                    <span class="material-icons-outlined" style="font-size:14px; vertical-align:middle;">trending_up</span>
+                                    +15% vs last year
+                                </p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">groups</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-blue">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Currently Admitted</p>
+                                <h3 class="kpi-value">198</h3>
+                                <p class="kpi-sub">87% bed occupancy</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">bed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-orange">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Avg LOS (Days)</p>
+                                <h3 class="kpi-value">4.2</h3>
+                                <p class="kpi-sub">Length of stay</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">trending_up</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-red">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Critical Patients</p>
+                                <h3 class="kpi-value">14</h3>
+                                <p class="kpi-sub">In ICU/CCU</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">warning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 1 -->
+        <div class="row clearfix">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header"><h2>Admission vs Discharge Trend (2024)</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="admissionTrendOptions.series!" [chart]="admissionTrendOptions.chart!"
+                            [xaxis]="admissionTrendOptions.xaxis!" [yaxis]="admissionTrendOptions.yaxis!"
+                            [title]="admissionTrendOptions.title!" [colors]="admissionTrendOptions.colors!"
+                            [stroke]="admissionTrendOptions.stroke!" [dataLabels]="admissionTrendOptions.dataLabels!"
+                            [fill]="admissionTrendOptions.fill!" [legend]="admissionTrendOptions.legend!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header"><h2>Gender Distribution</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="genderDistributionOptions.series!" [chart]="genderDistributionOptions.chart!"
+                            [labels]="genderDistributionOptions.labels!" [colors]="genderDistributionOptions.colors!"
+                            [legend]="genderDistributionOptions.legend!" [responsive]="genderDistributionOptions.responsive!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 2 -->
+        <div class="row clearfix">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header"><h2>Top 10 Diagnoses (2024)</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="diagnosisDistributionOptions.series!" [chart]="diagnosisDistributionOptions.chart!"
+                            [xaxis]="diagnosisDistributionOptions.xaxis!" [plotOptions]="diagnosisDistributionOptions.plotOptions!"
+                            [dataLabels]="diagnosisDistributionOptions.dataLabels!" [colors]="diagnosisDistributionOptions.colors!"
+                            [title]="diagnosisDistributionOptions.title!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header"><h2>Patient Age Distribution</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="ageGroupOptions.series!" [chart]="ageGroupOptions.chart!"
+                            [labels]="ageGroupOptions.labels!" [colors]="ageGroupOptions.colors!"
+                            [legend]="ageGroupOptions.legend!" [responsive]="ageGroupOptions.responsive!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <app-master-table [dataSource]="dataSource" [columnDefinitions]="columnDefinitions"
+                    [title]="'Patient Demographics & Admissions'" [isLoading]="isLoading"
+                    (add)="handleAdd()" (edit)="handleEdit($event)" (delete)="handleDelete($event)"
+                    (bulkDelete)="handleBulkDelete($event)" (refresh)="handleRefresh()">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

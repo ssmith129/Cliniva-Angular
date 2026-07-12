@@ -1,0 +1,129 @@
+.modern-form-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.section-title {
+  position: relative;
+  padding-left: 15px;
+  font-weight: 500;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    bottom: 2px;
+    width: 4px;
+    background-color: #673ab7; /* Primary color fallback */
+    border-radius: 2px;
+  }
+}
+
+.ai-recommendation-card {
+  border-radius: 16px;
+  border: 1px dashed #673ab7;
+  background: rgba(103, 58, 183, 0.02);
+  box-shadow: 0 4px 20px rgba(103, 58, 183, 0.05);
+  margin-bottom: 25px;
+}
+
+.advisory-box {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-left: 4px solid #673ab7;
+}
+
+.pain-slider {
+  width: 100%;
+}
+
+.ai-triage-btn {
+  margin-bottom: 22px;
+  background: linear-gradient(135deg, #a855f7, #6366f1) !important;
+  color: white;
+}
+
+.section-title-weight {
+  font-weight: 500;
+}
+
+.ai-section-subtitle {
+  font-weight: 500;
+}
+
+.ai-risk-title {
+  font-weight: 500;
+}
+
+.ai-diagnostics-title {
+  font-weight: 500;
+}
+
+.ai-precautions-title {
+  font-weight: 500;
+}
+
+.btn-rounded {
+  border-radius: 20px;
+}
+
+.spinning {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Theme compatibility overrides */
+:host-context(body.dark) {
+  .modern-form-card {
+    background: #1a202e;
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .ai-recommendation-card {
+    background: rgba(103, 58, 183, 0.05);
+    border-color: rgba(103, 58, 183, 0.4);
+
+    .card {
+      background: #1a202e !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      color: #b2becd;
+    }
+  }
+
+  .advisory-box {
+    background: rgba(255, 255, 255, 0.03) !important;
+  }
+}
+
+:host-context(body.layout-glassmorphism) {
+  .modern-form-card,
+  .ai-recommendation-card {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  }
+
+  &.dark {
+    .modern-form-card,
+    .ai-recommendation-card {
+      background: rgba(15, 23, 42, 0.55) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}

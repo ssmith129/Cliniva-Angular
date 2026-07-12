@@ -1,0 +1,193 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'ER Bed Tracker'" [items]="['Emergency']" [active_item]="'Bed Tracker'"></app-breadcrumb>
+    </div>
+
+    <mat-card class="bed-occupancy-card">
+      <!-- Card Header -->
+      <div class="card-header-bar d-flex justify-content-between align-items-center">
+        <div class="header-title">
+          Bed Occupancy
+        </div>
+        <button mat-icon-button class="close-btn">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Card Body -->
+      <div class="card-body-container">
+        <!-- Left Sidebar (Wards List) -->
+        <div class="ward-sidebar">
+          <div class="sidebar-label">Ward Name</div>
+          <div class="ward-list">
+            @for (ward of wards; track ward) {
+              <div class="ward-item" [class.active]="ward === selectedWard"
+                (click)="selectWard(ward)">
+                {{ ward }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Center Grid Section -->
+        <div class="grid-section">
+          <!-- Filters Row -->
+          <div class="filters-row d-flex gap-3 mb-4">
+            <div class="filter-group flex-fill">
+              <label class="filter-label">Room No.</label>
+              <select class="form-select filter-select" [(ngModel)]="selectedRoomNo">
+                @for (room of roomNos; track room) {
+                  <option [value]="room">{{ room }}</option>
+                }
+              </select>
+            </div>
+            <div class="filter-group flex-fill">
+              <label class="filter-label">Bed No.</label>
+              <select class="form-select filter-select" [(ngModel)]="selectedBedNo">
+                @for (range of bedNos; track range) {
+                  <option [value]="range">{{ range }}</option>
+                }
+              </select>
+            </div>
+            <div class="filter-group flex-fill">
+              <label class="filter-label">Status</label>
+              <select class="form-select filter-select" [(ngModel)]="selectedStatus">
+                @for (stat of statuses; track stat) {
+                  <option [value]="stat">{{ stat }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <!-- Bed Numbers Grid -->
+          <div class="beds-scroll-container">
+            <div class="beds-grid">
+              @for (bed of getFilteredBeds(); track bed.id) {
+                <div class="bed-box"
+                  [ngClass]="'status-' + bed.status.toLowerCase().replace(' ', '-')"
+                  [class.selected]="selectedBed && selectedBed.id === bed.id" (click)="selectBed(bed)">
+                  {{ bed.name }}
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Patient Details Panel -->
+        <div class="details-section">
+          @if (selectedBed) {
+            <div class="details-container">
+              <div class="details-header mb-3">
+              <span class="badge status-badge"
+                [ngClass]="'status-' + selectedBed.status.toLowerCase().replace(' ', '-')">
+                {{ selectedBed.status }}
+              </span>
+              <span class="bed-label-title ms-2">Bed {{ selectedBed.name }}</span>
+            </div>
+
+            <!-- Patient Information -->
+            @if (selectedBed.patient) {
+              <div class="patient-details-list">
+                <div class="details-group">
+                  <label class="detail-label">Patient</label>
+                  <div class="detail-val font-weight-bold">{{ selectedBed.patient.name }}</div>
+                  <div class="detail-sub-val">{{ selectedBed.patient.age }} Yrs {{ selectedBed.patient.gender }}</div>
+                </div>
+                <div class="details-group mt-3">
+                  <label class="detail-label">Patient ID</label>
+                  <div class="detail-val font-weight-bold">{{ selectedBed.patient.patientId }}</div>
+                </div>
+                <div class="details-group mt-3">
+                  <label class="detail-label">Admission Date</label>
+                  <div class="detail-val">{{ selectedBed.patient.admissionDate }}</div>
+                </div>
+                <div class="details-group mt-3">
+                  <label class="detail-label">Assigned Dr.</label>
+                  <div class="detail-val">Dr. {{ selectedBed.patient.assignedDr }}</div>
+                </div>
+                <div class="details-group mt-3">
+                  <label class="detail-label">Assigned Nurse</label>
+                  <div class="detail-val">{{ selectedBed.patient.assignedNurse }}</div>
+                </div>
+              </div>
+            } @else {
+              <div class="patient-details-list">
+                <div class="details-group">
+                  <label class="detail-label">Patient</label>
+                  <div class="detail-val text-muted italic">No Patient Assigned</div>
+                </div>
+                <div class="details-group mt-3">
+                  <label class="detail-label">Patient ID</label>
+                  <div class="detail-val">-</div>
+                </div>
+                <div class="details-group mt-3">
+                  <label class="detail-label">Status Detail</label>
+                  <div class="detail-val">Bed is empty and marked as <strong>{{ selectedBed.status }}</strong>.</div>
+                </div>
+              </div>
+            }
+
+            <!-- Quick Action: Change Status -->
+            <div class="status-modifier-group mt-4 pt-3 border-top">
+              <label class="filter-label">Quick Action: Change Status</label>
+              <select class="form-select filter-select mt-1" [ngModel]="selectedBed.status"
+                (ngModelChange)="changeBedStatus(selectedBed, $event)">
+                <option value="Not Ready">Not Ready</option>
+                <option value="Arrived">Arrived</option>
+                <option value="Open">Open</option>
+                <option value="Admitted">Admitted</option>
+                <option value="Hold">Hold</option>
+                <option value="Wait">Wait</option>
+                <option value="Registered">Registered</option>
+              </select>
+            </div>
+          </div>
+          }
+
+          <!-- If no bed is selected -->
+          @if (!selectedBed) {
+            <div class="no-selection-details d-flex flex-column align-items-center justify-content-center h-100">
+              <mat-icon style="font-size: 48px; width: 48px; height: 48px;" class="text-muted">hotel</mat-icon>
+              <div class="text-muted mt-2">Select a bed to view details</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Card Footer -->
+      <div class="card-footer-bar d-flex justify-content-between align-items-center">
+        <!-- Status Legend Dots -->
+        <div class="status-legend-dots d-flex flex-wrap align-items-center gap-3">
+          <span class="legend-item d-flex align-items-center">
+            <span class="dot-indicator dot-not-ready"></span> Not Ready ({{ getStatusCount('Not Ready') }})
+          </span>
+          <span class="legend-item d-flex align-items-center">
+            <span class="dot-indicator dot-arrived"></span> Arrived ({{ getStatusCount('Arrived') }})
+          </span>
+          <span class="legend-item d-flex align-items-center">
+            <span class="dot-indicator dot-open"></span> Open ({{ getStatusCount('Open') }})
+          </span>
+          <span class="legend-item d-flex align-items-center">
+            <span class="dot-indicator dot-admitted"></span> Admitted ({{ getStatusCount('Admitted') }})
+          </span>
+          <span class="legend-item d-flex align-items-center">
+            <span class="dot-indicator dot-hold"></span> Hold ({{ getStatusCount('Hold') }})
+          </span>
+          <span class="legend-item d-flex align-items-center">
+            <span class="dot-indicator dot-wait"></span> Wait ({{ getStatusCount('Wait') }})
+          </span>
+          <span class="legend-item d-flex align-items-center">
+            <span class="dot-indicator dot-registered"></span> Registered ({{ getStatusCount('Registered') }})
+          </span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons-group d-flex gap-2">
+          <button mat-button class="btn-refresh" (click)="onRefresh()">Refresh</button>
+          <button mat-flat-button class="btn-confirm" color="primary" (click)="onConfirm()">OK</button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</section>

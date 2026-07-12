@@ -1,0 +1,181 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="avatarDetails">
+            <label class="hoverable">
+                <img [src]='prescription.img' alt="avatar">
+            </label>
+            <div class="modalTitle">
+                {{dialogTitle}}
+            </div>
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="prescriptionForm" (ngSubmit)="confirmAdd()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Prescription ID</mat-label>
+                        <input matInput formControlName="prescriptionId" required>
+                        <mat-icon matSuffix>receipt</mat-icon>
+                        @if (prescriptionForm.get('prescriptionId')?.hasError('required')) {
+                        <mat-error>ID is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Patient Name</mat-label>
+                        <input matInput formControlName="patientName" required>
+                        <mat-icon matSuffix>person</mat-icon>
+                        @if (prescriptionForm.get('patientName')?.hasError('required')) {
+                        <mat-error>Patient Name is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Patient ID</mat-label>
+                        <input matInput formControlName="patientId" required>
+                        <mat-icon matSuffix>badge</mat-icon>
+                        @if (prescriptionForm.get('patientId')?.hasError('required')) {
+                        <mat-error>Patient ID is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="prescriptionDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        @if (prescriptionForm.get('prescriptionDate')?.hasError('required')) {
+                        <mat-error>Date is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Medications</mat-label>
+                        <textarea matInput formControlName="medications" required
+                            placeholder="Type raw medication details (e.g. Paracetamol 500mg twice a day for 5 days)"></textarea>
+                        <mat-icon matSuffix>medication</mat-icon>
+                        @if (prescriptionForm.get('medications')?.hasError('required')) {
+                        <mat-error>Medications are required</mat-error>
+                        }
+                    </mat-form-field>
+                    <div class="d-flex justify-content-end gap-2 mb-2">
+                        <button mat-stroked-button color="primary" type="button" class="ai-scribe-btn"
+                            (click)="generatePrescriptionScribe()"
+                            [disabled]="isAiLoading() || !prescriptionForm.get('medications')?.value">
+                            <span class="d-flex align-items-center">
+                                @if (isAiLoading()) {
+                                <mat-spinner diameter="16" class="me-2"></mat-spinner> Writing...
+                                } @else {
+                                <mat-icon class="me-1">psychology</mat-icon> AI Scribe (Auto-Fill)
+                                }
+                            </span>
+                        </button>
+                        <button mat-raised-button color="accent" type="button" class="ai-safety-btn"
+                            (click)="checkDrugSafety()"
+                            [disabled]="isSafetyChecking() || !prescriptionForm.get('medications')?.value">
+                            <span class="d-flex align-items-center">
+                                @if (isSafetyChecking()) {
+                                <mat-spinner diameter="16" class="me-2"></mat-spinner> Checking Safety...
+                                } @else {
+                                <mat-icon class="me-1">health_and_safety</mat-icon> Check Safety (AI)
+                                }
+                            </span>
+                        </button>
+                    </div>
+
+                    @if (aiAlerts().length > 0) {
+                    <div class="ai-safety-container p-3 rounded mb-3">
+                        <div class="fw-bold mb-2 text-secondary d-flex align-items-center small">
+                            <mat-icon class="me-1 text-accent fs-5 w-auto h-auto">verified_user</mat-icon> AI DRUG
+                            SAFETY ASSESSMENT
+                        </div>
+                        @for (alert of aiAlerts(); track alert) {
+                        <div class="safety-alert-item d-flex align-items-start p-2 mb-2 rounded alert-item"
+                            [ngClass]="alert.severity">
+                            <mat-icon class="me-2 mt-1 alert-icon" [ngClass]="alert.severity">
+                                @if (alert.severity === 'danger') { error_outline }
+                                @else if (alert.severity === 'warning') { warning_amber }
+                                @else if (alert.severity === 'success') { check_circle_outline }
+                                @else { info_outline }
+                            </mat-icon>
+                            <div>
+                                <div class="alert-title fw-bold" [ngClass]="alert.severity">{{alert.title}}</div>
+                                <div class="alert-message small">{{alert.message}}</div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Dosage</mat-label>
+                        <input matInput formControlName="dosage" required>
+                        <mat-icon matSuffix>medical_services</mat-icon>
+                        @if (prescriptionForm.get('dosage')?.hasError('required')) {
+                        <mat-error>Dosage is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Frequency</mat-label>
+                        <input matInput formControlName="frequency" required>
+                        <mat-icon matSuffix>schedule</mat-icon>
+                        @if (prescriptionForm.get('frequency')?.hasError('required')) {
+                        <mat-error>Frequency is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Duration</mat-label>
+                        <input matInput formControlName="duration" required>
+                        <mat-icon matSuffix>timelapse</mat-icon>
+                        @if (prescriptionForm.get('duration')?.hasError('required')) {
+                        <mat-error>Duration is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Active">Active</mat-option>
+                            <mat-option value="Completed">Completed</mat-option>
+                            <mat-option value="Cancelled">Cancelled</mat-option>
+                        </mat-select>
+                        @if (prescriptionForm.get('status')?.hasError('required')) {
+                        <mat-error>Status is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!prescriptionForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

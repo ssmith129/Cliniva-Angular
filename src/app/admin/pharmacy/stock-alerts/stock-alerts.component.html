@@ -1,0 +1,49 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Stock Alerts'" [items]="['Pharmacy']" [active_item]="'Stock Alerts'"></app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <mat-tab-group>
+          <!-- Low Stock Alerts Tab -->
+          <mat-tab label="Low Stock Alerts">
+            <div class="py-3">
+              <app-master-table
+                [dataSource]="lowStockDataSource"
+                [columnDefinitions]="lowStockCols"
+                [title]="'Low Stock Warnings'"
+                [showAdd]="false"
+                [showEdit]="true"
+                [showDelete]="true"
+                [isLoading]="isLoadingLow"
+                (edit)="handleReorder($event)"
+                (delete)="handleDismissLow($event)"
+                (refresh)="loadLowStock()">
+              </app-master-table>
+            </div>
+          </mat-tab>
+
+          <!-- Expiry Alerts Tab -->
+          <mat-tab label="Expiry & Expired Batches">
+            <div class="py-3">
+              <app-master-table
+                [dataSource]="expiryDataSource"
+                [columnDefinitions]="expiryCols"
+                [title]="'Batch Expiry Alerts'"
+                [showAdd]="false"
+                [showEdit]="true"
+                [showDelete]="true"
+                [isLoading]="isLoadingExpiry"
+                (edit)="handleDispose($event)"
+                (delete)="handleDismissExpiry($event)"
+                (refresh)="loadExpiryData()">
+              </app-master-table>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</section>

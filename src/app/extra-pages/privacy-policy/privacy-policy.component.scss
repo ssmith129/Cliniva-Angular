@@ -1,0 +1,150 @@
+.toc-card {
+  border-radius: 12px;
+  overflow: hidden;
+
+  .list-group-item {
+    background: transparent;
+    color: #555555;
+    transition: all 0.2s;
+    text-decoration: none;
+
+    &:hover {
+      background-color: rgba(103, 119, 239, 0.05);
+      color: #6777ef;
+      padding-left: 28px !important;
+    }
+  }
+}
+
+.legal-card {
+  border-radius: 12px;
+}
+
+.legal-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #222222;
+}
+
+.legal-body {
+  line-height: 1.8;
+  color: #444444;
+
+  h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #222222;
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin-bottom: 20px;
+  }
+}
+
+/* ==========================================
+   Dark Theme Rules
+   ========================================== */
+:host-context(.dark) {
+  .toc-card {
+    .list-group-item {
+      color: #96a2b4;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      
+      &:hover {
+        background-color: rgba(103, 119, 239, 0.12);
+        color: #8c9eff;
+      }
+    }
+  }
+
+  .legal-title {
+    color: #f1f5f9;
+  }
+
+  .legal-body {
+    color: #96a2b4;
+
+    h3 {
+      color: #f1f5f9;
+    }
+  }
+}
+
+/* ==========================================
+   Glassmorphism Rules
+   ========================================== */
+:host-context(.layout-glassmorphism) {
+  .toc-card {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    
+    .list-group-item {
+      color: #374151;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        color: #6777ef;
+      }
+    }
+  }
+
+  .legal-card {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05) !important;
+  }
+
+  .legal-title {
+    color: #1f2937;
+  }
+
+  .legal-body {
+    color: #4b5563;
+
+    h3 {
+      color: #1f2937;
+    }
+  }
+}
+
+/* ==========================================
+   Dark Glassmorphism Rules
+   ========================================== */
+:host-context(.layout-glassmorphism.dark) {
+  .toc-card {
+    background: rgba(15, 23, 42, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    
+    .list-group-item {
+      color: #9ca3af;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #8c9eff;
+      }
+    }
+  }
+
+  .legal-card {
+    background: rgba(15, 23, 42, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .legal-title {
+    color: #f3f4f6;
+  }
+
+  .legal-body {
+    color: #9ca3af;
+
+    h3 {
+      color: #f3f4f6;
+    }
+  }
+}

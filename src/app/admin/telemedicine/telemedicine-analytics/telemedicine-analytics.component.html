@@ -1,0 +1,161 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb
+        [title]="'Telemedicine Analytics'"
+        [items]="['Telemedicine']"
+        [active_item]="'Analytics'"
+      ></app-breadcrumb>
+    </div>
+
+    <!-- Period Selector -->
+    <div class="ta-toolbar">
+      <div class="ta-period-toggle">
+        <button class="ta-period-btn" [class.active]="selectedPeriod() === 'week'" (click)="setPeriod('week')">Week</button>
+        <button class="ta-period-btn" [class.active]="selectedPeriod() === 'month'" (click)="setPeriod('month')">Month</button>
+        <button class="ta-period-btn" [class.active]="selectedPeriod() === 'year'" (click)="setPeriod('year')">Year</button>
+      </div>
+      <button class="ta-export-btn">
+        <span class="material-icons-outlined">download</span> Export Report
+      </button>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="ta-kpi-row">
+      @for (card of kpiCards(); track card.label) {
+        <div class="ta-kpi-card" [style.--accent]="card.color">
+          <div class="ta-kpi-icon">
+            <span class="material-icons-outlined">{{ card.icon }}</span>
+          </div>
+          <div class="ta-kpi-body">
+            <div class="ta-kpi-value">{{ card.value }}</div>
+            <div class="ta-kpi-label">{{ card.label }}</div>
+            <div class="ta-kpi-sub">{{ card.sub }}</div>
+          </div>
+          <div class="ta-kpi-trend" [class]="getTrendClass(card.trend)">
+            <span class="material-icons-outlined ta-trend-icon">{{ getTrendIcon(card.trend) }}</span>
+            {{ card.trend >= 0 ? '+' : '' }}{{ card.trend }}%
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Charts Row -->
+    <div class="ta-charts-row">
+
+      <!-- Bar Chart: Monthly Consultations -->
+      <div class="ta-card ta-card--chart">
+        <div class="ta-card-header">
+          <span class="ta-card-title">Monthly Consultations</span>
+          <div class="ta-legend">
+            <span class="ta-legend-dot ta-legend-dot--completed"></span> Completed
+            <span class="ta-legend-dot ta-legend-dot--cancelled"></span> Cancelled
+          </div>
+        </div>
+        <div class="ta-bar-chart">
+          @for (item of monthlyData(); track item.month) {
+            <div class="ta-bar-col">
+              <div class="ta-bar-wrap">
+                <div
+                  class="ta-bar ta-bar--completed"
+                  [style.height.%]="getBarHeight(item.completed)"
+                ></div>
+                <div
+                  class="ta-bar ta-bar--cancelled"
+                  [style.height.%]="getBarHeight(item.cancelled)"
+                ></div>
+              </div>
+              <div class="ta-bar-label">{{ item.month }}</div>
+              <div class="ta-bar-val">{{ item.consultations }}</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Donut: Consultation Type -->
+      <div class="ta-card ta-card--donut">
+        <div class="ta-card-header">
+          <span class="ta-card-title">By Consultation Type</span>
+        </div>
+        <div class="ta-donut-wrap">
+          <!-- SVG pseudo-donut using conic gradient -->
+          <div class="ta-donut-circle">
+            <div class="ta-donut-inner">
+              <div class="ta-donut-val">1,284</div>
+              <div class="ta-donut-sub">Total</div>
+            </div>
+          </div>
+        </div>
+        <div class="ta-type-list">
+          @for (type of consultationsByType(); track type.type) {
+            <div class="ta-type-item">
+              <span class="ta-type-dot" [style.background]="type.color"></span>
+              <span class="ta-type-label">{{ type.type }}</span>
+              <div class="ta-type-bar-wrap">
+                <div class="ta-type-bar" [style.width.%]="type.pct" [style.background]="type.color"></div>
+              </div>
+              <span class="ta-type-pct">{{ type.pct }}%</span>
+              <span class="ta-type-count">{{ type.count }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Doctors Table -->
+    <div class="ta-card ta-card--table">
+      <div class="ta-card-header">
+        <span class="ta-card-title">Top Performing Doctors</span>
+        <button class="ta-see-all">See All</button>
+      </div>
+      <div class="ta-table-wrap">
+        <table class="ta-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Doctor</th>
+              <th>Specialty</th>
+              <th>Consultations</th>
+              <th>Rating</th>
+              <th>Revenue</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (doc of topDoctors(); track doc.rank) {
+              <tr>
+                <td>
+                  <span class="ta-rank" [class.ta-rank--gold]="doc.rank === 1"
+                    [class.ta-rank--silver]="doc.rank === 2"
+                    [class.ta-rank--bronze]="doc.rank === 3">{{ doc.rank }}</span>
+                </td>
+                <td>
+                  <div class="ta-doc-cell">
+                    <div class="ta-doc-avatar">{{ doc.avatar }}</div>
+                    <span class="ta-doc-name">{{ doc.name }}</span>
+                  </div>
+                </td>
+                <td><span class="ta-specialty">{{ doc.specialty }}</span></td>
+                <td>
+                  <div class="ta-consult-cell">
+                    <span class="ta-consult-num">{{ doc.consultations }}</span>
+                    <div class="ta-consult-bar">
+                      <div class="ta-consult-fill"
+                        [style.width.%]="(doc.consultations / 234) * 100"></div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="ta-rating-cell">
+                    <span class="material-icons-outlined ta-star">star</span>
+                    {{ doc.rating }}
+                  </div>
+                </td>
+                <td><span class="ta-revenue">{{ doc.revenue }}</span></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,138 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'ER Dashboard'" [items]="['Emergency']" [active_item]="'Dashboard'"></app-breadcrumb>
+    </div>
+
+    <!-- Key Metrics Row with Premium Sparklines -->
+    <div class="row">
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        @defer (on viewport) {
+        <app-chart-card6 [cardTitle]="'Active ER Cases'" [cardValue]="42" [icon]="'local_hospital'" [iconBg]="'#FD7E14'"
+          [chartOptions]="smallChart1Options">
+        </app-chart-card6>
+        } @placeholder {
+        <div class="skeleton-loader-card w-100" style="min-height: 120px;">
+          <div class="skeleton-header"></div>
+          <div class="skeleton-body"></div>
+        </div>
+        }
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        @defer (on viewport) {
+        <app-chart-card6 [cardTitle]="'Avg Wait Time (m)'" [cardValue]="24" [icon]="'access_time'" [iconBg]="'#6F42C1'"
+          [chartOptions]="smallChart2Options">
+        </app-chart-card6>
+        } @placeholder {
+        <div class="skeleton-loader-card w-100" style="min-height: 120px;">
+          <div class="skeleton-header"></div>
+          <div class="skeleton-body"></div>
+        </div>
+        }
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        @defer (on viewport) {
+        <app-chart-card6 [cardTitle]="'Patients Discharged'" [cardValue]="18" [icon]="'how_to_reg'" [iconBg]="'#4CAF50'"
+          [chartOptions]="smallChart3Options">
+        </app-chart-card6>
+        } @placeholder {
+        <div class="skeleton-loader-card w-100" style="min-height: 120px;">
+          <div class="skeleton-header"></div>
+          <div class="skeleton-body"></div>
+        </div>
+        }
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        @defer (on viewport) {
+        <app-chart-card6 [cardTitle]="'Transferred to IPD'" [cardValue]="5" [icon]="'directions_run'"
+          [iconBg]="'#2196F3'" [chartOptions]="smallChart4Options">
+        </app-chart-card6>
+        } @placeholder {
+        <div class="skeleton-loader-card w-100" style="min-height: 120px;">
+          <div class="skeleton-header"></div>
+          <div class="skeleton-body"></div>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Charts and Widgets Masonry Grid -->
+    <div class="masonry-grid">
+      <div class="masonry-item">
+        <app-avg-wait-time></app-avg-wait-time>
+      </div>
+      <div class="masonry-item">
+        <app-blood-bank-stock></app-blood-bank-stock>
+      </div>
+      <div class="masonry-item">
+        <app-staff-on-duty></app-staff-on-duty>
+      </div>
+      <div class="masonry-item">
+        <app-critical-alerts [alerts]="erAlerts"></app-critical-alerts>
+      </div>
+      <div class="masonry-item">
+        <app-doctor-on-call></app-doctor-on-call>
+      </div>
+      <div class="masonry-item">
+        <app-handoff-notes [notes]="erHandoffNotes"></app-handoff-notes>
+      </div>
+      <div class="masonry-item">
+        <app-emergency-list [cases]="erEmergencyCases"></app-emergency-list>
+      </div>
+      <div class="masonry-item">
+        <app-ward-bed-status></app-ward-bed-status>
+      </div>
+      <div class="masonry-item">
+        <app-lab-sample-tracking></app-lab-sample-tracking>
+      </div>
+      <div class="masonry-item">
+        <mat-card class="modern-card">
+          <mat-card-header>
+            <mat-card-title>Triage Level Distribution (ESI 1-5)</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <apx-chart [series]="triageChartOptions.series!" [chart]="triageChartOptions.chart!"
+              [labels]="triageChartOptions.labels!" [colors]="triageChartOptions.colors!"
+              [dataLabels]="triageChartOptions.dataLabels!" [legend]="triageChartOptions.legend!"
+              [plotOptions]="triageChartOptions.plotOptions!">
+            </apx-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="masonry-item">
+        <mat-card class="modern-card">
+          <mat-card-header>
+            <mat-card-title>Live Bed Status</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <apx-chart [series]="bedStatusChartOptions.series!" [chart]="bedStatusChartOptions.chart!"
+              [labels]="bedStatusChartOptions.labels!" [colors]="bedStatusChartOptions.colors!"
+              [dataLabels]="bedStatusChartOptions.dataLabels!" [legend]="bedStatusChartOptions.legend!">
+            </apx-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="masonry-item">
+        <app-resource-monitor></app-resource-monitor>
+      </div>
+      <div class="masonry-item">
+        <app-lab-report-status></app-lab-report-status>
+      </div>
+      <div class="masonry-item">
+        <app-patient-satisfaction></app-patient-satisfaction>
+      </div>
+      <div class="masonry-item">
+        <app-clinical-event-list></app-clinical-event-list>
+      </div>
+      <div class="masonry-item">
+        <app-inflow-outflow-widget></app-inflow-outflow-widget>
+      </div>
+      <div class="masonry-item">
+        <app-blood-reserve-grid></app-blood-reserve-grid>
+      </div>
+      <div class="masonry-item">
+        <app-emergency-contacts></app-emergency-contacts>
+      </div>
+    </div>
+  </div>
+</section>

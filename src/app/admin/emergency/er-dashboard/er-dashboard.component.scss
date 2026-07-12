@@ -1,0 +1,99 @@
+.er-kpi-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 16px;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .info-box-5 {
+    background: transparent;
+  }
+}
+
+.modern-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+}
+
+::ng-deep {
+  body.dark, body.theme-dark, body.theme-glass {
+    .apexcharts-text {
+      fill: #e0e0e0 !important;
+    }
+    .apexcharts-legend-text {
+      color: #e0e0e0 !important;
+    }
+    .apexcharts-tooltip {
+      background: #333 !important;
+      border: 1px solid #444 !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+    }
+    .apexcharts-tooltip-title {
+      background: #222 !important;
+      border-bottom: 1px solid #444 !important;
+    }
+  }
+
+  // Masonry Grid Layout
+  .masonry-grid {
+    column-count: 3;
+    column-gap: 24px;
+    width: 100%;
+    
+    @media (max-width: 1200px) {
+      column-count: 2;
+    }
+    @media (max-width: 768px) {
+      column-count: 1;
+    }
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 24px;
+    display: inline-block;
+    width: 100%;
+
+    // Reset styles for all components inside the masonry items to support natural heights
+    app-blood-bank-stock,
+    app-avg-wait-time,
+    app-staff-on-duty,
+    app-ward-bed-status,
+    app-resource-monitor,
+    app-inflow-outflow-widget,
+    app-patient-satisfaction,
+    app-clinical-event-list,
+    app-critical-alerts,
+    app-doctor-on-call,
+    app-handoff-notes,
+    app-emergency-list,
+    app-lab-sample-tracking,
+    app-lab-report-status,
+    app-blood-reserve-grid,
+    app-emergency-contacts,
+    .modern-card {
+      display: block !important;
+      height: auto !important;
+      margin-bottom: 0 !important;
+
+      mat-card, .mat-mdc-card, .card {
+        display: block !important;
+        height: auto !important;
+        margin-bottom: 0 !important;
+      }
+
+      mat-card-content, .mat-mdc-card-content, .card-body {
+        display: block !important;
+        height: auto !important;
+      }
+    }
+  }
+}

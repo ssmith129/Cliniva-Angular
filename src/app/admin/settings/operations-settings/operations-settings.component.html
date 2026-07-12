@@ -1,0 +1,363 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Operations Settings'" [items]="['Settings']"
+      [active_item]="'Operations'"></app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>Operations Configuration</h2>
+          </div>
+          <div class="body">
+
+            <!-- Departments Section -->
+            <div class="settings-section">
+              <h3 class="section-title">
+                <mat-icon class="section-icon">business</mat-icon>
+                Departments
+              </h3>
+              <form [formGroup]="departmentForm"
+                (ngSubmit)="isEditingDepartment ? updateDepartment() : addDepartment()">
+                <div class="row">
+                  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Department Name</mat-label>
+                      <input matInput formControlName="name" required>
+                      @if (departmentForm.get('name')?.hasError('required')) {
+                        <mat-error>Department name is
+                        required</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Description</mat-label>
+                      <input matInput formControlName="description">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 d-flex align-items-center mb-3">
+                    <button mat-raised-button color="primary" [disabled]="!departmentForm.valid">
+                      {{ isEditingDepartment ? 'Update' : 'Add' }}
+                    </button>
+                    @if (isEditingDepartment) {
+                      <button mat-button color="warn" type="button"
+                      (click)="cancelEditDepartment()">Cancel</button>
+                    }
+                  </div>
+                </div>
+              </form>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Department Name</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (dept of departments; track dept) {
+                      <tr>
+                        <td>{{ dept.name }}</td>
+                        <td>{{ dept.description }}</td>
+                        <td>
+                          <button mat-icon-button class="tbl-action-btn" (click)="editDepartment(dept)">
+                            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                          </button>
+                          <button mat-icon-button class="tbl-action-btn" (click)="deleteDepartment(dept.id)">
+                            <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <mat-divider class="my-4"></mat-divider>
+
+            <!-- Doctor Specializations Section -->
+            <div class="settings-section">
+              <h3 class="section-title">
+                <mat-icon class="section-icon">local_hospital</mat-icon>
+                Doctor Specializations
+              </h3>
+              <form [formGroup]="specializationForm"
+                (ngSubmit)="isEditingSpecialization ? updateSpecialization() : addSpecialization()">
+                <div class="row">
+                  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Specialization Name</mat-label>
+                      <input matInput formControlName="name" required>
+                      @if (specializationForm.get('name')?.hasError('required')) {
+                        <mat-error>Name is
+                        required</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Description</mat-label>
+                      <input matInput formControlName="description">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 d-flex align-items-center mb-3">
+                    <button mat-raised-button color="primary" [disabled]="!specializationForm.valid">
+                      {{ isEditingSpecialization ? 'Update' : 'Add' }}
+                    </button>
+                    @if (isEditingSpecialization) {
+                      <button mat-button color="warn" type="button"
+                      (click)="cancelEditSpecialization()">Cancel</button>
+                    }
+                  </div>
+                </div>
+              </form>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (spec of specializations; track spec) {
+                      <tr>
+                        <td>{{ spec.name }}</td>
+                        <td>{{ spec.description }}</td>
+                        <td>
+                          <button mat-icon-button class="tbl-action-btn" (click)="editSpecialization(spec)">
+                            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                          </button>
+                          <button mat-icon-button class="tbl-action-btn" (click)="deleteSpecialization(spec.id)">
+                            <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <mat-divider class="my-4"></mat-divider>
+
+            <!-- Consultation Types Section -->
+            <div class="settings-section">
+              <h3 class="section-title">
+                <mat-icon class="section-icon">event</mat-icon>
+                Consultation Types
+              </h3>
+              <form [formGroup]="consultationForm"
+                (ngSubmit)="isEditingConsultation ? updateConsultationType() : addConsultationType()">
+                <div class="row">
+                  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Type Name</mat-label>
+                      <input matInput formControlName="name" required>
+                      @if (consultationForm.get('name')?.hasError('required')) {
+                        <mat-error>Name is required</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Description</mat-label>
+                      <input matInput formControlName="description">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 d-flex align-items-center mb-3">
+                    <button mat-raised-button color="primary" [disabled]="!consultationForm.valid">
+                      {{ isEditingConsultation ? 'Update' : 'Add' }}
+                    </button>
+                    @if (isEditingConsultation) {
+                      <button mat-button color="warn" type="button"
+                      (click)="cancelEditConsultationType()">Cancel</button>
+                    }
+                  </div>
+                </div>
+              </form>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (type of consultationTypes; track type) {
+                      <tr>
+                        <td>{{ type.name }}</td>
+                        <td>{{ type.description }}</td>
+                        <td>
+                          <button mat-icon-button class="tbl-action-btn" (click)="editConsultationType(type)">
+                            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                          </button>
+                          <button mat-icon-button class="tbl-action-btn" (click)="deleteConsultationType(type.id)">
+                            <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <mat-divider class="my-4"></mat-divider>
+
+            <!-- Appointment Hours Section -->
+            <div class="settings-section">
+              <h3 class="section-title">
+                <mat-icon class="section-icon">access_time</mat-icon>
+                Appointment Working Hours
+              </h3>
+              <form [formGroup]="workingHoursForm"
+                (ngSubmit)="isEditingWorkingHour ? updateWorkingHour() : addWorkingHour()">
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Day</mat-label>
+                      <mat-select formControlName="day" required>
+                        @for (day of daysOfWeek; track day) {
+                          <mat-option [value]="day">
+                            {{ day }}
+                          </mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Start Time</mat-label>
+                      <input matInput type="time" formControlName="startTime" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>End Time</mat-label>
+                      <input matInput type="time" formControlName="endTime" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 d-flex align-items-center mb-3">
+                    <button mat-raised-button color="primary" [disabled]="!workingHoursForm.valid">
+                      {{ isEditingWorkingHour ? 'Update' : 'Add' }}
+                    </button>
+                    @if (isEditingWorkingHour) {
+                      <button mat-button color="warn" type="button"
+                      (click)="cancelEditWorkingHour()">Cancel</button>
+                    }
+                  </div>
+                </div>
+              </form>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Time</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (wh of workingHours; track wh) {
+                      <tr>
+                        <td>{{ wh.day }}</td>
+                        <td>{{ wh.startTime }} - {{ wh.endTime }}</td>
+                        <td>
+                          <button mat-icon-button class="tbl-action-btn" (click)="editWorkingHour(wh)">
+                            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                          </button>
+                          <button mat-icon-button class="tbl-action-btn" (click)="deleteWorkingHour(wh.id)">
+                            <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <mat-divider class="my-4"></mat-divider>
+
+            <!-- Ward Types Section -->
+            <div class="settings-section">
+              <h3 class="section-title">
+                <mat-icon class="section-icon">hotel</mat-icon>
+                Ward / Bed Types
+              </h3>
+              <form [formGroup]="wardTypeForm" (ngSubmit)="isEditingWardType ? updateWardType() : addWardType()">
+                <div class="row">
+                  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Ward Type</mat-label>
+                      <input matInput formControlName="name" required>
+                      @if (wardTypeForm.get('name')?.hasError('required')) {
+                        <mat-error>Name is required</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Description</mat-label>
+                      <input matInput formControlName="description">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 d-flex align-items-center mb-3">
+                    <button mat-raised-button color="primary" [disabled]="!wardTypeForm.valid">
+                      {{ isEditingWardType ? 'Update' : 'Add' }}
+                    </button>
+                    @if (isEditingWardType) {
+                      <button mat-button color="warn" type="button"
+                      (click)="cancelEditWardType()">Cancel</button>
+                    }
+                  </div>
+                </div>
+              </form>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Ward Type</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (wt of wardTypes; track wt) {
+                      <tr>
+                        <td>{{ wt.name }}</td>
+                        <td>{{ wt.description }}</td>
+                        <td>
+                          <button mat-icon-button class="tbl-action-btn" (click)="editWardType(wt)">
+                            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                          </button>
+                          <button mat-icon-button class="tbl-action-btn" (click)="deleteWardType(wt.id)">
+                            <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,107 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'ICU Bed Management'" [items]="['ICU']" [active_item]="'Beds'"></app-breadcrumb>
+    </div>
+
+    <!-- Status Legend -->
+    <div class="row mb-4">
+      <div class="col-12 d-flex justify-content-center gap-3 flex-wrap status-legend">
+        <span class="legend-badge occupied"><mat-icon>hotel</mat-icon> Occupied</span>
+        <span class="legend-badge available"><mat-icon>check_circle</mat-icon> Available</span>
+        <span class="legend-badge cleaning"><mat-icon>cleaning_services</mat-icon> Cleaning</span>
+        <span class="legend-badge maintenance"><mat-icon>build</mat-icon> Maintenance</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- CRUD Form Panel -->
+      <div class="col-xl-4 col-lg-5 col-md-12 mb-4">
+        <mat-card class="form-card">
+          <mat-card-header>
+            <mat-card-title>{{ editingIndex !== null ? 'Edit ICU Bed' : 'Add ICU Bed' }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="pt-3">
+            <form (ngSubmit)="saveBed()">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Bed ID / Name</mat-label>
+                <input matInput [(ngModel)]="currentBed.id" name="id" placeholder="e.g. Bed 09" required>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mt-3" appearance="outline">
+                <mat-label>Status</mat-label>
+                <mat-select [(ngModel)]="currentBed.status" name="status" required>
+                  <mat-option value="Available">Available</mat-option>
+                  <mat-option value="Occupied">Occupied</mat-option>
+                  <mat-option value="Cleaning">Cleaning</mat-option>
+                  <mat-option value="Maintenance">Maintenance</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              @if (currentBed.status === 'Occupied') {
+                <mat-form-field class="example-full-width mt-3" appearance="outline">
+                  <mat-label>Patient Name</mat-label>
+                  <input matInput [(ngModel)]="currentBed.patient" name="patient" placeholder="e.g. Sarah Connor" required>
+                </mat-form-field>
+              }
+
+              <div class="d-flex gap-2 mt-4">
+                <button mat-raised-button color="primary" type="submit" [disabled]="!currentBed.id || !currentBed.status || (currentBed.status === 'Occupied' && !currentBed.patient)" class="flex-grow-1">
+                  {{ editingIndex !== null ? 'Update Bed' : 'Add Bed' }}
+                </button>
+                @if (editingIndex !== null) {
+                  <button mat-button type="button" (click)="resetForm()">Cancel</button>
+                }
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Bed Grid -->
+      <div class="col-xl-8 col-lg-7 col-md-12">
+        <div class="row">
+          @for (bed of beds; track bed.id; let idx = $index) {
+          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-4">
+            <mat-card class="modern-bed-card">
+              <mat-card-content class="p-4 d-flex flex-column align-items-center justify-content-between h-100">
+                <div class="w-100 d-flex justify-content-between align-items-start mb-2">
+                  <div class="status-indicator-dot" [style.background-color]="bed.color"></div>
+                  <div class="card-actions">
+                    <button mat-icon-button color="primary" class="action-btn" (click)="editBed(bed, idx)" title="Edit">
+                      <mat-icon style="font-size: 16px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" class="action-btn" (click)="deleteBed(idx)" title="Delete">
+                      <mat-icon style="font-size: 16px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;">delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="text-center my-2">
+                  <div class="bed-icon-bg mb-2" [style.background-color]="bed.color + '15'">
+                    <mat-icon [style.color]="bed.color" class="bed-icon-md">{{ bed.icon }}</mat-icon>
+                  </div>
+                  <h4 class="bed-title m-0 fw-bold">{{ bed.id }}</h4>
+                  <span class="bed-status-label" [style.color]="bed.color">{{ bed.status }}</span>
+                </div>
+
+                <div class="w-100 mt-3 text-center patient-container">
+                  @if (bed.patient) {
+                    <div class="patient-pill text-truncate" [matTooltip]="'Patient: ' + bed.patient">
+                      <mat-icon class="me-1">person</mat-icon> {{ bed.patient }}
+                    </div>
+                  } @else {
+                    <div class="patient-pill empty-pill">
+                      <mat-icon class="me-1">hotel</mat-icon> Vacant
+                    </div>
+                  }
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

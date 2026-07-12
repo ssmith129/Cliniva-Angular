@@ -1,0 +1,307 @@
+// ═══════════════════════════════════════════════════════
+//  PURCHASE ORDERS — Modern Futuristic Design System
+// ═══════════════════════════════════════════════════════
+
+// ─── Gradient Backgrounds ────────────────────────────
+.bg-gradient-blue {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.bg-gradient-amber {
+  background: linear-gradient(135deg, #a83cb5 0%, #c83a4d 100%) !important;
+}
+
+.bg-gradient-purple {
+  background: linear-gradient(135deg, #387bb6 0%, #17a0b1 100%) !important;
+}
+
+.bg-gradient-teal {
+  background: linear-gradient(135deg, #4caf50 0%, #009688 100%) !important;
+}
+
+// ─── Stat Cards ──────────────────────────────────────
+.stat-card {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  margin-bottom: 24px;
+  position: relative;
+  border: none;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .stat-card-watermark {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.1;
+    pointer-events: none;
+
+    mat-icon {
+      font-size: 120px;
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  .card-body {
+    padding: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-icon-container {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    transition: transform 0.3s ease;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      color: #fff;
+    }
+  }
+
+  &:hover .stat-icon-container {
+    transform: scale(1.1) rotate(-5deg);
+  }
+
+  .bg-white-20 {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    opacity: 0.9;
+  }
+
+  .stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0 0 14px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .stat-progress {
+    margin-bottom: 10px;
+
+    .progress-track {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 4px;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  .stat-hint {
+    font-size: 12px;
+    opacity: 0.75;
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+// ─── Dialog Container ────────────────────────────────
+.dialog-container {
+  padding: 24px;
+  border-radius: 8px;
+
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .close-btn {
+      color: #666;
+    }
+  }
+
+  .po-form {
+    .full-width {
+      width: 100%;
+    }
+  }
+
+  .form-section {
+    margin-bottom: 8px;
+
+    .form-section-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #e5e7eb;
+
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: #667eea;
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  DARK MODE SUPPORT
+// ═══════════════════════════════════════════════════════
+:host-context(.dark),
+:host-context(.theme-dark) {
+  .stat-card {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  .dialog-container {
+    background-color: #1a202e;
+    color: #e2e8f0;
+
+    .dialog-header {
+      border-bottom-color: #2b2b40;
+
+      h2 {
+        color: #ffffff;
+      }
+
+      .close-btn {
+        color: #b0b3b8;
+      }
+    }
+
+    .form-section {
+      .form-section-label {
+        color: #64748b;
+        border-bottom-color: #2b2b40;
+
+        mat-icon {
+          color: #818cf8;
+        }
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  GLASSMORPHISM SUPPORT
+// ═══════════════════════════════════════════════════════
+:host-context(.layout-glassmorphism) {
+  .stat-card, .stat-card.text-white {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+    color: #000 !important;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.3) !important;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .card-body,
+    .stat-card-watermark,
+    mat-icon {
+      color: #000 !important;
+
+      h5,
+      h2,
+      p,
+      span {
+        color: #000 !important;
+      }
+    }
+
+    .bg-white-20 {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .stat-progress {
+      .progress-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .progress-fill {
+        background: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
+
+  .dialog-container {
+    background-color: rgba(30, 30, 45, 0.88) !important;
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+
+    .dialog-header {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+
+      h2 {
+        color: #ffffff;
+      }
+
+      .close-btn {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .form-section {
+      .form-section-label {
+        color: rgba(255, 255, 255, 0.5);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+
+        mat-icon {
+          color: rgba(255, 255, 255, 0.6);
+        }
+      }
+    }
+  }
+}

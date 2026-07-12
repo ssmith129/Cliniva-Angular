@@ -1,0 +1,124 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Knowledge Base'" [items]="['Extra Pages']" [active_item]="'Knowledge Base'">
+      </app-breadcrumb>
+    </div>
+
+    <!-- Search Section -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <mat-card class="search-card">
+          <mat-card-content class="search-content text-center py-5">
+            <h2 class="kb-heading mb-2">How can we help you today?</h2>
+            <p class="kb-subheading mb-4">Search our knowledge base for articles, guides, and FAQs.</p>
+            <div class="search-box-knowledge mx-auto">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Search articles...</mat-label>
+                <input matInput [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)"
+                  placeholder="e.g. Telemedicine, Invoice...">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Sidebar Categories -->
+      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 mb-4">
+        <mat-card class="category-card">
+          <mat-card-header>
+            <mat-card-title class="font-18">Categories</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="p-0">
+            <div class="list-group list-group-flush">
+              @for (cat of categories; track cat.name) {
+              <button type="button"
+                class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-0 py-3 px-4"
+                [class.active-category]="selectedCategory() === cat.name" (click)="selectCategory(cat.name)">
+                <div class="d-flex align-items-center gap-3">
+                  <mat-icon [class.col-primary]="selectedCategory() !== cat.name">{{ cat.icon }}</mat-icon>
+                  <span>{{ cat.name }}</span>
+                </div>
+                <span class="badge rounded-pill bg-light text-dark font-11">
+                  {{ getArticleCount(cat.name) }}
+                </span>
+              </button>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
+
+        <!-- ARTICLE DETAIL VIEW -->
+        @if (selectedArticle(); as article) {
+        <mat-card class="detail-card">
+          <mat-card-content class="p-4">
+            <div class="d-flex align-items-center mb-3">
+              <button mat-icon-button (click)="backToList()" class="me-2">
+                <mat-icon>arrow_back</mat-icon>
+              </button>
+              <span class="category-badge">{{ article.category }}</span>
+            </div>
+            <h1 class="article-detail-title mb-3">{{ article.title }}</h1>
+            <div class="d-flex align-items-center text-muted font-13 mb-4 border-bottom pb-3">
+              <mat-icon class="font-16 me-1" style="vertical-align: middle;">visibility</mat-icon>
+              <span class="me-3">{{ article.views }} views</span>
+              <mat-icon class="font-16 me-1" style="vertical-align: middle;">schedule</mat-icon>
+              <span>Updated 2 days ago</span>
+            </div>
+            <div class="article-content-body font-15">
+              <p>{{ article.content }}</p>
+              <div class="alert alert-info mt-4 d-flex align-items-start gap-3">
+                <mat-icon class="col-primary">info</mat-icon>
+                <div>
+                  <h6 class="mb-1 fw-bold">Need more assistance?</h6>
+                  <p class="mb-0 text-sm">If this article didn't answer your question, please contact the IT support
+                    desk or email admin@cliniva.com.</p>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        } @else {
+        <!-- ARTICLE LIST VIEW -->
+        <div class="row">
+          @if (filteredArticles().length === 0) {
+          <div class="col-12 text-center py-5">
+            <mat-icon style="font-size: 48px; width: 48px; height: 48px;" class="text-muted mb-3">search_off</mat-icon>
+            <h4>No articles found</h4>
+            <p class="text-muted">Try adjusting your search terms or selecting another category.</p>
+          </div>
+          } @else {
+          @for (article of filteredArticles(); track article.id) {
+          <div class="col-xl-6 col-lg-12 col-md-12 mb-4">
+            <mat-card class="article-card h-100 cursor-pointer" (click)="viewArticle(article)">
+              <mat-card-content class="p-4 d-flex flex-column h-100 justify-content-between">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="category-badge">{{ article.category }}</span>
+                    <span class="text-muted font-12"><mat-icon class="font-14 me-1"
+                        style="vertical-align:middle;">visibility</mat-icon>{{ article.views }}</span>
+                  </div>
+                  <h4 class="article-title fw-semibold mb-2">{{ article.title }}</h4>
+                  <p class="article-summary text-muted font-14 mb-3">{{ article.summary }}</p>
+                </div>
+                <div class="text-primary fw-medium font-14 d-flex align-items-center">
+                  Read Article <mat-icon class="font-16 ms-1">arrow_forward</mat-icon>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          }
+          }
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
