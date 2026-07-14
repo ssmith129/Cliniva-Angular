@@ -1,0 +1,194 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="modalTitle">
+            {{dialogTitle}}
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="reportForm" (ngSubmit)="confirmAdd()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Report ID</mat-label>
+                        <input matInput formControlName="reportId" required>
+                        <mat-icon matSuffix>receipt</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Test Name</mat-label>
+                        <input matInput formControlName="testName" required>
+                        <mat-icon matSuffix>science</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Test Type</mat-label>
+                        <input matInput formControlName="testType" required>
+                        <mat-icon matSuffix>category</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Doctor Name</mat-label>
+                        <input matInput formControlName="doctorName" required>
+                        <mat-icon matSuffix>person</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Request Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="requestDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Report Date</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="reportDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Priority</mat-label>
+                        <mat-select formControlName="priority" required>
+                            <mat-option value="Routine">Routine</mat-option>
+                            <mat-option value="Urgent">Urgent</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Pending">Pending</mat-option>
+                            <mat-option value="Final">Final</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Lab Name</mat-label>
+                        <input matInput formControlName="labName" required>
+                        <mat-icon matSuffix>business</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Results Summary</mat-label>
+                        <input matInput formControlName="results">
+                    </mat-form-field>
+                </div>
+            </div>
+            @if (reportForm.get('results')?.value) {
+            <div class="row mt-3 mb-3">
+                <div class="col-12">
+                    <div class="ai-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                            <h5 class="ai-card-title">
+                                <mat-icon>biotech</mat-icon>
+                                AI Lab Report Interpreter
+                            </h5>
+                            <button type="button" mat-flat-button class="ai-btn-gradient"
+                                [disabled]="isInterpreting()"
+                                (click)="interpretLabReport()">
+                                @if (isInterpreting()) {
+                                    <ng-container>
+                                        <mat-spinner diameter="16" class="ai-btn-spinner"></mat-spinner>
+                                        Interpreting...
+                                    </ng-container>
+                                } @else {
+                                    <ng-container>
+                                        <mat-icon class="ai-btn-icon">auto_awesome</mat-icon>
+                                        AI Interpret Results
+                                    </ng-container>
+                                }
+                            </button>
+                        </div>
+
+                        @if (interpretationData(); as data) {
+                            <div class="ai-results-body">
+                                <div class="mb-3 ai-result-card">
+                                    <strong class="ai-result-header">Summary:</strong>
+                                    <p class="ai-result-text">{{ data.summary }}</p>
+                                </div>
+
+                                @if (data.metrics && data.metrics.length > 0) {
+                                    <div class="mb-3">
+                                        <strong class="ai-section-header">Biomarkers & Reference Ranges:</strong>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-sm ai-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Biomarker</th>
+                                                        <th>Value</th>
+                                                        <th>Status</th>
+                                                        <th>Explanation</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (m of data.metrics; track m.name) {
+                                                        <tr>
+                                                            <td class="ai-metric-name">{{ m.name }}</td>
+                                                            <td class="ai-metric-value">{{ m.value }}</td>
+                                                            <td>
+                                                                <span class="badge" [ngClass]="{
+                                                                    'badge-solid-red': m.status === 'High',
+                                                                    'badge-solid-orange': m.status === 'Low',
+                                                                    'badge-solid-green': m.status === 'Normal'
+                                                                }">{{ m.status }}</span>
+                                                            </td>
+                                                            <td class="ai-metric-explanation">{{ m.explanation }}</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (data.recommendations && data.recommendations.length > 0) {
+                                    <div>
+                                        <strong class="ai-section-header">Nutritional & Lifestyle Suggestions:</strong>
+                                        <ul class="ai-tip-list">
+                                            @for (rec of data.recommendations; track rec) {
+                                                <li class="d-flex align-items-start gap-2 mb-2 ai-tip-item">
+                                                    <mat-icon>check_circle</mat-icon>
+                                                    <span>{{ rec }}</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!reportForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

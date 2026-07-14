@@ -1,0 +1,150 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Chat'" [items]="['Apps']" [active_item]="'Chat'"></app-breadcrumb>
+    </div>
+    <div class="row">
+      <!-- Contacts Sidebar -->
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <div class="card">
+          <div class="body">
+            <div id="plist" class="people-list">
+              <div class="form-line m-b-15">
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  placeholder="Search contacts..." 
+                  [ngModel]="searchText()"
+                  (ngModelChange)="searchText.set($event)"
+                />
+              </div>
+              <div class="tab-content">
+                <ng-scrollbar style="height: 590px" visibility="hover">
+                  <div id="chat_user">
+                    <ul class="chat-list list-unstyled m-b-0">
+                      @for (contact of filteredContacts(); track contact.id) {
+                      <li 
+                        class="clearfix" 
+                        [class.active]="contact.id === selectedContactId()"
+                        (click)="selectContact(contact.id)"
+                      >
+                        <img [src]="contact.avatar" alt="avatar">
+                        <div class="about">
+                          <div class="name">{{ contact.name }}</div>
+                          <div class="role text-muted" style="font-size: 11px;">{{ contact.role }}</div>
+                          <div class="status">
+                            <i 
+                              class="material-icons" 
+                              [class.online]="contact.status === 'online'"
+                              [class.offline]="contact.status === 'offline'"
+                            >
+                              fiber_manual_record
+                            </i>
+                            {{ contact.statusText }}
+                          </div>
+                        </div>
+                      </li>
+                      }
+                      @if (filteredContacts().length === 0) {
+                      <li class="clearfix text-center text-muted p-3">
+                        No contacts found
+                      </li>
+                      }
+                    </ul>
+                  </div>
+                </ng-scrollbar>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Chat Area -->
+      <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+        <div class="card">
+          <div class="chat">
+            <!-- Header -->
+            <div class="chat-header clearfix">
+              <img [src]="selectedContact().avatar" alt="avatar">
+              <div class="chat-about">
+                <div class="chat-with">{{ selectedContact().name }}</div>
+                <div class="chat-num-messages text-muted" style="font-size: 12px;">
+                  {{ selectedContact().role }} &bull; 
+                  <span [class.text-success]="selectedContact().status === 'online'">{{ selectedContact().status }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- History -->
+            <ng-scrollbar #scrollable style="height: 450px" visibility="hover">
+              <div class="chat-history" id="chat-conversation">
+                <ul>
+                  @for (msg of selectedContact().messages; track $index) {
+                  <li class="clearfix">
+                    <div 
+                      class="message-data" 
+                      [class.text-end]="msg.sender === 'me'"
+                    >
+                      @if (msg.sender === 'other') {
+                      <span class="message-data-name">{{ msg.senderName }}</span>
+                      }
+                      <span class="message-data-time">{{ msg.time }}</span>
+                      @if (msg.sender === 'me') {
+                      <span class="message-data-name">You</span>
+                      }
+                    </div>
+                    <div 
+                      class="message" 
+                      [class.my-message]="msg.sender === 'me'"
+                      [class.other-message]="msg.sender === 'other'"
+                      [class.float-end]="msg.sender === 'me'"
+                    >
+                      {{ msg.text }}
+                    </div>
+                  </li>
+                  }
+                  @if (selectedContact().messages.length === 0) {
+                  <li class="text-center text-muted p-5">
+                    No messages in this conversation yet. Say hello!
+                  </li>
+                  }
+                </ul>
+              </div>
+            </ng-scrollbar>
+            
+            <!-- Message Input -->
+            <div class="chat-message clearfix">
+              <div class="form-group" style="margin-bottom: 10px;">
+                <div class="form-line d-flex align-items-center gap-2">
+                  <mat-form-field class="example-full-width w-100" appearance="outline" style="margin-bottom: 0;">
+                    <input 
+                      matInput 
+                      placeholder="Enter message here..." 
+                      [ngModel]="newMessage()"
+                      (ngModelChange)="newMessage.set($event)"
+                      (keyup.enter)="sendMessage()"
+                      required
+                    >
+                  </mat-form-field>
+                  <button mat-fab color="primary" class="ms-2" (click)="sendMessage()" [disabled]="!newMessage().trim()">
+                    <i class="material-icons" style="font-size: 24px; color: white;">send</i>
+                  </button>
+                </div>
+              </div>
+              <div class="chat-upload">
+                <button mat-mini-fab class="bg-deep-orange msr-2" title="Attach File"> 
+                  <i class="material-icons">attach_file</i>
+                </button>
+                <button mat-mini-fab class="bg-deep-orange" title="Insert Emoji"> 
+                  <i class="material-icons">insert_emoticon</i>
+                </button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

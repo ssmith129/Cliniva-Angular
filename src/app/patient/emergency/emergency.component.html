@@ -1,0 +1,55 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Emergency Requests'" [items]="['Patient']"
+                [active_item]="'Emergency'"></app-breadcrumb>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="card emergency-card" (click)="onRequestAmbulance()">
+                    <div class="body">
+                        <div class="icon-box ambulance">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <h5>Request Ambulance</h5>
+                        <p>Immediate emergency assistance</p>
+                        <button class="btn btn-outline-danger btn-action">Call Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card emergency-card" (click)="onContactDoctor()">
+                    <div class="body">
+                        <div class="icon-box doctor">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h5>Emergency Doctor</h5>
+                        <p>Connect with available doctors</p>
+                        <button class="btn btn-outline-warning btn-action">Contact</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card emergency-card" (click)="onViewHealthCard()">
+                    <div class="body">
+                        <div class="icon-box health-card">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h5>Digital Health Card</h5>
+                        <p>Access your medical records</p>
+                        <button class="btn btn-outline-info btn-action">View Card</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <app-master-table [title]="'Emergency Requests History'" [columnDefinitions]="columnDefinitions"
+                    [dataSource]="dataSource" [isLoading]="isLoading" [exportFileName]="'emergency_requests'"
+                    (add)="handleAdd()" (edit)="handleEdit($event)" (delete)="handleDelete($event)"
+                    (refresh)="handleRefresh()" (bulkDelete)="handleBulkDelete($event)">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

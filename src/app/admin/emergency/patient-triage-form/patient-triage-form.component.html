@@ -1,0 +1,215 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Patient Triage Form'" [items]="['Emergency']" [active_item]="'Triage Form'"></app-breadcrumb>
+    </div>
+
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <form [formGroup]="triageForm" (ngSubmit)="onSubmit()">
+          
+          <!-- Demographics Card -->
+          <mat-card class="modern-form-card">
+            <mat-card-content class="p-4">
+              <h4 class="mb-4 text-primary section-title">Patient Demographics</h4>
+              <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="firstName" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput formControlName="lastName" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="dob" required>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2 d-flex align-items-center">
+                  <mat-radio-group formControlName="gender" class="ms-2">
+                    <mat-radio-button value="Male" class="me-3">Male</mat-radio-button>
+                    <mat-radio-button value="Female" class="me-3">Female</mat-radio-button>
+                    <mat-radio-button value="Other">Other</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Clinical Assessment Card -->
+          <mat-card class="modern-form-card">
+            <mat-card-content class="p-4">
+              <h4 class="mb-4 text-primary section-title">Clinical Assessment</h4>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Chief Complaint</mat-label>
+                    <textarea matInput formControlName="chiefComplaint" rows="3" required></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Associated Symptoms</mat-label>
+                    <textarea matInput formControlName="symptoms" rows="3"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Vitals and Severity Card -->
+          <mat-card class="modern-form-card">
+            <mat-card-content class="p-4">
+              <h4 class="mb-4 text-primary section-title">Vital Signs & Triage Level</h4>
+              <div class="row">
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>BP Systolic (mmHg)</mat-label>
+                    <input matInput type="number" formControlName="bpSystolic" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>BP Diastolic (mmHg)</mat-label>
+                    <input matInput type="number" formControlName="bpDiastolic" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Heart Rate (bpm)</mat-label>
+                    <input matInput type="number" formControlName="heartRate" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Resp. Rate (/min)</mat-label>
+                    <input matInput type="number" formControlName="respiratoryRate" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Temp (°C)</mat-label>
+                    <input matInput type="number" formControlName="temperature" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>SpO2 (%)</mat-label>
+                    <input matInput type="number" formControlName="spo2" required>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row align-items-center mt-3">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <p class="mb-1 fw-bold">Pain Scale: {{painScaleValue}}/10</p>
+                  <mat-slider min="0" max="10" step="1" showTickMarks discrete class="pain-slider">
+                    <input matSliderThumb formControlName="painScale">
+                  </mat-slider>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 d-flex align-items-center gap-2">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Emergency Severity Index (ESI) Level</mat-label>
+                    <mat-select formControlName="esiLevel" required>
+                      @for (level of esiLevels; track level.value) {
+                        <mat-option [value]="level.value">
+                          {{level.label}}
+                        </mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                  <button mat-mini-fab color="primary" type="button" (click)="runAiTriage()" title="Analyze Symptoms & Vitals with AI" [disabled]="isAiLoading()" class="ai-triage-btn">
+                    @if (isAiLoading()) {
+                      <mat-icon class="spinning">sync</mat-icon>
+                    } @else {
+                      <mat-icon>psychology</mat-icon>
+                    }
+                  </button>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-12">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Additional Triage Notes</mat-label>
+                    <textarea matInput formControlName="notes" rows="4"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- AI Triage Assessment Recommendation Panel -->
+          @if (aiResult()) {
+            <mat-card class="ai-recommendation-card mt-3">
+              <mat-card-content class="p-4">
+                <div class="d-flex align-items-center mb-3">
+                  <mat-icon class="text-primary me-2">psychology</mat-icon>
+                  <h4 class="mb-0 text-primary section-title section-title-weight">AI Triage Advisory & Medical Assessment</h4>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-12 mb-3">
+                    <div class="p-3 bg-light rounded shadow-sm advisory-box">
+                      <h5 class="text-secondary mb-2 ai-section-subtitle">Suggested ESI Level: Level {{ aiResult()?.esiLevel }}</h5>
+                      <p class="mb-0">{{ aiResult()?.justification }}</p>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-4 mb-3">
+                    <div class="card shadow-none border p-3 h-100">
+                      <h6 class="text-danger mb-2 ai-risk-title"><mat-icon class="align-middle me-1 fs-5">warning</mat-icon> Primary Risks</h6>
+                      <ul class="list-unstyled mb-0">
+                        @for (risk of aiResult()?.primaryRisks; track risk) {
+                          <li class="mb-1"><mat-icon class="align-middle text-danger me-1 fs-6">lens</mat-icon> {{ risk }}</li>
+                        }
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                    <div class="card shadow-none border p-3 h-100">
+                      <h6 class="text-info mb-2 ai-diagnostics-title"><mat-icon class="align-middle me-1 fs-5">biotech</mat-icon> Recommended Diagnostics</h6>
+                      <ul class="list-unstyled mb-0">
+                        @for (diag of aiResult()?.recommendedDiagnostics; track diag) {
+                          <li class="mb-1"><mat-icon class="align-middle text-info me-1 fs-6">arrow_right</mat-icon> {{ diag }}</li>
+                        }
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                    <div class="card shadow-none border p-3 h-100">
+                      <h6 class="text-warning mb-2 ai-precautions-title"><mat-icon class="align-middle me-1 fs-5">shield</mat-icon> Immediate Precautions</h6>
+                      <ul class="list-unstyled mb-0">
+                        @for (prec of aiResult()?.immediatePrecautions; track prec) {
+                          <li class="mb-1"><mat-icon class="align-middle text-warning me-1 fs-6">verified</mat-icon> {{ prec }}</li>
+                        }
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          }
+
+          <!-- Actions -->
+          <div class="row mt-2 mb-5">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+              <button mat-raised-button color="primary" type="submit" [disabled]="!triageForm.valid" class="px-5 py-2 btn-rounded">Submit Triage</button>
+              <button mat-button color="warn" type="button" class="ms-3 px-4 py-2 btn-rounded" (click)="triageForm.reset(); aiResult.set(null)">Reset Form</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

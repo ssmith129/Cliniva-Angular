@@ -1,0 +1,135 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Pharmacy Reports'" [items]="['Reports & Analytics']"
+                [active_item]="'Pharmacy Reports'">
+            </app-breadcrumb>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="row clearfix">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-teal">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Total Sales (Nov)</p>
+                                <h3 class="kpi-value">$48,700</h3>
+                                <p class="kpi-sub">
+                                    <span class="material-icons-outlined" style="font-size:14px; vertical-align:middle;">trending_up</span>
+                                    +12% vs last month
+                                </p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">local_pharmacy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-blue">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Items in Stock</p>
+                                <h3 class="kpi-value">1,284</h3>
+                                <p class="kpi-sub">Active SKUs</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">inventory_2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-orange">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Low Stock Alerts</p>
+                                <h3 class="kpi-value">23</h3>
+                                <p class="kpi-sub">Need reorder</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">warning_amber</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-red">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Near Expiry</p>
+                                <h3 class="kpi-value">47</h3>
+                                <p class="kpi-sub">Within 30 days</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">schedule</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row clearfix">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header"><h2>Monthly Sales Trend</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="salesTrendOptions.series!" [chart]="salesTrendOptions.chart!"
+                            [xaxis]="salesTrendOptions.xaxis!" [yaxis]="salesTrendOptions.yaxis!"
+                            [title]="salesTrendOptions.title!" [colors]="salesTrendOptions.colors!"
+                            [plotOptions]="salesTrendOptions.plotOptions!" [dataLabels]="salesTrendOptions.dataLabels!"
+                            [legend]="salesTrendOptions.legend!" [stroke]="salesTrendOptions.stroke!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header"><h2>Revenue by Category</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="categoryRevenueOptions.series!" [chart]="categoryRevenueOptions.chart!"
+                            [labels]="categoryRevenueOptions.labels!" [colors]="categoryRevenueOptions.colors!"
+                            [legend]="categoryRevenueOptions.legend!" [responsive]="categoryRevenueOptions.responsive!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Volume Chart -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header"><h2>Top Medicines by Sales Volume</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="stockStatusOptions.series!" [chart]="stockStatusOptions.chart!"
+                            [xaxis]="stockStatusOptions.xaxis!" [plotOptions]="stockStatusOptions.plotOptions!"
+                            [dataLabels]="stockStatusOptions.dataLabels!" [colors]="stockStatusOptions.colors!"
+                            [title]="stockStatusOptions.title!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <app-master-table [dataSource]="dataSource" [columnDefinitions]="columnDefinitions"
+                    [title]="'Medicine Sales & Stock Report'" [isLoading]="isLoading"
+                    (add)="handleAdd()" (edit)="handleEdit($event)" (delete)="handleDelete($event)"
+                    (bulkDelete)="handleBulkDelete($event)" (refresh)="handleRefresh()">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

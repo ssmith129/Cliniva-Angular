@@ -1,0 +1,196 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb
+        [title]="'Call Interface'"
+        [items]="['Telemedicine']"
+        [active_item]="'Call Interface'"
+      ></app-breadcrumb>
+    </div>
+
+    @if (activeCall().status === 'ended') {
+      <div class="ci-ended-screen">
+        <span class="material-icons-outlined ci-ended-icon">call_end</span>
+        <h2>Call Ended</h2>
+        <p>Duration: {{ formattedDuration }}</p>
+        <button class="ci-restart-btn" (click)="endCall()">
+          <span class="material-icons-outlined">refresh</span> New Consultation
+        </button>
+      </div>
+    } @else {
+      <div class="ci-layout">
+
+        <!-- Video Area -->
+        <div class="ci-video-area">
+          <!-- Recording badge -->
+          @if (activeCall().isRecording) {
+            <div class="ci-rec-badge">
+              <span class="ci-rec-dot"></span> REC
+            </div>
+          }
+
+          <!-- Duration -->
+          <div class="ci-duration">
+            <span class="material-icons-outlined">schedule</span>
+            {{ formattedDuration }}
+          </div>
+
+          <!-- Main video (patient) -->
+          <div class="ci-main-video">
+            @if (!activeCall().isVideoOn) {
+              <div class="ci-video-off">
+                <div class="ci-avatar-lg">{{ activeCall().patientAvatar }}</div>
+                <p>Video is off</p>
+              </div>
+            } @else {
+              <div class="ci-video-placeholder">
+                <div class="ci-avatar-lg ci-avatar-lg--active">{{ activeCall().patientAvatar }}</div>
+                <div class="ci-wave-ring"></div>
+                <div class="ci-wave-ring ci-wave-ring--2"></div>
+              </div>
+            }
+            <div class="ci-patient-label">
+              <span class="material-icons-outlined">person</span>
+              {{ activeCall().patientName }} · {{ activeCall().patientId }}
+            </div>
+          </div>
+
+          <!-- Doctor PiP -->
+          <div class="ci-pip">
+            <div class="ci-pip-avatar">{{ 'SL' }}</div>
+            <div class="ci-pip-label">{{ activeCall().doctorName }} (You)</div>
+          </div>
+
+          <!-- Controls -->
+          <div class="ci-controls">
+            <button
+              class="ci-ctrl-btn"
+              [class.ci-ctrl-btn--off]="!activeCall().isMicOn"
+              (click)="toggleMic()"
+              [title]="activeCall().isMicOn ? 'Mute' : 'Unmute'"
+            >
+              <span class="material-icons-outlined">
+                {{ activeCall().isMicOn ? 'mic' : 'mic_off' }}
+              </span>
+            </button>
+            <button
+              class="ci-ctrl-btn"
+              [class.ci-ctrl-btn--off]="!activeCall().isVideoOn"
+              (click)="toggleVideo()"
+              [title]="activeCall().isVideoOn ? 'Turn off camera' : 'Turn on camera'"
+            >
+              <span class="material-icons-outlined">
+                {{ activeCall().isVideoOn ? 'videocam' : 'videocam_off' }}
+              </span>
+            </button>
+            <button
+              class="ci-ctrl-btn"
+              [class.ci-ctrl-btn--active]="activeCall().isScreenSharing"
+              (click)="toggleScreenShare()"
+              title="Share Screen"
+            >
+              <span class="material-icons-outlined">screen_share</span>
+            </button>
+            <button
+              class="ci-ctrl-btn"
+              [class.ci-ctrl-btn--rec]="activeCall().isRecording"
+              (click)="toggleRecording()"
+              title="Record"
+            >
+              <span class="material-icons-outlined">fiber_manual_record</span>
+            </button>
+            <button class="ci-ctrl-btn ci-ctrl-btn--end" (click)="endCall()" title="End Call">
+              <span class="material-icons-outlined">call_end</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Side Panel -->
+        <div class="ci-side-panel">
+          <!-- Patient info -->
+          <div class="ci-patient-card">
+            <div class="ci-patient-avatar">{{ activeCall().patientAvatar }}</div>
+            <div>
+              <div class="ci-patient-name">{{ activeCall().patientName }}</div>
+              <div class="ci-patient-spec">{{ activeCall().specialty }}</div>
+              <span class="ci-status-live">
+                <span class="ci-live-dot"></span> Live
+              </span>
+            </div>
+          </div>
+
+          <!-- Panel tabs -->
+          <div class="ci-panel-tabs">
+            <button
+              class="ci-panel-tab"
+              [class.active]="activeSidePanel() === 'vitals'"
+              (click)="setSidePanel('vitals')"
+            >Vitals</button>
+            <button
+              class="ci-panel-tab"
+              [class.active]="activeSidePanel() === 'notes'"
+              (click)="setSidePanel('notes')"
+            >Notes</button>
+            <button
+              class="ci-panel-tab"
+              [class.active]="activeSidePanel() === 'chat'"
+              (click)="setSidePanel('chat')"
+            >Chat</button>
+          </div>
+
+          <!-- Vitals panel -->
+          @if (activeSidePanel() === 'vitals') {
+            <div class="ci-vitals-grid">
+              @for (vital of vitals(); track vital.label) {
+                <div class="ci-vital-item ci-vital-item--{{ vital.status }}">
+                  <span class="material-icons-outlined ci-vital-icon">{{ vital.icon }}</span>
+                  <div>
+                    <div class="ci-vital-value">{{ vital.value }}<small> {{ vital.unit }}</small></div>
+                    <div class="ci-vital-label">{{ vital.label }}</div>
+                  </div>
+                  @if (vital.status !== 'normal') {
+                    <span class="ci-vital-alert material-icons-outlined">warning</span>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Notes panel -->
+          @if (activeSidePanel() === 'notes') {
+            <div class="ci-notes-panel">
+              <textarea class="ci-notes-area" rows="10"
+                [value]="doctorNotes()"
+                placeholder="Type consultation notes here...">
+              </textarea>
+              <button class="ci-save-btn">
+                <span class="material-icons-outlined">save</span> Save Notes
+              </button>
+            </div>
+          }
+
+          <!-- Chat panel -->
+          @if (activeSidePanel() === 'chat') {
+            <div class="ci-chat-panel">
+              <div class="ci-chat-messages">
+                @for (msg of chatMessages(); track $index) {
+                  <div class="ci-msg" [class.ci-msg--doctor]="msg.from === 'doctor'">
+                    <div class="ci-msg-bubble">{{ msg.text }}</div>
+                    <div class="ci-msg-time">{{ msg.time }}</div>
+                  </div>
+                }
+              </div>
+              <div class="ci-chat-input-row">
+                <input class="ci-chat-input" placeholder="Type a message..." />
+                <button class="ci-send-btn">
+                  <span class="material-icons-outlined">send</span>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+  </div>
+</section>

@@ -1,0 +1,16 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Test Catalog'" [items]="['Laboratory']" [active_item]="'Test Catalog'"></app-breadcrumb>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <app-master-table [dataSource]="dataSource" [columnDefinitions]="columnDefinitions" [isLoading]="isLoading"
+          (add)="handleAdd()" (edit)="handleEdit($event)" (delete)="handleDelete($event)"
+          (refresh)="handleRefresh()" [title]="'Test Catalog'" [showAdd]="true" [showRefresh]="true"
+          [showExport]="true">
+        </app-master-table>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,88 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Nursing Notes'" [items]="['ICU']" [active_item]="'Notes'"></app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <!-- Entry Form -->
+      <div class="col-xl-4 col-lg-5 col-md-12">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ editingIndex !== null ? 'Edit Shift Note' : 'Add Shift Note' }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form (ngSubmit)="addNote()">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Patient / Bed</mat-label>
+                <mat-select [(ngModel)]="newNote.patient" name="patient" required>
+                  <mat-option value="Bed 01 - John Smith">Bed 01 - John Smith</mat-option>
+                  <mat-option value="Bed 02 - Emily Carter">Bed 02 - Emily Carter</mat-option>
+                  <mat-option value="Bed 03 - Michael Lee">Bed 03 - Michael Lee</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mt-3" appearance="outline">
+                <mat-label>Shift</mat-label>
+                <mat-select [(ngModel)]="newNote.shift" name="shift">
+                  <mat-option value="Morning">Morning (08:00 - 16:00)</mat-option>
+                  <mat-option value="Evening">Evening (16:00 - 00:00)</mat-option>
+                  <mat-option value="Night">Night (00:00 - 08:00)</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mt-3" appearance="outline">
+                <mat-label>Clinical Note</mat-label>
+                <textarea matInput [(ngModel)]="newNote.content" name="content" rows="5" required></textarea>
+              </mat-form-field>
+
+              <div class="d-flex gap-2 mt-3">
+                <button mat-raised-button color="primary" type="submit" [disabled]="!newNote.patient || !newNote.content" class="flex-grow-1">
+                  {{ editingIndex !== null ? 'Update Note' : 'Post Note' }}
+                </button>
+                @if (editingIndex !== null) {
+                  <button mat-button type="button" (click)="cancelEdit()">Cancel</button>
+                }
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Feed -->
+      <div class="col-xl-8 col-lg-7 col-md-12">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Recent Handover Notes</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="notes-feed mt-2">
+              @for (note of notes; track note; let idx = $index) {
+              <div class="note-card mb-4 p-3 border rounded">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h5 class="m-0 font-weight-bold">{{ note.author }} <small class="text-muted ms-2">{{ note.time }}</small></h5>
+                  <div class="d-flex align-items-center gap-1">
+                    <span class="badge bg-info rounded-pill me-2">{{ note.shift }}</span>
+                    <button mat-icon-button color="primary" (click)="editNote(note, idx)" title="Edit Note">
+                      <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteNote(idx)" title="Delete Note">
+                      <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;">delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-2 font-weight-bold text-primary">
+                  {{ note.patient }}
+                </div>
+                <div class="mt-2 note-content">
+                  {{ note.content }}
+                </div>
+              </div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

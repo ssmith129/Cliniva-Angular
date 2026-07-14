@@ -1,0 +1,133 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="avatarDetails">
+            <div class="modalTitle">{{ dialogTitle }}</div>
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="logForm" (ngSubmit)="submit()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Disposal ID</mat-label>
+                        <input matInput formControlName="disposal_id" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>qr_code</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Waste ID</mat-label>
+                        <input matInput formControlName="waste_id" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>qr_code</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Waste Type</mat-label>
+                        <mat-select formControlName="waste_type" required>
+                            <mat-option value="Biomedical Waste">Biomedical Waste</mat-option>
+                            <mat-option value="Sharps">Sharps</mat-option>
+                            <mat-option value="Pharmaceutical Waste">Pharmaceutical Waste</mat-option>
+                            <mat-option value="Chemical Waste">Chemical Waste</mat-option>
+                            <mat-option value="Radioactive Waste">Radioactive Waste</mat-option>
+                            <mat-option value="General Waste">General Waste</mat-option>
+                            <mat-option value="Recyclable Waste">Recyclable Waste</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>delete</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Quantity (kg)</mat-label>
+                        <input matInput formControlName="quantity" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>scale</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Disposal Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="disposal_date" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Disposal Method</mat-label>
+                        <mat-select formControlName="disposal_method" required>
+                            <mat-option value="Incineration">Incineration</mat-option>
+                            <mat-option value="Autoclaving">Autoclaving</mat-option>
+                            <mat-option value="Chemical Treatment">Chemical Treatment</mat-option>
+                            <mat-option value="Microwave Treatment">Microwave Treatment</mat-option>
+                            <mat-option value="Landfill">Landfill</mat-option>
+                            <mat-option value="Recycling">Recycling</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3"
+                            matSuffix>local_fire_department</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Vendor Name</mat-label>
+                        <input matInput formControlName="vendor_name" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>business</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Compliance Status</mat-label>
+                        <mat-select formControlName="compliance_status" required>
+                            <mat-option value="Compliant">Compliant</mat-option>
+                            <mat-option value="Non-Compliant">Non-Compliant</mat-option>
+                            <mat-option value="Under Review">Under Review</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>verified</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Authorized By</mat-label>
+                        <input matInput formControlName="authorized_by" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>person</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Certificate Number</mat-label>
+                        <input matInput formControlName="certificate_number">
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>badge</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Notes</mat-label>
+                        <textarea matInput formControlName="notes"></textarea>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>notes</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!logForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

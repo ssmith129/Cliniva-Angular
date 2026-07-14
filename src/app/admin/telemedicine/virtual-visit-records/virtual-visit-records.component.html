@@ -1,0 +1,18 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Virtual Visit Records'" [items]="['Telemedicine']"
+                [active_item]="'Virtual Visit Records'"></app-breadcrumb>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <app-master-table [columnDefinitions]="columnDefinitions" [dataSource]="dataSource" [showAdd]="true"
+                    [showRefresh]="true" [showExport]="true" [showDelete]="true" [isLoading]="isLoading"
+                    (add)="handleAdd()" (edit)="handleEdit($event)" (delete)="handleDelete($event)"
+                    (refresh)="handleRefresh()" [title]="'Virtual Visit Records'"
+                    (bulkDelete)="handleBulkDelete($event)">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

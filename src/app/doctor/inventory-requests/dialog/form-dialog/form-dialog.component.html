@@ -1,0 +1,121 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="avatarDetails">
+            <div class="modalTitle">
+                {{dialogTitle}}
+            </div>
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="inventoryRequestForm" (ngSubmit)="confirmAdd()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Request ID</mat-label>
+                        <input matInput formControlName="requestId" required>
+                        <mat-icon matSuffix>receipt</mat-icon>
+                        @if (inventoryRequestForm.get('requestId')?.hasError('required')) {
+                        <mat-error>ID is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Requested By</mat-label>
+                        <input matInput formControlName="requestedBy" required>
+                        <mat-icon matSuffix>person</mat-icon>
+                        @if (inventoryRequestForm.get('requestedBy')?.hasError('required')) {
+                        <mat-error>Requester Name is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Item Name</mat-label>
+                        <input matInput formControlName="itemName" required>
+                        <mat-icon matSuffix>medical_services</mat-icon>
+                        @if (inventoryRequestForm.get('itemName')?.hasError('required')) {
+                        <mat-error>Item Name is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Category</mat-label>
+                        <input matInput formControlName="category" required>
+                        <mat-icon matSuffix>category</mat-icon>
+                        @if (inventoryRequestForm.get('category')?.hasError('required')) {
+                        <mat-error>Category is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Quantity</mat-label>
+                        <input matInput formControlName="quantity" type="number" required>
+                        <mat-icon matSuffix>format_list_numbered</mat-icon>
+                        @if (inventoryRequestForm.get('quantity')?.hasError('required')) {
+                        <mat-error>Quantity is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Request Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="requestDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        @if (inventoryRequestForm.get('requestDate')?.hasError('required')) {
+                        <mat-error>Date is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Priority</mat-label>
+                        <mat-select formControlName="priority" required>
+                            <mat-option value="High">High</mat-option>
+                            <mat-option value="Normal">Normal</mat-option>
+                            <mat-option value="Urgent">Urgent</mat-option>
+                        </mat-select>
+                        @if (inventoryRequestForm.get('priority')?.hasError('required')) {
+                        <mat-error>Priority is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Approved">Approved</mat-option>
+                            <mat-option value="Pending">Pending</mat-option>
+                            <mat-option value="Rejected">Rejected</mat-option>
+                        </mat-select>
+                        @if (inventoryRequestForm.get('status')?.hasError('required')) {
+                        <mat-error>Status is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!inventoryRequestForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

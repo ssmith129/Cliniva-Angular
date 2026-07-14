@@ -1,0 +1,78 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="modalTitle">
+            {{dialogTitle}}
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="notificationForm" (ngSubmit)="confirmAdd()">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Title</mat-label>
+                        <input matInput formControlName="title" required>
+                        <mat-icon matSuffix>title</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Type</mat-label>
+                        <mat-select formControlName="type" required>
+                            <mat-option value="Alert">Alert</mat-option>
+                            <mat-option value="Reminder">Reminder</mat-option>
+                            <mat-option value="Info">Info</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Read">Read</mat-option>
+                            <mat-option value="Unread">Unread</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="date" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Time</mat-label>
+                        <input matInput formControlName="time" required placeholder="e.g., 09:00 AM">
+                        <mat-icon matSuffix>access_time</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Message</mat-label>
+                        <textarea matInput formControlName="message" required rows="3"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!notificationForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

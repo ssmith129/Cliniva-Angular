@@ -1,0 +1,46 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Patient Vitals'" [items]="['ICU']" [active_item]="'Vitals'"></app-breadcrumb>
+    </div>
+
+    <!-- Trend Chart -->
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Vitals Trend (Average)</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <apx-chart 
+              [series]="chartOptions.series!" 
+              [chart]="chartOptions.chart!" 
+              [xaxis]="chartOptions.xaxis!" 
+              [stroke]="chartOptions.stroke!" 
+              [colors]="chartOptions.colors!"
+              [dataLabels]="chartOptions.dataLabels!">
+            </apx-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Master Table for Vitals List -->
+    <div class="row mt-4">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <app-master-table 
+          [title]="'Latest Patient Vitals'"
+          [dataSource]="dataSource"
+          [columnDefinitions]="columns"
+          [isLoading]="isLoading"
+          [showCheckbox]="false"
+          [showEdit]="false"
+          [showDelete]="false"
+          [showAdd]="false"
+          [enableRowClick]="false">
+        </app-master-table>
+      </div>
+    </div>
+
+  </div>
+</section>

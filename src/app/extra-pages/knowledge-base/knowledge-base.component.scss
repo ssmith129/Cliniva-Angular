@@ -1,0 +1,370 @@
+.search-card {
+  background: linear-gradient(135deg, #6777ef 0%, #3ca7a0 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+
+  .kb-heading {
+    color: white;
+    font-weight: 700;
+    font-size: 2.2rem;
+  }
+
+  .kb-subheading {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.1rem;
+  }
+
+  .search-box-knowledge {
+    max-width: 550px;
+
+    ::ng-deep {
+      .mat-mdc-form-field {
+        width: 100%;
+      }
+      .mat-mdc-text-field-wrapper {
+        background-color: #ffffff !important;
+        border-radius: 30px !important;
+      }
+      .mdc-notched-outline {
+        border: none !important;
+      }
+      .mat-mdc-form-field-flex {
+        align-items: center !important;
+      }
+      .mat-mdc-input-element {
+        color: #333333 !important;
+        caret-color: #333333 !important;
+      }
+      .mat-mdc-form-field-label,
+      .mdc-floating-label {
+        color: #666666 !important;
+      }
+      mat-icon {
+        color: #666666 !important;
+      }
+    }
+  }
+}
+
+.category-card {
+  border-radius: 12px;
+  overflow: hidden;
+
+  .list-group-item {
+    background: transparent;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    color: #555555;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: rgba(103, 119, 239, 0.05);
+      color: #6777ef;
+    }
+
+    &.active-category {
+      background-color: #6777ef;
+      color: white;
+
+      .badge {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+      }
+
+      mat-icon {
+        color: white !important;
+      }
+    }
+  }
+}
+
+.article-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(103, 119, 239, 0.15) !important;
+  }
+
+  .article-title {
+    color: #222222;
+    font-size: 1.15rem;
+    transition: color 0.2s;
+  }
+
+  &:hover .article-title {
+    color: #6777ef;
+  }
+}
+
+.category-badge {
+  background-color: rgba(103, 119, 239, 0.08);
+  color: #6777ef;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-card {
+  border-radius: 12px;
+}
+
+.article-detail-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222222;
+}
+
+.article-content-body {
+  line-height: 1.8;
+  color: #444444;
+}
+
+/* ==========================================
+   Dark Theme Rules
+   ========================================== */
+body.dark {
+  .search-box-knowledge ::ng-deep {
+    .mat-mdc-text-field-wrapper {
+      background-color: #1e293b !important;
+    }
+    .mat-mdc-input-element {
+      color: #f1f5f9 !important;
+      caret-color: #f1f5f9 !important;
+    }
+    .mat-mdc-form-field-label,
+    .mdc-floating-label {
+      color: #94a3b8 !important;
+    }
+    mat-icon {
+      color: #94a3b8 !important;
+    }
+  }
+
+  .category-card {
+    .list-group-item {
+      color: #96a2b4;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+
+      &:hover {
+        background-color: rgba(103, 119, 239, 0.12);
+        color: #8c9eff;
+      }
+
+      &.active-category {
+        background-color: #6777ef;
+        color: white;
+
+        .badge {
+          background-color: rgba(255, 255, 255, 0.2) !important;
+          color: white !important;
+        }
+      }
+
+      .badge {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: #abaaaa !important;
+      }
+    }
+  }
+
+  .article-card {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important;
+
+    &:hover {
+      box-shadow: 0 8px 25px rgba(103, 119, 239, 0.25) !important;
+    }
+
+    .article-title {
+      color: #f1f5f9;
+    }
+
+    &:hover .article-title {
+      color: #8c9eff;
+    }
+  }
+
+  .article-detail-title {
+    color: #f1f5f9;
+  }
+
+  .article-content-body {
+    color: #96a2b4;
+  }
+}
+
+/* ==========================================
+   Glassmorphism Rules
+   ========================================== */
+body.layout-glassmorphism {
+  .search-card {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05) !important;
+    color: #374151 !important;
+
+    .kb-heading {
+      color: #374151 !important;
+    }
+    .kb-subheading {
+      color: #4b5563 !important;
+    }
+  }
+
+  .search-box-knowledge ::ng-deep {
+    .mat-mdc-text-field-wrapper {
+      background-color: rgba(255, 255, 255, 0.7) !important;
+      border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    }
+    .mat-mdc-input-element {
+      color: #1f2937 !important;
+    }
+    .mat-mdc-form-field-label,
+    .mdc-floating-label {
+      color: #4b5563 !important;
+    }
+    mat-icon {
+      color: #4b5563 !important;
+    }
+  }
+
+  .category-card {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+
+    .list-group-item {
+      color: #374151 !important;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3) !important;
+        color: #6777ef !important;
+      }
+
+      &.active-category {
+        background-color: #6777ef !important;
+        color: white !important;
+
+        .badge {
+          background-color: rgba(255, 255, 255, 0.2) !important;
+          color: white !important;
+        }
+
+        mat-icon {
+          color: white !important;
+        }
+      }
+    }
+  }
+
+  .article-card,
+  .detail-card {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05) !important;
+
+    .article-title,
+    .article-detail-title {
+      color: #1f2937;
+    }
+
+    .article-summary,
+    .article-content-body {
+      color: #4b5563;
+    }
+  }
+}
+
+/* ==========================================
+   Dark Glassmorphism Rules
+   ========================================== */
+body.layout-glassmorphism.dark {
+  .search-card {
+    background: rgba(15, 23, 42, 0.55) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+    color: #e5e7eb !important;
+
+    .kb-heading {
+      color: #e5e7eb !important;
+    }
+    .kb-subheading {
+      color: #9ca3af !important;
+    }
+  }
+
+  .search-box-knowledge ::ng-deep {
+    .mat-mdc-text-field-wrapper {
+      background-color: rgba(15, 23, 42, 0.5) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    .mat-mdc-input-element {
+      color: #f3f4f6 !important;
+      caret-color: #f3f4f6 !important;
+    }
+    .mat-mdc-form-field-label,
+    .mdc-floating-label {
+      color: #9ca3af !important;
+    }
+    mat-icon {
+      color: #9ca3af !important;
+    }
+  }
+
+  .category-card {
+    background: rgba(15, 23, 42, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+
+    .list-group-item {
+      color: #9ca3af;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #8c9eff;
+      }
+
+      &.active-category {
+        background-color: #6777ef;
+        color: white;
+      }
+
+      .badge {
+        background-color: rgba(0, 0, 0, 0.2) !important;
+        color: #abaaaa !important;
+      }
+    }
+  }
+
+  .article-card,
+  .detail-card {
+    background: rgba(15, 23, 42, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+
+    .article-title,
+    .article-detail-title {
+      color: #f3f4f6;
+    }
+
+    &:hover .article-title {
+      color: #8c9eff;
+    }
+
+    .article-summary,
+    .article-content-body {
+      color: #9ca3af;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Tax Reports'" [items]="['Accounts']" [active_item]="'Tax Reports'"></app-breadcrumb>
+    </div>
+    
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <app-master-table 
+          [title]="'GST/VAT & Corporate Tax Statements'" 
+          [columnDefinitions]="columnDefinitions"
+          [dataSource]="dataSource" 
+          [isLoading]="isLoading" 
+          [exportFileName]="'tax_reports'"
+          [showCheckbox]="false"
+          [showAdd]="false"
+          [showEdit]="false"
+          [showDelete]="false"
+          [showDetails]="false"
+          [showRefresh]="true"
+          [showExport]="true"
+          (refresh)="handleRefresh()">
+        </app-master-table>
+      </div>
+    </div>
+  </div>
+</section>

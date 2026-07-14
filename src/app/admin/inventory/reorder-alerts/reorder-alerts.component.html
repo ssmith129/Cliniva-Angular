@@ -1,0 +1,152 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Reorder Alerts'" [items]="['Inventory']" [active_item]="'Reorder Alerts'"></app-breadcrumb>
+    </div>
+
+    <!-- Alert Header Banner -->
+    @if (lowStockCount > 0 || outOfStockCount > 0) {
+      <div class="row m-b-20">
+        <div class="col-12">
+          <div class="alert alert-warning-custom">
+            <mat-icon class="alert-icon">warning</mat-icon>
+            <div class="alert-text">
+              <strong>Critical Stock Warning:</strong> You have <strong>{{ outOfStockCount }}</strong> items out of stock and <strong>{{ lowStockCount }}</strong> items below safety threshold. Please initiate restock orders.
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Stats row -->
+    <div class="row">
+      <div class="col-lg-4 col-sm-6">
+        <div class="info-box7 bg-c-red order-info-box">
+          <div class="info-box7-block">
+            <h4 class="m-b-20">Out of Stock</h4>
+            <h2 class="text-end"><span class="float-start"><mat-icon class="stats-icon">error</mat-icon></span><span>{{ outOfStockCount }}</span></h2>
+            <p class="m-b-0">Critical attention required</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-6">
+        <div class="info-box7 bg-c-orange order-info-box">
+          <div class="info-box7-block">
+            <h4 class="m-b-20">Low Stock Items</h4>
+            <h2 class="text-end"><span class="float-start"><mat-icon class="stats-icon">warning</mat-icon></span><span>{{ lowStockCount }}</span></h2>
+            <p class="m-b-0">Below safety thresholds</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-6">
+        <div class="info-box7 bg-c-green order-info-box">
+          <div class="info-box7-block">
+            <h4 class="m-b-20">Pending Reorders</h4>
+            <h2 class="text-end"><span class="float-start"><mat-icon class="stats-icon">published_with_changes</mat-icon></span><span>{{ pendingReorders }}</span></h2>
+            <p class="m-b-0">PO drafted & sent</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reorder Table -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card table-card">
+          <div class="header">
+            <h2>Items Requiring Replenishment</h2>
+            <button mat-icon-button (click)="handleRefresh()" class="refresh-btn" matTooltip="Refresh data">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+          <div class="body overflow-auto">
+            <table mat-table [dataSource]="dataSource" class="mat-cell advance-table w-100">
+              
+              <!-- Item Name Column -->
+              <ng-container matColumnDef="i_name">
+                <th mat-header-cell *matHeaderCellDef> Item Name </th>
+                <td mat-cell *matCellDef="let row"> 
+                  <span class="item-name-bold">{{ row.i_name }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Category Column -->
+              <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef> Category </th>
+                <td mat-cell *matCellDef="let row"> 
+                  <span class="badge badge-solid-blue">{{ row.category }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Quantity & Progress Column -->
+              <ng-container matColumnDef="qty_progress">
+                <th mat-header-cell *matHeaderCellDef> Current Qty </th>
+                <td mat-cell *matCellDef="let row"> 
+                  <div class="qty-progress-container">
+                    <span class="qty-text">{{ row.qty }} / {{ row.reorderLevel }}</span>
+                    <div class="progress-bar-wrapper">
+                      <div class="progress-fill" 
+                           [style.width.%]="getProgressValue(row.qty, row.reorderLevel)"
+                           [ngClass]="row.qty === 0 ? 'bg-danger' : 'bg-warning'">
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Reorder Level Column -->
+              <ng-container matColumnDef="reorderLevel">
+                <th mat-header-cell *matHeaderCellDef> Safety Level </th>
+                <td mat-cell *matCellDef="let row"> {{ row.reorderLevel }} </td>
+              </ng-container>
+
+              <!-- Supplier Column -->
+              <ng-container matColumnDef="supplier">
+                <th mat-header-cell *matHeaderCellDef> Preferred Supplier </th>
+                <td mat-cell *matCellDef="let row"> {{ row.supplier }} </td>
+              </ng-container>
+
+              <!-- Status Severity Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Severity </th>
+                <td mat-cell *matCellDef="let row">
+                  @if (!row.isOrdered) {
+                    <span [ngClass]="row.status === 'Out of Stock' ? 'badge badge-solid-red' : 'badge badge-solid-orange'">
+                      {{ row.status }}
+                    </span>
+                  } @else {
+                    <span class="badge badge-solid-green">Reorder Placed</span>
+                  }
+                </td>
+              </ng-container>
+
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let row">
+                  <button mat-raised-button 
+                          [color]="row.isOrdered ? 'accent' : 'primary'"
+                          [disabled]="row.isOrdered"
+                          (click)="handleQuickOrder(row)" 
+                          class="action-btn">
+                    <mat-icon class="m-r-5">{{ row.isOrdered ? 'check' : 'shopping_cart' }}</mat-icon>
+                    {{ row.isOrdered ? 'Ordered' : 'Quick Order' }}
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            @if (dataSource.data.length === 0) {
+              <div class="no-results">
+                All inventory stock levels are optimal. No reorder alerts.
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

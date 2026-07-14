@@ -1,0 +1,237 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Pharmacy POS'" [items]="['Pharmacy']" [active_item]="'POS Counter'"></app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <!-- Left Column: Medicine Catalog Grid -->
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <mat-card class="catalog-card shadow-sm border-0 mb-4">
+          <mat-card-content class="p-4">
+            <!-- Search & Filters -->
+            <div class="row mb-3 align-items-center">
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Search medicine by name or code</mat-label>
+                  <input matInput [ngModel]="searchText()" (ngModelChange)="searchText.set($event)"
+                    placeholder="Search...">
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 d-flex flex-wrap gap-2 justify-content-lg-end">
+                @for (cat of categories; track cat) {
+                <button mat-flat-button [color]="selectedCategory() === cat ? 'primary' : ''"
+                  [class.bg-light-btn]="selectedCategory() !== cat" (click)="selectedCategory.set(cat)">
+                  {{ cat }}
+                </button>
+                }
+              </div>
+            </div>
+
+            <!-- Grid List -->
+            <div class="row catalog-grid">
+              @for (item of filteredCatalog(); track item.id) {
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="med-item-card p-3 border rounded">
+                  <div class="d-flex align-items-start justify-content-between mb-2">
+                    <div>
+                      <span class="badge badge-pill bg-light-badge text-primary mb-1">{{ item.category }}</span>
+                      <h4 class="font-16 font-weight-bold mb-0">{{ item.name }}</h4>
+                      <small class="text-muted">Code: {{ item.id }}</small>
+                    </div>
+                    <h3 class="col-green font-18 font-weight-bold">${{ item.price | number:'1.2-2' }}</h3>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mt-3">
+                    <small [class.text-danger]="item.stock <= 5" [class.text-muted]="item.stock > 5">
+                      Stock: {{ item.stock }}
+                    </small>
+                    <button mat-mini-fab color="primary" [disabled]="item.stock <= 0" (click)="addToCart(item)">
+                      <mat-icon>add_shopping_cart</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              }
+              @if (filteredCatalog().length === 0) {
+              <div class="col-12 text-center py-5">
+                <mat-icon class="font-26 text-muted">shopping_basket</mat-icon>
+                <p class="text-muted mt-2">No medicines match your search filter.</p>
+              </div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Right Column: Cart / Billing Summary -->
+      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <mat-card class="cart-card shadow-sm border-0 mb-4">
+          <mat-card-header class="p-3 border-bottom d-flex align-items-center justify-content-between">
+            <mat-card-title class="font-18 font-weight-bold mb-0">Active Billing Cart</mat-card-title>
+            <button mat-button color="warn" [disabled]="cart().length === 0" (click)="clearCart()">Clear All</button>
+          </mat-card-header>
+          <mat-card-content class="p-3">
+            <div class="cart-items-container" style="max-height: 280px; overflow-y: auto;">
+              @for (item of cart(); track item.medicine.id) {
+              <div class="cart-item-row d-flex align-items-center justify-content-between py-2 border-bottom">
+                <div style="flex: 1;">
+                  <h5 class="font-14 font-weight-bold mb-0 text-truncate" style="max-width: 140px;">{{
+                    item.medicine.name }}</h5>
+                  <small class="text-muted">${{ item.medicine.price | number:'1.2-2' }} each</small>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <button mat-icon-button class="btn-qty"
+                    (click)="updateQuantity(item, -1)"><mat-icon>remove</mat-icon></button>
+                  <span class="font-14 font-weight-bold">{{ item.quantity }}</span>
+                  <button mat-icon-button class="btn-qty"
+                    (click)="updateQuantity(item, 1)"><mat-icon>add</mat-icon></button>
+                </div>
+                <div class="text-end" style="width: 70px;">
+                  <span class="font-14 font-weight-bold">${{ (item.medicine.price * item.quantity) | number:'1.2-2'
+                    }}</span>
+                </div>
+              </div>
+              }
+              @if (cart().length === 0) {
+              <div class="text-center py-5">
+                <mat-icon class="font-26 text-muted">shopping_cart</mat-icon>
+                <p class="text-muted mt-2">Your cart is empty.</p>
+              </div>
+              }
+            </div>
+
+            <!-- Discount/Insurance Adjusters -->
+            <div class="row mt-3">
+              <div class="col-6">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Discount %</mat-label>
+                  <input matInput type="number" min="0" max="100" [(ngModel)]="discountPercent">
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Insurance Copay %</mat-label>
+                  <input matInput type="number" min="0" max="100" [(ngModel)]="insurancePercent">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Financial Summary -->
+            <div class="billing-summary bg-light p-3 rounded mt-3">
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Subtotal:</span>
+                <span class="font-weight-bold">${{ cartSubtotal() | number:'1.2-2' }}</span>
+              </div>
+              @if (discountPercent > 0) {
+              <div class="d-flex justify-content-between mb-2 text-danger">
+                <span>Discount ({{ discountPercent }}%):</span>
+                <span>-${{ cartDiscountAmount() | number:'1.2-2' }}</span>
+              </div>
+              }
+              @if (insurancePercent > 0) {
+              <div class="d-flex justify-content-between mb-2 text-primary">
+                <span>Insurance Copay ({{ insurancePercent }}%):</span>
+                <span>-${{ cartInsuranceAmount() | number:'1.2-2' }}</span>
+              </div>
+              }
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Tax (5%):</span>
+                <span class="font-weight-bold">${{ cartTaxAmount() | number:'1.2-2' }}</span>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="font-16 font-weight-bold">Grand Total:</span>
+                <span class="font-20 font-weight-bold col-green">${{ cartTotal() | number:'1.2-2' }}</span>
+              </div>
+            </div>
+
+            <!-- Payment and checkout -->
+            <div class="mt-3">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Payment Method</mat-label>
+                <mat-select [(value)]="paymentMethod">
+                  <mat-option value="Cash">Cash</mat-option>
+                  <mat-option value="Credit Card">Credit Card</mat-option>
+                  <mat-option value="Mobile Wallet">Mobile Wallet</mat-option>
+                  <mat-option value="Insurance Claim">Insurance Claim</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <button mat-raised-button color="primary" class="w-100 py-3 mt-2" [disabled]="cart().length === 0"
+                (click)="checkout()">
+                PROCEED TO CHECKOUT
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- Receipt overlay modal -->
+  @if (isReceiptOpen) {
+  <div class="receipt-backdrop d-flex align-items-center justify-content-center">
+    <mat-card class="receipt-modal shadow-lg border-0 p-4" style="width: 400px;">
+      <div class="text-center mb-4">
+        <mat-icon class="font-26 col-green">check_circle</mat-icon>
+        <h3 class="font-20 font-weight-bold mt-2 mb-0">Transaction Completed</h3>
+        <p class="text-muted font-12">Cliniva Pharmacy POS Invoice</p>
+      </div>
+      <div class="receipt-details font-14">
+        <div class="d-flex justify-content-between mb-2">
+          <span class="text-muted">Transaction ID:</span>
+          <span class="font-weight-bold">{{ receiptTxId }}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+          <span class="text-muted">Date:</span>
+          <span class="font-weight-bold">{{ receiptDate }}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+          <span class="text-muted">Payment Mode:</span>
+          <span class="font-weight-bold">{{ paymentMethod }}</span>
+        </div>
+        <hr>
+        <h5 class="font-weight-bold mb-2">Items Summary</h5>
+        @for (item of cart(); track item.medicine.id) {
+        <div class="d-flex justify-content-between mb-1 font-12">
+          <span>{{ item.medicine.name }} x{{ item.quantity }}</span>
+          <span>${{ (item.medicine.price * item.quantity) | number:'1.2-2' }}</span>
+        </div>
+        }
+        <hr>
+        <div class="d-flex justify-content-between mb-2">
+          <span class="text-muted">Subtotal:</span>
+          <span>${{ cartSubtotal() | number:'1.2-2' }}</span>
+        </div>
+        @if (discountPercent > 0) {
+        <div class="d-flex justify-content-between mb-2 text-danger">
+          <span>Discount ({{ discountPercent }}%):</span>
+          <span>-${{ cartDiscountAmount() | number:'1.2-2' }}</span>
+        </div>
+        }
+        @if (insurancePercent > 0) {
+        <div class="d-flex justify-content-between mb-2 text-primary">
+          <span>Insurance ({{ insurancePercent }}%):</span>
+          <span>-${{ cartInsuranceAmount() | number:'1.2-2' }}</span>
+        </div>
+        }
+        <div class="d-flex justify-content-between mb-2">
+          <span class="text-muted">Tax:</span>
+          <span>${{ cartTaxAmount() | number:'1.2-2' }}</span>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between align-items-center font-18 font-weight-bold">
+          <span>Total Paid:</span>
+          <span class="col-green">${{ cartTotal() | number:'1.2-2' }}</span>
+        </div>
+      </div>
+      <div class="d-flex gap-2 mt-4">
+        <button mat-stroked-button class="w-50"
+          (click)="showNotification('Receipt Sent to Print Queue', 'black')">Print</button>
+        <button mat-raised-button color="primary" class="w-50" (click)="closeReceipt()">Done</button>
+      </div>
+    </mat-card>
+  </div>
+  }
+</section>

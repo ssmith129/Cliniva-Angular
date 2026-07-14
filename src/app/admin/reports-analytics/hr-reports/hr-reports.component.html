@@ -1,0 +1,160 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'HR Reports'" [items]="['Reports & Analytics']"
+                [active_item]="'HR Reports'">
+            </app-breadcrumb>
+        </div>
+
+        <!-- KPI Summary Cards -->
+        <div class="row clearfix">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-teal">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Total Headcount</p>
+                                <h3 class="kpi-value">122</h3>
+                                <p class="kpi-sub">
+                                    <span class="material-icons-outlined" style="font-size:14px; vertical-align:middle;">trending_up</span>
+                                    +3 this month
+                                </p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">groups</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-blue">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Avg Attendance Rate</p>
+                                <h3 class="kpi-value">91.4%</h3>
+                                <p class="kpi-sub">This month</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">event_available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-orange">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Total Payroll</p>
+                                <h3 class="kpi-value">$487,200</h3>
+                                <p class="kpi-sub">November 2024</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">payments</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-red">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Pending Payroll</p>
+                                <h3 class="kpi-value">18</h3>
+                                <p class="kpi-sub">Employees pending</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">person_off</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 1 -->
+        <div class="row clearfix">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Monthly Attendance Overview</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart
+                            [series]="attendanceOverviewOptions.series!"
+                            [chart]="attendanceOverviewOptions.chart!"
+                            [xaxis]="attendanceOverviewOptions.xaxis!"
+                            [yaxis]="attendanceOverviewOptions.yaxis!"
+                            [title]="attendanceOverviewOptions.title!"
+                            [colors]="attendanceOverviewOptions.colors!"
+                            [stroke]="attendanceOverviewOptions.stroke!"
+                            [dataLabels]="attendanceOverviewOptions.dataLabels!"
+                            [legend]="attendanceOverviewOptions.legend!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Payroll Breakdown by Role</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart
+                            [series]="payrollBreakdownOptions.series!"
+                            [chart]="payrollBreakdownOptions.chart!"
+                            [labels]="payrollBreakdownOptions.labels!"
+                            [colors]="payrollBreakdownOptions.colors!"
+                            [legend]="payrollBreakdownOptions.legend!"
+                            [responsive]="payrollBreakdownOptions.responsive!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Department Headcount Chart -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Department Headcount</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart
+                            [series]="departmentHeadcountOptions.series!"
+                            [chart]="departmentHeadcountOptions.chart!"
+                            [xaxis]="departmentHeadcountOptions.xaxis!"
+                            [plotOptions]="departmentHeadcountOptions.plotOptions!"
+                            [dataLabels]="departmentHeadcountOptions.dataLabels!"
+                            [colors]="departmentHeadcountOptions.colors!"
+                            [title]="departmentHeadcountOptions.title!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employee Payroll Table -->
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <app-master-table
+                    [dataSource]="dataSource"
+                    [columnDefinitions]="columnDefinitions"
+                    [title]="'Employee Payroll & Attendance'"
+                    [isLoading]="isLoading"
+                    (add)="handleAdd()"
+                    (edit)="handleEdit($event)"
+                    (delete)="handleDelete($event)"
+                    (bulkDelete)="handleBulkDelete($event)"
+                    (refresh)="handleRefresh()">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

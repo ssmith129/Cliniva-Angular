@@ -1,0 +1,188 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Add Medicine'" [items]="['Pharmacy']" [active_item]="'Add Medicine'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Add Medicine</h2>
+          </div>
+          <div class="body">
+            <form class="register-form m-4" [formGroup]="medicineListForm" (ngSubmit)="onSubmit()">
+              
+              <!-- Group 1: Basic Information -->
+              <h5 class="mb-3 border-bottom pb-2">Basic Information</h5>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>No</mat-label>
+                    <input matInput formControlName="m_no" type="number" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>tag</mat-icon>
+                    @if (medicineListForm.get('m_no')?.hasError('required')) {
+                    <mat-error>No is required</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Medicine Name</mat-label>
+                    <input matInput formControlName="m_name" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>medication</mat-icon>
+                    @if (medicineListForm.get('m_name')?.hasError('required')) {
+                    <mat-error>Medicine Name is required</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Generic Name</mat-label>
+                    <input matInput formControlName="generic_name">
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>science</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Category</mat-label>
+                    <mat-select formControlName="category" required>
+                      <mat-option [value]="'Tablet'">Tablet</mat-option>
+                      <mat-option [value]="'Syrup'">Syrup</mat-option>
+                      <mat-option [value]="'Injectable'">Injectable</mat-option>
+                    </mat-select>
+                    @if (medicineListForm.get('category')?.hasError('required')) {
+                    <mat-error>Category is required</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Group 2: Inventory & Pricing -->
+              <h5 class="mt-4 mb-3 border-bottom pb-2">Inventory & Pricing</h5>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Batch No</mat-label>
+                    <input matInput formControlName="batch_no" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>qr_code</mat-icon>
+                    @if (medicineListForm.get('batch_no')?.hasError('required')) {
+                    <mat-error>Batch No is required</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Company Name</mat-label>
+                    <input matInput formControlName="company" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>business</mat-icon>
+                    @if (medicineListForm.get('company')?.hasError('required')) {
+                    <mat-error>Company Name is required</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Supplier</mat-label>
+                    <input matInput formControlName="supplier">
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>local_shipping</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Stock</mat-label>
+                    <input matInput formControlName="stock" type="number" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>inventory_2</mat-icon>
+                    @if (medicineListForm.get('stock')?.hasError('required')) {
+                    <mat-error>Stock is required</mat-error>
+                    }
+                    @if (medicineListForm.get('stock')?.hasError('min')) {
+                    <mat-error>Stock cannot be negative</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Purchase Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="p_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    @if (medicineListForm.get('p_date')?.hasError('required')) {
+                    <mat-error>Please select purchase date</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Expired Date</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="e_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    @if (medicineListForm.get('e_date')?.hasError('required')) {
+                    <mat-error>Please select expired date</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Price</mat-label>
+                    <input matInput formControlName="price" type="number" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>monetization_on</mat-icon>
+                    @if (medicineListForm.get('price')?.hasError('required')) {
+                    <mat-error>Price is required</mat-error>
+                    }
+                    @if (medicineListForm.get('price')?.hasError('min')) {
+                    <mat-error>Price cannot be negative</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Group 3: Additional Details -->
+              <h5 class="mt-4 mb-3 border-bottom pb-2">Additional Details</h5>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Description / Notes</mat-label>
+                    <textarea matInput formControlName="description" rows="3"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Side Effects</mat-label>
+                    <textarea matInput formControlName="side_effects" rows="3"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <div class="example-button-row">
+                    <button mat-flat-button color="primary" class="formSubmitBtn" [disabled]="!medicineListForm.valid">Save Medicine</button>
+                    <button type="button" mat-flat-button color="warn" class="formCancelBtn">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

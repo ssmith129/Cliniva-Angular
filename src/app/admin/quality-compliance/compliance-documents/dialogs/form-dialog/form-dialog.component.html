@@ -1,0 +1,149 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="avatarDetails">
+            <div class="modalTitle">{{ dialogTitle }}</div>
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="docForm" (ngSubmit)="submit()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Document ID</mat-label>
+                        <input matInput formControlName="document_id" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>qr_code</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Document Name</mat-label>
+                        <input matInput formControlName="document_name" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>description</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Document Type</mat-label>
+                        <mat-select formControlName="document_type" required>
+                            <mat-option value="License">License</mat-option>
+                            <mat-option value="Accreditation">Accreditation</mat-option>
+                            <mat-option value="Certification">Certification</mat-option>
+                            <mat-option value="Policy Document">Policy Document</mat-option>
+                            <mat-option value="SOP">SOP</mat-option>
+                            <mat-option value="Regulatory Approval">Regulatory Approval</mat-option>
+                            <mat-option value="Insurance">Insurance</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>folder</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Issuing Authority</mat-label>
+                        <input matInput formControlName="issuing_authority" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>business</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Issue Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="issue_date" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Expiry Date</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="expiry_date" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Renewal Date</mat-label>
+                        <input matInput [matDatepicker]="picker3" formControlName="renewal_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Document/License Number</mat-label>
+                        <input matInput formControlName="document_number" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>numbers</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Valid">Valid</mat-option>
+                            <mat-option value="Expired">Expired</mat-option>
+                            <mat-option value="Expiring Soon">Expiring Soon</mat-option>
+                            <mat-option value="Under Review">Under Review</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>verified</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Responsible Person</mat-label>
+                        <input matInput formControlName="responsible_person" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>person</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Department</mat-label>
+                        <mat-select formControlName="department">
+                            <mat-option value="Administration">Administration</mat-option>
+                            <mat-option value="Quality Assurance">Quality Assurance</mat-option>
+                            <mat-option value="Legal">Legal</mat-option>
+                            <mat-option value="All Departments">All Departments</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>domain</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>File Location</mat-label>
+                        <input matInput formControlName="file_location">
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>folder_open</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Notes</mat-label>
+                        <textarea matInput formControlName="notes"></textarea>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>notes</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!docForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

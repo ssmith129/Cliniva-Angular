@@ -1,0 +1,15 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Appointments'" [items]="['Doctor']" [active_item]="'Appointments'"></app-breadcrumb>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <app-master-table [title]="'Appointments'" [columnDefinitions]="columnDefinitions" [dataSource]="dataSource"
+          [isLoading]="isLoading" [exportFileName]="'appointments'" [showAdd]="false" [showEdit]="false"
+          [showDelete]="false" [showDetails]="true" (details)="handleDetails($event)" (refresh)="handleRefresh()">
+        </app-master-table>
+      </div>
+    </div>
+  </div>
+</section>

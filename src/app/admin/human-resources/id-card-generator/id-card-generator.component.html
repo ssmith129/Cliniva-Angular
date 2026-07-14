@@ -1,0 +1,134 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'ID Card Generator'" [items]="['Admin']" [active_item]="'ID Card Generator'">
+      </app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <!-- Settings Sidebar -->
+      <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>ID Card Details</h2>
+          </div>
+          <div class="body">
+            <form [formGroup]="idCardForm" class="m-4">
+              <div class="row">
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Hospital Name</mat-label>
+                    <input matInput formControlName="hospitalName">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Tagline</mat-label>
+                    <input matInput formControlName="hospitalTagline">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Person Name</mat-label>
+                    <input matInput formControlName="personName">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>ID Number</mat-label>
+                    <input matInput formControlName="idNumber">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Department / Role</mat-label>
+                    <input matInput formControlName="departmentName">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput formControlName="dob">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Blood Group</mat-label>
+                    <input matInput formControlName="bloodGroup">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Phone</mat-label>
+                    <input matInput formControlName="phone">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-12">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Address</mat-label>
+                    <input matInput formControlName="address">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <label>Hospital Logo</label>
+                  <input type="file" class="form-control" (change)="onPhotoSelected($event, true)" accept="image/*">
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <label>Person Photo</label>
+                  <input type="file" class="form-control" (change)="onPhotoSelected($event, false)" accept="image/*">
+                </div>
+              </div>
+
+              <button mat-raised-button color="primary" type="button" class="w-100 mt-3" (click)="printIdCard()">Print
+                ID Card</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ID Card Preview -->
+      <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>Preview</h2>
+          </div>
+          <div class="body d-flex justify-content-center align-items-center"
+            style="min-height: 400px; background-color: #f5f5f5;">
+
+            <div id="id-card-print-area" class="id-card">
+              <div class="id-card-header d-flex flex-column align-items-center">
+                @if (logoUrl) {
+                  <img [src]="logoUrl" alt="Logo" class="school-logo mb-1" style="max-height: 30px;">
+                }
+                <h3>{{ idCardForm.get('hospitalName')?.value }}</h3>
+                <p>{{ idCardForm.get('hospitalTagline')?.value }}</p>
+              </div>
+              <div class="id-card-body">
+                <div class="id-card-photo">
+                  <img [src]="photoUrl" alt="Person Photo">
+                </div>
+                <div class="id-card-details">
+                  <h4 class="student-name">{{ idCardForm.get('personName')?.value }}</h4>
+                  <p><strong>ID:</strong> {{ idCardForm.get('idNumber')?.value }}</p>
+                  <p><strong>Dept/Role:</strong> {{ idCardForm.get('departmentName')?.value }}</p>
+                  <p><strong>DOB:</strong> {{ idCardForm.get('dob')?.value }}</p>
+                  <p><strong>Blood:</strong> <span class="blood-group">{{ idCardForm.get('bloodGroup')?.value }}</span>
+                  </p>
+                  <p><strong>Phone:</strong> {{ idCardForm.get('phone')?.value }}</p>
+                  <p><strong>Address:</strong> {{ idCardForm.get('address')?.value }}</p>
+                </div>
+              </div>
+              <div class="id-card-footer">
+                <div class="barcode">
+                  <img src="assets/images/barcode.png" alt="Barcode"
+                    onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMzAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI1IiB5PSI1IiB3aWR0aD0iNSIgaGVpZ2h0PSIyMCIgZmlsbD0iIzAwMCIvPjxyZWN0IHg9IjE1IiB5PSI1IiB3aWR0aD0iMTAiIGhlaWdodD0iMjAiIGZpbGw9IiMwMDAiLz48cmVjdCB4PSIyNSIgeT0iNSIgd2lkdGg9IjIiIGhlaWdodD0iMjAiIGZpbGw9IiMwMDAiLz48cmVjdCB4PSIzMCIgeT0iNSIgd2lkdGg9IjgiIGhlaWdodD0iMjAiIGZpbGw9IiMwMDAiLz48cmVjdCB4PSI0MCIgeT0iNSIgd2lkdGg9IjUiIGhlaWdodD0iMjAiIGZpbGw9IiMwMDAiLz48cmVjdCB4PSI1MCIgeT0iNSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMDAwIi8+PHJlY3QgeD0iNjAiIHk9IjUiIHdpZHRoPSIyIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMDAwIi8+PHJlY3QgeD0iNjUiIHk9IjUiIHdpZHRoPSI4IiBoZWlnaHQ9IjIwIiBmaWxsPSIjMDAwIi8+PHJlY3QgeD0iNzUiIHk9IjUiIHdpZHRoPSI1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjMDAwIi8+PHJlY3QgeD0iODUiIHk9IjUiIHdpZHRoPSI1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjMDAwIi8+PHJlY3QgeD0iOTEiIHk9IjUiIHdpZHRoPSI0IiBoZWlnaHQ9IjIwIiBmaWxsPSIjMDAwIi8+PC9zdmc+'">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,163 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Category Management'" [items]="['Inventory']" [active_item]="'Category Management'"></app-breadcrumb>
+    </div>
+
+    <!-- Overview cards of categories -->
+    <div class="row">
+      @for (cat of categories; track cat) {
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <div class="card category-overview-card">
+            <div class="card-body">
+              <div class="overview-header">
+                <div class="overview-icon">
+                  <mat-icon>{{ cat.icon }}</mat-icon>
+                </div>
+                <div class="overview-title">
+                  <h3>{{ cat.name }}</h3>
+                  <span>Subcategories: {{ cat.subcategories.length }}</span>
+                </div>
+              </div>
+              <p class="overview-desc m-t-15">{{ cat.description }}</p>
+              <div class="overview-footer m-t-15">
+                <span class="badge badge-solid-cyan">Items: {{ cat.itemCount }}</span>
+                <span class="val-text">Valuation: <strong>{{ cat.totalValuation }}</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Category Table Card -->
+    <div class="row m-t-20">
+      <div class="col-12">
+        <div class="card table-card">
+          <div class="header">
+            <h2>Inventory Categories Master List</h2>
+            <button mat-raised-button color="primary" (click)="handleAdd()" class="add-btn">
+              <mat-icon class="m-r-5">add</mat-icon>Add Category
+            </button>
+          </div>
+          <div class="body overflow-auto">
+            <table mat-table [dataSource]="dataSource" class="mat-cell advance-table w-100">
+              
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Category Name </th>
+                <td mat-cell *matCellDef="let row"> 
+                  <span class="cat-name-bold">{{ row.name }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Description Column -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Description </th>
+                <td mat-cell *matCellDef="let row"> {{ row.description }} </td>
+              </ng-container>
+
+              <!-- Subcategories Column -->
+              <ng-container matColumnDef="subcategories">
+                <th mat-header-cell *matHeaderCellDef> Subcategories </th>
+                <td mat-cell *matCellDef="let row"> 
+                  <div class="sub-badges">
+                    @for (sub of row.subcategories; track sub) {
+                      <span class="badge badge-solid-blue m-r-5">{{ sub }}</span>
+                    }
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Item Count Column -->
+              <ng-container matColumnDef="itemCount">
+                <th mat-header-cell *matHeaderCellDef> Total Items </th>
+                <td mat-cell *matCellDef="let row"> {{ row.itemCount }} </td>
+              </ng-container>
+
+              <!-- Valuation Column -->
+              <ng-container matColumnDef="totalValuation">
+                <th mat-header-cell *matHeaderCellDef> Valuation </th>
+                <td mat-cell *matCellDef="let row"> {{ row.totalValuation }} </td>
+              </ng-container>
+
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let row">
+                  <button mat-icon-button color="accent" (click)="handleDelete(row)" matTooltip="Delete Category">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Dialog Template -->
+<ng-template #categoryDialog>
+  <div class="dialog-container">
+    <div class="dialog-header">
+      <h2>{{ dialogTitle }}</h2>
+      <button mat-icon-button (click)="dialog.closeAll()" class="close-btn">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    
+    <form [formGroup]="categoryForm" (ngSubmit)="submit()" class="category-form">
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Category Name</mat-label>
+            <input matInput formControlName="name" placeholder="e.g. Medical Disposables">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" rows="3" placeholder="e.g. Syringes, cannulas, sterile tubes, and other consumable medical items."></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Subcategories (comma separated)</mat-label>
+            <input matInput formControlName="subcategoriesStr" placeholder="e.g. Syringes, Cannulas, Catheters">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Initial Item Count</mat-label>
+            <input matInput type="number" formControlName="itemCount">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Total Valuation ($)</mat-label>
+            <input matInput formControlName="totalValuation" placeholder="e.g. 15000.00">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button mat-button type="button" (click)="dialog.closeAll()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!categoryForm.valid">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

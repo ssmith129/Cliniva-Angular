@@ -1,0 +1,117 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'AI Settings'" [items]="['Settings']" [active_item]="'AI Settings'"></app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Configuration</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="aiForm" (ngSubmit)="onSubmit()" class="m-4">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>AI Provider</mat-label>
+                    <mat-select formControlName="provider">
+                      @for (provider of providers; track provider) {
+                        <mat-option [value]="provider.value">
+                          {{provider.viewValue}}
+                        </mat-option>
+                      }
+                    </mat-select>
+                    <mat-icon matSuffix>smart_toy</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              @if (aiForm.get('provider')?.value !== 'none') {
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>API Key</mat-label>
+                      <input matInput formControlName="apiKey" placeholder="sk-..." type="password">
+                      <mat-icon matSuffix>key</mat-icon>
+                      <mat-hint>Your key is stored locally in your browser.</mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+              }
+
+              @if (aiForm.get('provider')?.value !== 'none') {
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Model Selection</mat-label>
+                      <input type="text" matInput formControlName="model" [matAutocomplete]="auto">
+                      <mat-autocomplete #auto="matAutocomplete">
+                        @if (aiForm.get('provider')?.value === 'openai') {
+                          @for (m of openaiModels; track m) {
+                            <mat-option [value]="m.value">
+                              {{m.viewValue}} <small style="opacity: 0.6">({{m.value}})</small>
+                            </mat-option>
+                          }
+                        }
+                        @if (aiForm.get('provider')?.value === 'gemini') {
+                          @for (m of geminiModels; track m) {
+                            <mat-option [value]="m.value">
+                              {{m.viewValue}} <small style="opacity: 0.6">({{m.value}})</small>
+                            </mat-option>
+                          }
+                        }
+                      </mat-autocomplete>
+                      <mat-icon matSuffix>settings_suggest</mat-icon>
+                      <mat-hint>Choose a recommendation or type your own custom model ID</mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+              }
+
+              <div class="row mt-4">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <button type="submit" mat-raised-button color="primary" class="msr-3">
+                    <mat-icon>save</mat-icon> Save Settings
+                  </button>
+                  <button type="button" mat-raised-button color="accent" (click)="onTestConnection()" [disabled]="isTesting">
+                    @if (!isTesting) {
+                      <mat-icon>flash_on</mat-icon>
+                    }
+                    @if (isTesting) {
+                      <mat-icon class="rotate">sync</mat-icon>
+                    }
+                    {{ isTesting ? 'Testing...' : 'Test Connection' }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <mat-card class="info-card">
+          <mat-card-header>
+            <mat-icon class="ai-icon">auto_awesome</mat-icon>
+            <mat-card-title>Why add AI?</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Integrating AI into Cliniva allows you to:</p>
+            <ul class="feature-list">
+              <li>Predict patient no-shows.</li>
+              <li>Summarize complex medical records.</li>
+              <li>Get smart operational insights.</li>
+              <li>Automate discharge summaries.</li>
+            </ul>
+            <div class="alert alert-info mt-3">
+              <strong>Note:</strong> You can get a free Gemini API key from Google AI Studio to test these features.
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,88 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Privacy Policy'" [items]="['Extra Pages']" [active_item]="'Privacy Policy'">
+      </app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <!-- Navigation Sidebar -->
+      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 mb-4">
+        <mat-card class="toc-card sticky-top" style="z-index: 10;">
+          <mat-card-header>
+            <mat-card-title class="font-18">Table of Contents</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="p-0">
+            <div class="list-group list-group-flush font-14">
+              <a href="javascript:void(0)" (click)="scrollTo('information')" class="list-group-item list-group-item-action border-0 py-3 px-4">1. Information We
+                Collect</a>
+              <a href="javascript:void(0)" (click)="scrollTo('howuse')" class="list-group-item list-group-item-action border-0 py-3 px-4">2. How We Use Data</a>
+              <a href="javascript:void(0)" (click)="scrollTo('protection')" class="list-group-item list-group-item-action border-0 py-3 px-4">3. Data Protection
+                Practices</a>
+              <a href="javascript:void(0)" (click)="scrollTo('sharing')" class="list-group-item list-group-item-action border-0 py-3 px-4">4. Sharing Patient
+                Information</a>
+              <a href="javascript:void(0)" (click)="scrollTo('patientrights')" class="list-group-item list-group-item-action border-0 py-3 px-4">5. Patient
+                Privacy Rights</a>
+              <a href="javascript:void(0)" (click)="scrollTo('retention')" class="list-group-item list-group-item-action border-0 py-3 px-4">6. Data Retention
+                Policies</a>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Main Legal Text -->
+      <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
+        <mat-card class="legal-card p-4">
+          <mat-card-content>
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+              <div>
+                <h1 class="legal-title mb-1">Privacy Policy</h1>
+                <p class="text-muted mb-0 font-14">Last Updated: November 30, 2024</p>
+              </div>
+              <button mat-stroked-button color="primary" class="d-flex align-items-center">
+                <mat-icon class="me-1">print</mat-icon> Print Policy
+              </button>
+            </div>
+
+            <div class="legal-body font-15">
+              <p>At Cliniva, the privacy and confidentiality of our patients and administrative staff are of utmost
+                importance. This Privacy Policy details how we collect, store, secure, and share patient diagnostic
+                records and staff profile coordinates.</p>
+
+              <h3 id="information" class="mt-4 pt-2">1. Information We Collect</h3>
+              <p>We collect essential health indicators, demographic details (first name, last name, DOB, address),
+                insurance provider plans, and electronic medical record coordinates (diagnostic histories, lab tests,
+                prescriptions). Technical audit logs (IP address, login history) are collected to ensure robust security
+                checks.</p>
+
+              <h3 id="howuse" class="mt-4 pt-2">2. How We Use Data</h3>
+              <p>We process patient data to facilitate admission checklists, compile laboratory diagnostic summaries,
+                coordinate virtual consultations, and submit claims to insurance providers. Audit logs are analyzed
+                strictly to maintain system health and prevent unauthorized access.</p>
+
+              <h3 id="protection" class="mt-4 pt-2">3. Data Protection Practices</h3>
+              <p>All stored records are encrypted using AES-256 protocols at rest and TLS 1.3 guidelines during transit.
+                We implement strict access controls so that only authorized clinical personnel assigned to a patient can
+                view their corresponding medical chart.</p>
+
+              <h3 id="sharing" class="mt-4 pt-2">4. Sharing Patient Information</h3>
+              <p>Medical details are shared only with insurance providers for billing clearance, or with registered
+                laboratories to facilitate test results, under strict consent protocols. We never sell, lease, or
+                distribute patient health data to external advertising networks.</p>
+
+              <h3 id="patientrights" class="mt-4 pt-2">5. Patient Privacy Rights</h3>
+              <p>Under HIPAA guidelines, patients have the right to request access to their diagnostic summaries, check
+                the audit logs of who viewed their files, and request corrections to their demographics or insurance
+                profiles.</p>
+
+              <h3 id="retention" class="mt-4 pt-2">6. Data Retention Policies</h3>
+              <p>Electronic medical records are retained in compliance with local healthcare storage laws (typically a
+                minimum of seven years). When the retention term expires, records are permanently purged from all
+                primary servers and backup archives.</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

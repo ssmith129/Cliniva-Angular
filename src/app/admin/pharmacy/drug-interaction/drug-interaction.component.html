@@ -1,0 +1,83 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Drug Interaction Checker'" [items]="['Pharmacy']"
+        [active_item]="'Interaction Checker'"></app-breadcrumb>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <!-- Input Selector Card -->
+        <mat-card class="">
+          <mat-card-header class="p-3 border-bottom">
+            <mat-card-title>Select Drugs to Analyze</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="p-4">
+            <p class="text-muted mb-4 font-14">
+              Choose two or more medications from the catalog list below to analyze clinical drug-drug interaction
+              alerts and therapeutic alternatives.
+            </p>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Medications list</mat-label>
+              <mat-select [(value)]="selectedDrugs" multiple placeholder="Choose drugs...">
+                @for (drug of drugs; track drug.id) {
+                <mat-option [value]="drug.id">{{ drug.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <div class="d-flex gap-2 justify-content-end mt-3">
+              <button mat-stroked-button color="warn" (click)="reset()">Reset Selection</button>
+              <button mat-raised-button color="primary" [disabled]="selectedDrugs.length < 2"
+                (click)="checkInteraction()">
+                ANALYZE INTERACTIONS
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Analysis Results Card -->
+        @if (result()) {
+        <mat-card class="results-card shadow-sm border-0 mb-4 animate-fade-in">
+          <mat-card-header class="p-3 border-bottom">
+            <mat-card-title class="font-18 font-weight-bold">Clinical Analysis Report</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="p-4">
+            <!-- Severity Header Alert -->
+            <div class="alert-box p-3 rounded mb-4 border d-flex align-items-center gap-3"
+              [ngClass]="result()?.severityClass">
+              <mat-icon class="font-32">
+                @switch (result()?.severity) {
+                @case ('Severe') { report_problem }
+                @case ('Moderate') { warning }
+                @case ('Mild') { info }
+                @default { check_circle }
+                }
+              </mat-icon>
+              <div>
+                <h4 class="font-16 font-weight-bold mb-1">Severity: {{ result()?.severity }}</h4>
+                <p class="font-14 mb-0 font-weight-bold">{{ result()?.title }}</p>
+              </div>
+            </div>
+
+            <!-- Explanation Details -->
+            <div class="mb-4">
+              <h5 class="font-14 font-weight-bold text-muted mb-2 text-uppercase letter-spacing">Clinical Description
+              </h5>
+              <p class="font-15 text-dark-mode-color mb-0 leading-relaxed">{{ result()?.description }}</p>
+            </div>
+
+            <!-- Alternative Recommendations -->
+            <div>
+              <h5 class="font-14 font-weight-bold text-muted mb-2 text-uppercase letter-spacing">Alternative
+                Recommendations</h5>
+              <p class="font-15 text-dark-mode-color mb-0 leading-relaxed">{{ result()?.alternatives }}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        }
+      </div>
+    </div>
+  </div>
+</section>

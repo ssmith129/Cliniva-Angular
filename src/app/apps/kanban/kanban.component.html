@@ -1,0 +1,401 @@
+<section class="content">
+  <div class="content-block">
+    @for (breadscrum of breadscrums; track breadscrum) {
+    <div class="block-header">
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
+    }
+
+    <!-- Dribbble-inspired Premium Board Header Card -->
+    <div class="card board-header-card mb-4 border-0 shadow-sm">
+      <div class="card-body p-4">
+
+        <!-- Top Row: Title, Status and Avatars -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 pb-3">
+          <!-- Left: Workspace Icon & Project Title -->
+          <div class="d-flex align-items-center gap-3">
+            <div
+              class="workspace-icon bg-gradient-primary text-white d-flex align-items-center justify-content-center shadow-sm">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <h2 class="board-project-title m-0">Cliniva Hospital Board</h2>
+                <span class="status-badge bg-soft-success text-success">Active</span>
+              </div>
+              <p class="text-muted small m-0 mt-1"><i class="far fa-clock me-1"></i> Updated 2 hours ago</p>
+            </div>
+          </div>
+
+          <!-- Right: Team Avatar Stack & Invite Member -->
+          <div class="d-flex align-items-center gap-2">
+            <div class="team-avatar-stack d-flex align-items-center">
+              <img src="assets/images/user/user1.jpg" class="stack-avatar" matTooltip="Sarah Smith">
+              <img src="assets/images/user/user2.jpg" class="stack-avatar" matTooltip="John Deo">
+              <img src="assets/images/user/user3.jpg" class="stack-avatar" matTooltip="Jens Brincker">
+              <img src="assets/images/user/user4.jpg" class="stack-avatar" matTooltip="Mark Hay">
+              <img src="assets/images/user/user5.jpg" class="stack-avatar" matTooltip="Sue Woodger">
+              <div class="stack-avatar stack-more bg-secondary text-white" matTooltip="5 more members">+5</div>
+            </div>
+            <button class="btn-add-member" matTooltip="Invite Member">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Horizontal Divider -->
+        <hr class="header-divider my-2">
+
+        <!-- Bottom Row: Segmented Filters and Search Box -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 pt-3">
+          <!-- Left: Segmented Control Filters (Pill selector group with colored dots) -->
+          <div class="segmented-filters border rounded-pill p-1 d-flex align-items-center">
+            <button class="filter-tab" [class.active]="selectedPriority === 'All'" (click)="selectedPriority = 'All'">
+              All
+            </button>
+            <button class="filter-tab tab-danger" [class.active]="selectedPriority === 'High'"
+              (click)="selectedPriority = 'High'">
+              <span class="dot dot-danger"></span> High
+            </button>
+            <button class="filter-tab tab-warning" [class.active]="selectedPriority === 'Medium'"
+              (click)="selectedPriority = 'Medium'">
+              <span class="dot dot-warning"></span> Medium
+            </button>
+            <button class="filter-tab tab-success" [class.active]="selectedPriority === 'Low'"
+              (click)="selectedPriority = 'Low'">
+              <span class="dot dot-success"></span> Low
+            </button>
+          </div>
+
+          <!-- Right: Search bar with shortcut -->
+          <div class="search-box-wrapper">
+            <div class="search-bar-input border rounded-pill overflow-hidden shadow-none">
+              <span class="input-group-text bg-transparent border-0 ps-3 pe-2"><i
+                  class="fas fa-search text-muted"></i></span>
+              <input type="text" class="form-control border-0 py-2 shadow-none" [(ngModel)]="searchText"
+                placeholder="Search tasks...">
+              <span class="shortcut-badge bg-light text-muted px-2 py-1 rounded me-2">/</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Kanban Columns Board -->
+    <div class="kanban-board-container" cdkDropListGroup>
+      
+      <!-- To Do Column -->
+      <div class="kanban-column">
+        <div class="column-header d-flex justify-content-between align-items-center mb-3">
+          <span class="column-title">
+            <span class="column-dot dot-todo"></span>
+            To Do
+            <span class="column-count-badge">{{ filterTasks(todo).length }}</span>
+          </span>
+          <div class="d-flex align-items-center gap-1">
+            <button mat-icon-button (click)="openAddTask('todo')" class="column-action-btn">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button class="column-action-btn"><i class="fas fa-ellipsis-h text-muted"></i></button>
+          </div>
+        </div>
+        <div cdkDropList id="todoList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="columnListIds"
+          class="column-body" (cdkDropListDropped)="drop($event)">
+          @for (task of filterTasks(todo); track task.id) {
+          <div class="task-card" cdkDrag (click)="openEditTask(task, 'todo')">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="card-status-badge">
+                <span class="status-dot bg-soft-primary"></span>
+                Not Started
+              </span>
+              <button class="btn-card-menu" (click)="$event.stopPropagation()"><i class="fas fa-ellipsis-h"></i></button>
+            </div>
+            <h5 class="task-title">{{ task.title }}</h5>
+            <p class="task-desc">{{ task.description }}</p>
+            <div class="assignees-section mt-3">
+              <span class="assignees-label">Assignees:</span>
+              <div class="assignees-avatars d-flex align-items-center mt-1">
+                <img [src]="task.avatarImage" class="assignee-img" matTooltip="{{ task.assignedTo }}">
+                <img src="assets/images/user/user8.jpg" class="assignee-img assignee-overlap" matTooltip="Assigned assistant">
+              </div>
+            </div>
+            <hr class="card-divider my-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="card-date-wrapper text-muted">
+                <i class="far fa-flag me-1"></i> {{ task.dueDate | date:'dd MMM yyyy' }}
+              </div>
+              <span class="badge priority-pill" [ngClass]="{
+                'bg-soft-danger text-danger': task.priority === 'High',
+                'bg-soft-warning text-warning': task.priority === 'Medium',
+                'bg-soft-primary text-primary': task.priority === 'Low'
+              }">{{ task.priority }}</span>
+            </div>
+            <div class="card-stats-footer d-flex gap-3 text-muted mt-2 pt-2">
+              <span><i class="far fa-comment-alt me-1"></i> 5 Comments</span>
+              <span><i class="fas fa-link me-1"></i> 2 Links</span>
+              <span><i class="far fa-check-square me-1"></i> 3/3</span>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- In Progress Column -->
+      <div class="kanban-column">
+        <div class="column-header d-flex justify-content-between align-items-center mb-3">
+          <span class="column-title">
+            <span class="column-dot dot-inprogress"></span>
+            In Progress
+            <span class="column-count-badge">{{ filterTasks(inProgress).length }}</span>
+          </span>
+          <div class="d-flex align-items-center gap-1">
+            <button mat-icon-button (click)="openAddTask('inProgress')" class="column-action-btn">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button class="column-action-btn"><i class="fas fa-ellipsis-h text-muted"></i></button>
+          </div>
+        </div>
+        <div cdkDropList id="inProgressList" [cdkDropListData]="inProgress" [cdkDropListConnectedTo]="columnListIds"
+          class="column-body" (cdkDropListDropped)="drop($event)">
+          @for (task of filterTasks(inProgress); track task.id) {
+          <div class="task-card" cdkDrag (click)="openEditTask(task, 'inProgress')">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="card-status-badge status-badge-warn">
+                <span class="status-dot bg-soft-warning"></span>
+                In Research
+              </span>
+              <button class="btn-card-menu" (click)="$event.stopPropagation()"><i class="fas fa-ellipsis-h"></i></button>
+            </div>
+            <h5 class="task-title">{{ task.title }}</h5>
+            <p class="task-desc">{{ task.description }}</p>
+            <div class="assignees-section mt-3">
+              <span class="assignees-label">Assignees:</span>
+              <div class="assignees-avatars d-flex align-items-center mt-1">
+                <img [src]="task.avatarImage" class="assignee-img" matTooltip="{{ task.assignedTo }}">
+                <img src="assets/images/user/user9.jpg" class="assignee-img assignee-overlap" matTooltip="Collaborator">
+              </div>
+            </div>
+            <hr class="card-divider my-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="card-date-wrapper text-muted">
+                <i class="far fa-flag me-1"></i> {{ task.dueDate | date:'dd MMM yyyy' }}
+              </div>
+              <span class="badge priority-pill" [ngClass]="{
+                'bg-soft-danger text-danger': task.priority === 'High',
+                'bg-soft-warning text-warning': task.priority === 'Medium',
+                'bg-soft-primary text-primary': task.priority === 'Low'
+              }">{{ task.priority }}</span>
+            </div>
+            <div class="card-stats-footer d-flex gap-3 text-muted mt-2 pt-2">
+              <span><i class="far fa-comment-alt me-1"></i> 8 Comments</span>
+              <span><i class="fas fa-link me-1"></i> 1 Links</span>
+              <span><i class="far fa-check-square me-1"></i> 2/3</span>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Review Column -->
+      <div class="kanban-column">
+        <div class="column-header d-flex justify-content-between align-items-center mb-3">
+          <span class="column-title">
+            <span class="column-dot dot-review"></span>
+            In Review
+            <span class="column-count-badge">{{ filterTasks(review).length }}</span>
+          </span>
+          <div class="d-flex align-items-center gap-1">
+            <button mat-icon-button (click)="openAddTask('review')" class="column-action-btn">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button class="column-action-btn"><i class="fas fa-ellipsis-h text-muted"></i></button>
+          </div>
+        </div>
+        <div cdkDropList id="reviewList" [cdkDropListData]="review" [cdkDropListConnectedTo]="columnListIds"
+          class="column-body" (cdkDropListDropped)="drop($event)">
+          @for (task of filterTasks(review); track task.id) {
+          <div class="task-card" cdkDrag (click)="openEditTask(task, 'review')">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="card-status-badge status-badge-info">
+                <span class="status-dot bg-soft-info"></span>
+                On Track
+              </span>
+              <button class="btn-card-menu" (click)="$event.stopPropagation()"><i class="fas fa-ellipsis-h"></i></button>
+            </div>
+            <h5 class="task-title">{{ task.title }}</h5>
+            <p class="task-desc">{{ task.description }}</p>
+            <div class="assignees-section mt-3">
+              <span class="assignees-label">Assignees:</span>
+              <div class="assignees-avatars d-flex align-items-center mt-1">
+                <img [src]="task.avatarImage" class="assignee-img" matTooltip="{{ task.assignedTo }}">
+                <img src="assets/images/user/user10.jpg" class="assignee-img assignee-overlap" matTooltip="Reviewer">
+              </div>
+            </div>
+            <hr class="card-divider my-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="card-date-wrapper text-muted">
+                <i class="far fa-flag me-1"></i> {{ task.dueDate | date:'dd MMM yyyy' }}
+              </div>
+              <span class="badge priority-pill" [ngClass]="{
+                'bg-soft-danger text-danger': task.priority === 'High',
+                'bg-soft-warning text-warning': task.priority === 'Medium',
+                'bg-soft-primary text-primary': task.priority === 'Low'
+              }">{{ task.priority }}</span>
+            </div>
+            <div class="card-stats-footer d-flex gap-3 text-muted mt-2 pt-2">
+              <span><i class="far fa-comment-alt me-1"></i> 3 Comments</span>
+              <span><i class="fas fa-link me-1"></i> 2 Links</span>
+              <span><i class="far fa-check-square me-1"></i> 1/2</span>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Done Column -->
+      <div class="kanban-column">
+        <div class="column-header d-flex justify-content-between align-items-center mb-3">
+          <span class="column-title">
+            <span class="column-dot dot-done"></span>
+            Done
+            <span class="column-count-badge">{{ filterTasks(done).length }}</span>
+          </span>
+          <div class="d-flex align-items-center gap-1">
+            <button mat-icon-button (click)="openAddTask('done')" class="column-action-btn">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button class="column-action-btn"><i class="fas fa-ellipsis-h text-muted"></i></button>
+          </div>
+        </div>
+        <div cdkDropList id="doneList" [cdkDropListData]="done" [cdkDropListConnectedTo]="columnListIds"
+          class="column-body" (cdkDropListDropped)="drop($event)">
+          @for (task of filterTasks(done); track task.id) {
+          <div class="task-card" cdkDrag (click)="openEditTask(task, 'done')">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="card-status-badge status-badge-success">
+                <span class="status-dot bg-soft-success"></span>
+                Complete
+              </span>
+              <button class="btn-card-menu" (click)="$event.stopPropagation()"><i class="fas fa-ellipsis-h"></i></button>
+            </div>
+            <h5 class="task-title">{{ task.title }}</h5>
+            <p class="task-desc">{{ task.description }}</p>
+            <div class="assignees-section mt-3">
+              <span class="assignees-label">Assignees:</span>
+              <div class="assignees-avatars d-flex align-items-center mt-1">
+                <img [src]="task.avatarImage" class="assignee-img" matTooltip="{{ task.assignedTo }}">
+              </div>
+            </div>
+            <hr class="card-divider my-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="card-date-wrapper text-muted">
+                <i class="far fa-flag me-1"></i> {{ task.dueDate | date:'dd MMM yyyy' }}
+              </div>
+              <span class="badge priority-pill" [ngClass]="{
+                'bg-soft-danger text-danger': task.priority === 'High',
+                'bg-soft-warning text-warning': task.priority === 'Medium',
+                'bg-soft-primary text-primary': task.priority === 'Low'
+              }">{{ task.priority }}</span>
+            </div>
+            <div class="card-stats-footer d-flex gap-3 text-muted mt-2 pt-2">
+              <span><i class="far fa-comment-alt me-1"></i> 6 Comments</span>
+              <span><i class="fas fa-link me-1"></i> 0 Links</span>
+              <span><i class="far fa-check-square me-1"></i> 1/3</span>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Premium Overlay Modal for Add/Edit Task -->
+    @if (isModalOpen) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-card-content" (click)="$event.stopPropagation()">
+        <div class="modal-header d-flex justify-content-between align-items-center pb-3 mb-3 border-bottom">
+          <h4 class="m-0 font-weight-bold">{{ dialogTitle }}</h4>
+          <div class="d-flex align-items-center gap-1">
+            @if (!isNewTask) {
+            <button mat-icon-button color="warn" (click)="deleteTask()" matTooltip="Delete Task">
+              <mat-icon>delete</mat-icon>
+            </button>
+            }
+            <button mat-icon-button (click)="closeModal()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
+          <div class="mb-3">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Task Title</mat-label>
+              <input matInput formControlName="title" placeholder="Ex. Design syllabus">
+              @if (taskForm.get('title')?.hasError('required')) {
+              <mat-error>Title is required</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="mb-3">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3" placeholder="Enter task details..."></textarea>
+              @if (taskForm.get('description')?.hasError('required')) {
+              <mat-error>Description is required</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Priority</mat-label>
+                <mat-select formControlName="priority">
+                  <mat-option value="Low">Low</mat-option>
+                  <mat-option value="Medium">Medium</mat-option>
+                  <mat-option value="High">High</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 mb-3">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Assigned Member</mat-label>
+                <mat-select formControlName="assignedTo">
+                  <mat-option value="Sarah Smith">Sarah Smith</mat-option>
+                  <mat-option value="John Deo">John Deo</mat-option>
+                  <mat-option value="Jens Brincker">Jens Brincker</mat-option>
+                  <mat-option value="Mark Hay">Mark Hay</mat-option>
+                  <mat-option value="Sue Woodger">Sue Woodger</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Due Date</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="dueDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button mat-stroked-button type="button" class="flex-grow-1 py-2" (click)="closeModal()">
+              Cancel
+            </button>
+            <button mat-flat-button color="primary" class="flex-grow-1 py-2" type="submit"
+              [disabled]="taskForm.invalid">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,51 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Insurance Claims'" [items]="['Accounts']" [active_item]="'Insurance Claims'"></app-breadcrumb>
+    </div>
+    
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        
+        <!-- Custom Filter Bar (above table) -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="body pb-0">
+            <div class="row align-items-center">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="example-full-width mb-0">
+                  <mat-label>Status Filter</mat-label>
+                  <mat-select [ngModel]="statusFilter()" (ngModelChange)="statusFilter.set($event); onFilterChange()">
+                    <mat-option value="All">All Statuses</mat-option>
+                    <mat-option value="Approved">Approved</mat-option>
+                    <mat-option value="Submitted">Submitted</mat-option>
+                    <mat-option value="Under Review">Under Review</mat-option>
+                    <mat-option value="Rejected">Rejected</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <app-master-table 
+          [title]="'Insurance Claims Tracking'" 
+          [columnDefinitions]="columnDefinitions"
+          [dataSource]="dataSource" 
+          [isLoading]="isLoading" 
+          [exportFileName]="'insurance_claims'"
+          [showCheckbox]="true"
+          [showAdd]="true"
+          [showEdit]="false"
+          [showDelete]="false"
+          [showDetails]="false"
+          [showRefresh]="true"
+          [showExport]="true"
+          (add)="fileClaim()"
+          (refresh)="handleRefresh()">
+        </app-master-table>
+
+      </div>
+    </div>
+  </div>
+</section>
