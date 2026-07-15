@@ -1,0 +1,51 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Financial Reports'" [items]="['Reports & Analytics']"
+                [active_item]="'Financial Reports'">
+            </app-breadcrumb>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Revenue vs Expenses</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="revenueExpensesOptions.series!" [chart]="revenueExpensesOptions.chart!"
+                            [xaxis]="revenueExpensesOptions.xaxis!" [plotOptions]="revenueExpensesOptions.plotOptions!"
+                            [dataLabels]="revenueExpensesOptions.dataLabels!" [stroke]="revenueExpensesOptions.stroke!"
+                            [fill]="revenueExpensesOptions.fill!" [tooltip]="revenueExpensesOptions.tooltip!"
+                            [yaxis]="revenueExpensesOptions.yaxis!"
+                            [colors]="revenueExpensesOptions.colors!"></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Revenue by Department</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="departmentRevenueOptions.series!" [chart]="departmentRevenueOptions.chart!"
+                            [labels]="departmentRevenueOptions.labels!" [colors]="departmentRevenueOptions.colors!"
+                            [legend]="departmentRevenueOptions.legend!"
+                            [responsive]="departmentRevenueOptions.responsive!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <app-master-table [dataSource]="dataSource" [columnDefinitions]="columnDefinitions"
+                    [isLoading]="isLoading" (add)="handleAdd()" (edit)="handleEdit($event)"
+                    (delete)="handleDelete($event)" (bulkDelete)="handleBulkDelete($event)" (refresh)="handleRefresh()"
+                    [title]="'Recent Financial Transactions'">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

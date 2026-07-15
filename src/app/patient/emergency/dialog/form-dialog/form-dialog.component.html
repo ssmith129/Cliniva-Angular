@@ -1,0 +1,86 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="modalTitle">
+            {{dialogTitle}}
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="emergencyForm" (ngSubmit)="confirmAdd()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Request ID</mat-label>
+                        <input matInput formControlName="requestId" required>
+                        <mat-icon matSuffix>receipt</mat-icon>
+                        @if (emergencyForm.get('requestId')?.hasError('required')) {
+                        <mat-error>Request ID is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Type</mat-label>
+                        <mat-select formControlName="type" required>
+                            <mat-option value="Ambulance">Ambulance</mat-option>
+                            <mat-option value="Doctor">Doctor</mat-option>
+                            <mat-option value="Other">Other</mat-option>
+                        </mat-select>
+                        @if (emergencyForm.get('type')?.hasError('required')) {
+                        <mat-error>Type is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="date" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Time</mat-label>
+                        <input matInput formControlName="time" required placeholder="e.g., 10:30 AM">
+                        <mat-icon matSuffix>access_time</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Location</mat-label>
+                        <input matInput formControlName="location" required>
+                        <mat-icon matSuffix>location_on</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Pending">Pending</mat-option>
+                            <mat-option value="Dispatched">Dispatched</mat-option>
+                            <mat-option value="Resolved">Resolved</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!emergencyForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

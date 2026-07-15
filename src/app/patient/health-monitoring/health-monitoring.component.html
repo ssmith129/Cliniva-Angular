@@ -1,0 +1,102 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Health Monitoring'" [items]="['Patient']"
+                [active_item]="'Health Monitoring'"></app-breadcrumb>
+        </div>
+        <!-- AI Vitals Anomaly Detector -->
+        <div class="row mb-4">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="card p-4 shadow-sm border-0 bg-white vitals-card">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div class="d-flex align-items-center">
+                            <mat-icon class="me-2 text-primary fs-3 w-auto h-auto">health_and_safety</mat-icon>
+                            <div>
+                                <h5 class="mb-0 fw-bold card-title">AI Vitals Anomaly Detector</h5>
+                                <small class="text-muted">Analyze your logged vital metrics and identify anomalies in
+                                    real time</small>
+                            </div>
+                        </div>
+                        <button mat-raised-button color="accent" class="health-scan-btn" (click)="runVitalsAnalysis()"
+                            [disabled]="isAnalyzing()">
+                            <span class="d-flex align-items-center">
+                                @if (isAnalyzing()) {
+                                <mat-spinner diameter="16" class="me-2"></mat-spinner> Scanning parameters...
+                                } @else {
+                                <mat-icon class="me-1">troubleshoot</mat-icon> Scan Vitals with AI
+                                }
+                            </span>
+                        </button>
+                    </div>
+
+                    @if (aiAnalysisResult(); as result) {
+                    <hr class="my-3">
+                    <div class="ai-analysis-output">
+                        <div class="alert-banner p-3 rounded mb-3 d-flex align-items-center"
+                            [ngClass]="result.status">
+                            <mat-icon class="me-2 fs-4 w-auto h-auto">
+                                @if (result.status === 'critical') { gpp_bad }
+                                @else if (result.status === 'warning') { warning_amber }
+                                @else { check_circle_outline }
+                            </mat-icon>
+                            <div>
+                                <span class="fw-bold text-uppercase me-1">{{result.status}}:</span>
+                                <span>{{result.analysis}}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @if (result.alerts && result.alerts.length > 0) {
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <div class="fw-bold mb-2 text-danger small d-flex align-items-center">
+                                    <mat-icon class="me-1 fs-6 w-auto h-auto">error_outline</mat-icon> FLAGGED ANOMALIES
+                                </div>
+                                <ul class="list-group list-group-flush border-0">
+                                    @for (alert of result.alerts; track alert) {
+                                    <li class="list-group-item bg-transparent px-0 py-1 text-danger small border-0">
+                                        • {{alert}}
+                                    </li>
+                                    }
+                                </ul>
+                            </div>
+                            }
+
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <div class="fw-bold mb-2 text-success small d-flex align-items-center">
+                                    <mat-icon class="me-1 fs-6 w-auto h-auto">tips_and_updates</mat-icon> CLINICAL
+                                    RECOMMENDATIONS
+                                </div>
+                                <ul class="list-group list-group-flush border-0">
+                                    @for (rec of result.recommendations; track rec) {
+                                    <li class="list-group-item bg-transparent px-0 py-1 text-muted small border-0">
+                                        • {{rec}}
+                                    </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                        @if (result.status === 'critical' || result.status === 'warning') {
+                        <div class="d-flex justify-content-start mt-2">
+                            <button mat-flat-button color="warn" class="pulse-button">
+                                <mat-icon class="me-1">call</mat-icon> Contact Emergency Desk
+                            </button>
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <app-master-table [title]="'Vital Signs & Metrics'" [columnDefinitions]="columnDefinitions"
+                    [dataSource]="dataSource" [isLoading]="isLoading" [exportFileName]="'health_monitoring'"
+                    (add)="handleAdd()" (edit)="handleEdit($event)" (delete)="handleDelete($event)"
+                    (refresh)="handleRefresh()" (bulkDelete)="handleBulkDelete($event)">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,145 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Radiology Reports'" [items]="['Reports & Analytics']"
+                [active_item]="'Radiology Reports'">
+            </app-breadcrumb>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="row clearfix">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-teal">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Total Scans (Nov)</p>
+                                <h3 class="kpi-value">521</h3>
+                                <p class="kpi-sub">
+                                    <span class="material-icons-outlined"
+                                        style="font-size:14px; vertical-align:middle;">trending_up</span>
+                                    +8% vs last month
+                                </p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">monitor_heart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-blue">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Reports Delivered</p>
+                                <h3 class="kpi-value">489</h3>
+                                <p class="kpi-sub">93.9% completion</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">check_circle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-orange">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Avg TAT (X-Ray)</p>
+                                <h3 class="kpi-value">1.9 hrs</h3>
+                                <p class="kpi-sub">Target: &lt; 2 hrs</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">timer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-red">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Pending Reports</p>
+                                <h3 class="kpi-value">32</h3>
+                                <p class="kpi-sub">Awaiting radiologist</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 1 -->
+        <div class="row clearfix">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Scan Volume by Modality (2024)</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="scanVolumeOptions.series!" [chart]="scanVolumeOptions.chart!"
+                            [xaxis]="scanVolumeOptions.xaxis!" [yaxis]="scanVolumeOptions.yaxis!"
+                            [title]="scanVolumeOptions.title!" [colors]="scanVolumeOptions.colors!"
+                            [stroke]="scanVolumeOptions.stroke!" [dataLabels]="scanVolumeOptions.dataLabels!"
+                            [legend]="scanVolumeOptions.legend!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Modality Utilization</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="modalityDistributionOptions.series!"
+                            [chart]="modalityDistributionOptions.chart!" [labels]="modalityDistributionOptions.labels!"
+                            [colors]="modalityDistributionOptions.colors!"
+                            [legend]="modalityDistributionOptions.legend!"
+                            [responsive]="modalityDistributionOptions.responsive!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAT Chart -->
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Average Turnaround Time (TAT) Trend</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="tatTrendOptions.series!" [chart]="tatTrendOptions.chart!"
+                            [xaxis]="tatTrendOptions.xaxis!" [yaxis]="tatTrendOptions.yaxis!"
+                            [title]="tatTrendOptions.title!" [colors]="tatTrendOptions.colors!"
+                            [stroke]="tatTrendOptions.stroke!" [dataLabels]="tatTrendOptions.dataLabels!"
+                            [fill]="tatTrendOptions.fill!" [legend]="tatTrendOptions.legend!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <app-master-table [dataSource]="dataSource" [columnDefinitions]="columnDefinitions"
+                    [title]="'Radiology Scan Reports'" [isLoading]="isLoading" (add)="handleAdd()"
+                    (edit)="handleEdit($event)" (delete)="handleDelete($event)" (bulkDelete)="handleBulkDelete($event)"
+                    (refresh)="handleRefresh()">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

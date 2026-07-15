@@ -1,0 +1,17 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Discharge Summary'" [items]="['Discharge Management']"
+                [active_item]="'Summary Creation'"></app-breadcrumb>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <app-master-table [columnDefinitions]="columnDefinitions" [dataSource]="dataSource" [showAdd]="true"
+                    [showRefresh]="true" [showExport]="true" [isLoading]="isLoading" [showDelete]="true"
+                    (add)="handleAdd()" (edit)="handleEdit($event)" (delete)="handleDelete($event)"
+                    (refresh)="handleRefresh()" [title]="'Summary Creation'" (bulkDelete)="handleBulkDelete($event)">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,559 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Add Patient'" [items]="['Patients']" [active_item]="'Add Patient'"></app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Patient Registration Form</mat-card-title>
+            <mat-card-subtitle class="card-subtitle">Fill in the details to add a patient registration</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content class="p-4">
+            
+            <mat-stepper [linear]="true" #stepper class="patient-stepper">
+              
+              <!-- STEP 1: Personal Details -->
+              <mat-step [stepControl]="personalForm">
+                <form [formGroup]="personalForm" class="m-3">
+                  <ng-template matStepLabel>Personal Details</ng-template>
+                  <div class="section-heading">
+                    <div class="section-title">
+                      <i class="material-icons">person</i>
+                      <span>Personal Information</span>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <!-- First Name -->
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>First name</mat-label>
+                        <input matInput formControlName="first" required>
+                        @if (personalForm.get('first')?.hasError('required')) {
+                        <mat-error>
+                          First name is required
+                        </mat-error>
+                        }
+                        @if (personalForm.get('first')?.hasError('pattern')) {
+                        <mat-error>
+                          Only alphabets are allowed
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <!-- Last Name -->
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Last name</mat-label>
+                        <input matInput formControlName="last" required>
+                        @if (personalForm.get('last')?.hasError('required')) {
+                        <mat-error>
+                          Last name is required
+                        </mat-error>
+                        }
+                        @if (personalForm.get('last')?.hasError('pattern')) {
+                        <mat-error>
+                          Only alphabets are allowed
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <!-- Gender -->
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Gender</mat-label>
+                        <mat-select formControlName="gender" required>
+                          <mat-option [value]="'Male'">
+                            Male
+                          </mat-option>
+                          <mat-option [value]="'Female'">
+                            Female
+                          </mat-option>
+                          <mat-option [value]="'Other'">
+                            Other
+                          </mat-option>
+                        </mat-select>
+                        @if (personalForm.get('gender')?.hasError('required')) {
+                        <mat-error>
+                          Gender is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <!-- DOB -->
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Date Of Birth</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="dob" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        @if (personalForm.get('dob')?.hasError('required')) {
+                        <mat-error>
+                          Date of birth is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <!-- Age -->
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Age</mat-label>
+                        <input matInput formControlName="age" type="number">
+                        @if (personalForm.get('age')?.hasError('min') || personalForm.get('age')?.hasError('max')) {
+                        <mat-error>
+                          Age must be between 0 and 120
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <!-- Marital Status -->
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Marital Status</mat-label>
+                        <mat-select formControlName="maritalStatus" required>
+                          <mat-option [value]="'1'">
+                            Single
+                          </mat-option>
+                          <mat-option [value]="'2'">
+                            Married
+                          </mat-option>
+                          <mat-option [value]="'3'">
+                            Divorced
+                          </mat-option>
+                          <mat-option [value]="'4'">
+                            Widowed
+                          </mat-option>
+                        </mat-select>
+                        @if (personalForm.get('maritalStatus')?.hasError('required')) {
+                        <mat-error>
+                          Marital status is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <!-- National ID -->
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>National ID</mat-label>
+                        <input matInput formControlName="nationalId" required>
+                        @if (personalForm.get('nationalId')?.hasError('required')) {
+                        <mat-error>
+                          National ID is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <!-- Patient ID -->
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Patient ID (Auto-generated if left empty)</mat-label>
+                        <input matInput formControlName="patientId">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <!-- File Upload -->
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                      <label class="form-label-custom">Upload Medical Records / Photo</label>
+                      <app-file-upload formControlName="uploadFile"></app-file-upload>
+                    </div>
+                  </div>
+                  
+                  <div class="stepper-actions mt-3">
+                    <button type="button" mat-flat-button class="formCancelBtn btn-space me-2">Cancel</button>
+                    <button type="button" mat-flat-button color="primary" class="btn-space" matStepperNext>Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+              <!-- STEP 2: Contact Details -->
+              <mat-step [stepControl]="contactForm">
+                <form [formGroup]="contactForm" class="m-3">
+                  <ng-template matStepLabel>Contact & Emergency</ng-template>
+                  
+                  <div class="section-heading">
+                    <div class="section-title">
+                      <i class="material-icons">contact_phone</i>
+                      <span>Contact Information</span>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Mobile</mat-label>
+                        <input matInput formControlName="mobile" type="tel" required>
+                        @if (contactForm.get('mobile')?.hasError('required')) {
+                        <mat-error>
+                          Mobile number is required
+                        </mat-error>
+                        }
+                        @if (contactForm.get('mobile')?.hasError('pattern')) {
+                        <mat-error>
+                          Please enter a valid mobile number
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" type="email" required>
+                        @if (contactForm.get('email')?.hasError('required')) {
+                        <mat-error>
+                          Email is required
+                        </mat-error>
+                        }
+                        @if (contactForm.get('email')?.hasError('email') && contactForm.get('email')?.touched) {
+                        <mat-error>
+                          Please enter a valid email address
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Address</mat-label>
+                        <textarea matInput formControlName="address" required rows="2"></textarea>
+                        @if (contactForm.get('address')?.hasError('required')) {
+                        <mat-error>
+                          Address is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>City</mat-label>
+                        <input matInput formControlName="city" required>
+                        @if (contactForm.get('city')?.hasError('required')) {
+                        <mat-error>
+                          City is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>State/Province</mat-label>
+                        <input matInput formControlName="state" required>
+                        @if (contactForm.get('state')?.hasError('required')) {
+                        <mat-error>
+                          State is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Zip/Postal Code</mat-label>
+                        <input matInput formControlName="zipCode" required>
+                        @if (contactForm.get('zipCode')?.hasError('required')) {
+                        <mat-error>
+                          Zip code is required
+                        </mat-error>
+                        }
+                        @if (contactForm.get('zipCode')?.hasError('pattern')) {
+                        <mat-error>
+                          Please enter a valid zip code
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="section-heading mt-4">
+                    <div class="section-title">
+                      <i class="material-icons">emergency</i>
+                      <span>Emergency Contact</span>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Contact Name</mat-label>
+                        <input matInput formControlName="emergencyContactName" required>
+                        @if (contactForm.get('emergencyContactName')?.hasError('required')) {
+                        <mat-error>
+                          Emergency contact name is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Relationship</mat-label>
+                        <input matInput formControlName="emergencyContactRelation" required>
+                        @if (contactForm.get('emergencyContactRelation')?.hasError('required')) {
+                        <mat-error>
+                          Relationship is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="emergencyContactPhone" type="tel" required>
+                        @if (contactForm.get('emergencyContactPhone')?.hasError('required')) {
+                        <mat-error>
+                          Phone number is required
+                        </mat-error>
+                        }
+                        @if (contactForm.get('emergencyContactPhone')?.hasError('pattern')) {
+                        <mat-error>
+                          Please enter a valid phone number
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="stepper-actions mt-3">
+                    <button type="button" mat-flat-button class="formCancelBtn btn-space me-2" matStepperPrevious>Back</button>
+                    <button type="button" mat-flat-button color="primary" class="btn-space" matStepperNext>Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+              <!-- STEP 3: Medical Information -->
+              <mat-step [stepControl]="medicalForm">
+                <form [formGroup]="medicalForm" class="m-3">
+                  <ng-template matStepLabel>Medical Info</ng-template>
+                  
+                  <div class="section-heading">
+                    <div class="section-title">
+                      <i class="material-icons">medical_services</i>
+                      <span>Medical Information</span>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Blood Group</mat-label>
+                        <mat-select formControlName="bGroup" required>
+                          @for (group of bloodGroups; track group) {
+                          <mat-option [value]="group">
+                            {{group}}
+                          </mat-option>
+                          }
+                        </mat-select>
+                        @if (medicalForm.get('bGroup')?.hasError('required')) {
+                        <mat-error>
+                          Blood group is required
+                        </mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Blood Pressure</mat-label>
+                        <input matInput formControlName="bPresure" placeholder="e.g., 120/80">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Sugar Level</mat-label>
+                        <input matInput formControlName="sugger" placeholder="e.g., 100 mg/dL">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Injury/Condition</mat-label>
+                        <input matInput formControlName="injury">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Allergies</mat-label>
+                        <textarea matInput formControlName="allergies" rows="2" placeholder="List any allergies"></textarea>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Chronic Diseases</mat-label>
+                        <textarea matInput formControlName="chronicDiseases" rows="2"
+                          placeholder="List any chronic conditions"></textarea>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Current Medications</mat-label>
+                        <textarea matInput formControlName="currentMedications" rows="2"
+                          placeholder="List current medications"></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="stepper-actions mt-3">
+                    <button type="button" mat-flat-button class="formCancelBtn btn-space me-2" matStepperPrevious>Back</button>
+                    <button type="button" mat-flat-button color="primary" class="btn-space" matStepperNext>Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+              <!-- STEP 4: Insurance Information -->
+              <mat-step [stepControl]="insuranceForm">
+                <form [formGroup]="insuranceForm" class="m-3">
+                  <ng-template matStepLabel>Insurance</ng-template>
+                  
+                  <div class="section-heading">
+                    <div class="section-title">
+                      <i class="material-icons">health_and_safety</i>
+                      <span>Insurance Information</span>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Insurance Provider</mat-label>
+                        <input matInput formControlName="insuranceProvider">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Policy Number</mat-label>
+                        <input matInput formControlName="insurancePolicyNumber">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Coverage Details</mat-label>
+                        <input matInput formControlName="insuranceCoverage">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="stepper-actions mt-3">
+                    <button type="button" mat-flat-button class="formCancelBtn btn-space me-2" matStepperPrevious>Back</button>
+                    <button type="button" mat-flat-button color="primary" class="btn-space" matStepperNext>Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+              <!-- STEP 5: Admission & Consent Signature -->
+              <mat-step [stepControl]="admissionConsentForm">
+                <form [formGroup]="admissionConsentForm" (ngSubmit)="onSubmit()" class="m-3">
+                  <ng-template matStepLabel>Admission & Consent</ng-template>
+                  
+                  <div class="section-heading">
+                    <div class="section-title">
+                      <i class="material-icons">event_available</i>
+                      <span>Admission Details</span>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Admission Date</mat-label>
+                        <input matInput [matDatepicker]="admissionPicker" formControlName="admissionDate">
+                        <mat-datepicker-toggle matSuffix [for]="admissionPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #admissionPicker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Assigned Doctor</mat-label>
+                        <input matInput formControlName="assignedDoctor">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Ward Number</mat-label>
+                        <input matInput formControlName="wardNumber">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Room Number</mat-label>
+                        <input matInput formControlName="roomNumber">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Reason for Admission</mat-label>
+                        <textarea matInput formControlName="admissionReason" rows="2"></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="section-heading mt-4">
+                    <div class="section-title">
+                      <i class="material-icons">draw</i>
+                      <span>Consent & Patient Signature</span>
+                    </div>
+                  </div>
+
+                  <div class="row mt-2">
+                    <div class="col-12 mb-3">
+                      <mat-checkbox formControlName="consent" color="primary" required>
+                        I hereby declare that the information provided above is true and correct, and I consent to medical treatment.
+                      </mat-checkbox>
+                      @if (admissionConsentForm.get('consent')?.hasError('required') && admissionConsentForm.get('consent')?.touched) {
+                      <mat-error class="text-xs mt-1 block">
+                        Consent check is required
+                      </mat-error>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 mb-4">
+                      <label class="form-label-custom">Patient Digital Signature</label>
+                      <div class="signature-canvas-wrapper">
+                        <canvas #sigCanvas width="500" height="150" class="signature-canvas"></canvas>
+                      </div>
+                      <div class="mt-2 d-flex gap-2">
+                        <button type="button" mat-stroked-button color="warn" size="small" (click)="clearSignature()">Clear Signature</button>
+                      </div>
+                      @if (admissionConsentForm.get('signature')?.hasError('required') && admissionConsentForm.get('signature')?.touched) {
+                      <mat-error class="text-xs mt-1 block">
+                        Signature is required
+                      </mat-error>
+                      }
+                    </div>
+                  </div>
+                  
+                  <div class="stepper-actions mt-4">
+                    <button type="button" mat-flat-button class="formCancelBtn btn-space me-2" matStepperPrevious>Back</button>
+                    <button type="submit" mat-flat-button color="primary" class="btn-space" [disabled]="!personalForm.valid || !contactForm.valid || !medicalForm.valid || !insuranceForm.valid || !admissionConsentForm.valid">
+                      Register Patient
+                    </button>
+                  </div>
+                </form>
+              </mat-step>
+              
+            </mat-stepper>
+            
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

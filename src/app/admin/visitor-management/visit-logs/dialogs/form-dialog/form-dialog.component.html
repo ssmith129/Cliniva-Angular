@@ -1,0 +1,176 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="avatarDetails">
+      <div class="modalTitle">{{ dialogTitle }}</div>
+    </div>
+    <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="visitForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Visitor Name</mat-label>
+            <input matInput formControlName="visitorName" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>person</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Phone</mat-label>
+            <input matInput formControlName="visitorPhone" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>phone</mat-icon>
+            @if (visitForm.get('visitorPhone')?.hasError('required')) {
+              <mat-error>Phone is
+              required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="visitorEmail" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>email</mat-icon>
+            @if (visitForm.get('visitorEmail')?.hasError('required')) {
+              <mat-error>Email is
+              required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Purpose</mat-label>
+            <mat-select formControlName="purpose" required>
+              <mat-option value="Meeting">Meeting</mat-option>
+              <mat-option value="Patient Visit">Patient Visit</mat-option>
+              <mat-option value="Delivery">Delivery</mat-option>
+              <mat-option value="Interview">Interview</mat-option>
+              <mat-option value="Consultation">Consultation</mat-option>
+              <mat-option value="Maintenance">Maintenance</mat-option>
+              <mat-option value="Guest Lecture">Guest Lecture</mat-option>
+              <mat-option value="Other">Other</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>assignment</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Person To Meet</mat-label>
+            <input matInput formControlName="personToMeet" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>person_search</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Department</mat-label>
+            <mat-select formControlName="department" required>
+              <mat-option value="Administration">Administration</mat-option>
+              <mat-option value="Cardiology">Cardiology</mat-option>
+              <mat-option value="Neurology">Neurology</mat-option>
+              <mat-option value="Orthopedics">Orthopedics</mat-option>
+              <mat-option value="Pediatrics">Pediatrics</mat-option>
+              <mat-option value="Emergency">Emergency</mat-option>
+              <mat-option value="Pharmacy">Pharmacy</mat-option>
+              <mat-option value="Laboratory">Laboratory</mat-option>
+              <mat-option value="IT">IT</mat-option>
+              <mat-option value="Education">Education</mat-option>
+              <mat-option value="Maintenance">Maintenance</mat-option>
+              <mat-option value="Marketing">Marketing</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>domain</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Visit Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="visitDate" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Check In Time</mat-label>
+            <input matInput type="text" formControlName="checkInTime" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>access_time</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Check Out Time</mat-label>
+            <input matInput type="text" formControlName="checkOutTime">
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>access_time</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" required>
+              <mat-option value="Checked In">Checked In</mat-option>
+              <mat-option value="Checked Out">Checked Out</mat-option>
+              <mat-option value="Pending">Pending</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>check_circle</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>ID Proof Type</mat-label>
+            <mat-select formControlName="idProofType" required>
+              <mat-option value="Aadhar Card">Aadhar Card</mat-option>
+              <mat-option value="Driving License">Driving License</mat-option>
+              <mat-option value="Passport">Passport</mat-option>
+              <mat-option value="Voter ID">Voter ID</mat-option>
+              <mat-option value="Other">Other</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>badge</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>ID Proof Number</mat-label>
+            <input matInput formControlName="idProofNumber" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>numbers</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Vehicle Number</mat-label>
+            <input matInput formControlName="vehicleNumber">
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>pin</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Remarks</mat-label>
+            <input matInput formControlName="remarks">
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>comment</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-flat-button class="formSubmitBtn" [disabled]="!visitForm.valid"
+            type="submit">Save</button>
+            <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

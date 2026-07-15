@@ -1,0 +1,386 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Pharmacy Dashboard'" [items]="['Pharmacy']"
+        [active_item]="'Dashboard'"></app-breadcrumb>
+    </div>
+
+    <!-- ─── ROW 1: KPI Cards with Sparklines ─────────────────────────── -->
+    <div class="row g-3 mb-3">
+      @for (kpi of kpiCards; track kpi.label; let i = $index) {
+      <div class="col-xl-3 col-lg-6 col-sm-12">
+        <div class="kpi-card">
+          <div class="kpi-card__top">
+            <div class="kpi-card__info">
+              <p class="kpi-label">{{ kpi.label }}</p>
+              <h3 class="kpi-value">{{ kpi.value }}</h3>
+              <p class="kpi-sub">
+                <span [class]="kpi.trendUp ? 'badge-trend up' : 'badge-trend down'">
+                  <mat-icon class="trend-icon">{{ kpi.trendUp ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+                  {{ kpi.trend }}
+                </span>
+                <span class="kpi-sub-text">{{ kpi.sub }}</span>
+              </p>
+            </div>
+            <div class="kpi-card__icon" [ngClass]="[kpi.iconBg, kpi.iconColor]">
+              <mat-icon>{{ kpi.icon }}</mat-icon>
+            </div>
+          </div>
+          <div class="kpi-card__spark">
+            @if (sparklineCharts[i]) {
+            <apx-chart [series]="sparklineCharts[i]!.series!" [chart]="sparklineCharts[i]!.chart!"
+              [stroke]="sparklineCharts[i]!.stroke!" [colors]="sparklineCharts[i]!.colors!"
+              [fill]="sparklineCharts[i]!.fill!" [tooltip]="sparklineCharts[i]!.tooltip!">
+            </apx-chart>
+            }
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-xl-8 col-lg-8 col-md-12">
+        <div class="dash-card h-100">
+          <div class="dash-card__header">
+            <div class="dash-card__title-group">
+              <mat-icon class="title-icon text-blue">show_chart</mat-icon>
+              <h5 class="dash-card__title">Weekly Sales Trend</h5>
+            </div>
+            <div class="dash-card__actions">
+              <span class="legend-dot blue"></span><span class="legend-text">OTC Sales</span>
+              <span class="legend-dot green ms-2"></span><span class="legend-text">Rx Sales</span>
+            </div>
+          </div>
+          <div class="dash-card__body p-2">
+            @if (salesChartOptions) {
+            <apx-chart [series]="salesChartOptions.series!" [chart]="salesChartOptions.chart!"
+              [colors]="salesChartOptions.colors!" [stroke]="salesChartOptions.stroke!" [fill]="salesChartOptions.fill!"
+              [grid]="salesChartOptions.grid!" [xaxis]="salesChartOptions.xaxis!" [yaxis]="salesChartOptions.yaxis!"
+              [legend]="salesChartOptions.legend!" [tooltip]="salesChartOptions.tooltip!"
+              [dataLabels]="salesChartOptions.dataLabels!">
+            </apx-chart>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Donut Category Chart -->
+      <div class="col-xl-4 col-lg-4 col-md-12">
+        <div class="dash-card h-100">
+          <div class="dash-card__header">
+            <div class="dash-card__title-group">
+              <mat-icon class="title-icon text-purple">donut_large</mat-icon>
+              <h5 class="dash-card__title">Sales by Category</h5>
+            </div>
+          </div>
+          <div class="dash-card__body d-flex align-items-center justify-content-center">
+            @if (categoriesChartOptions) {
+            <apx-chart [series]="categoriesChartOptions.series!" [chart]="categoriesChartOptions.chart!"
+              [labels]="categoriesChartOptions.labels!" [colors]="categoriesChartOptions.colors!"
+              [plotOptions]="categoriesChartOptions.plotOptions!" [legend]="categoriesChartOptions.legend!"
+              [dataLabels]="categoriesChartOptions.dataLabels!">
+            </apx-chart>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+
+      <div class="col-xl-4 col-lg-6 col-md-12">
+        <div class="dash-card h-100">
+          <div class="dash-card__header">
+            <div class="dash-card__title-group">
+              <mat-icon class="title-icon text-blue">ac_unit</mat-icon>
+              <h5 class="dash-card__title">Cold Storage Monitor</h5>
+            </div>
+            <span class="live-badge"><span class="live-dot"></span>Live</span>
+          </div>
+          <div class="dash-card__body">
+            <div class="cold-unit" [class.cold-unit--alert]="!isTempSafe(coldUnit1) || !isHumSafe(coldUnit1)">
+              <div class="cold-unit__name">
+                <mat-icon class="unit-icon">kitchen</mat-icon>
+                <span>{{ coldUnit1.name }}</span>
+                @if (isTempSafe(coldUnit1) && isHumSafe(coldUnit1)) {
+                <span class="status-dot online ms-auto"></span>
+                } @else {
+                <mat-icon class="alert-flag ms-auto">error</mat-icon>
+                }
+              </div>
+              <div class="cold-unit__gauges">
+                <div class="gauge-wrap">
+                  @if (tempGaugeOptions) {
+                  <apx-chart [series]="tempGaugeOptions.series!" [chart]="tempGaugeOptions.chart!"
+                    [plotOptions]="tempGaugeOptions.plotOptions!" [labels]="tempGaugeOptions.labels!"
+                    [colors]="tempGaugeOptions.colors!">
+                  </apx-chart>
+                  }
+                  <p class="gauge-label">Temperature<br><small>Safe: {{ coldUnit1.tempMin }}–{{ coldUnit1.tempMax
+                      }}°C</small></p>
+                </div>
+                <div class="gauge-wrap">
+                  @if (humGaugeOptions) {
+                  <apx-chart [series]="humGaugeOptions.series!" [chart]="humGaugeOptions.chart!"
+                    [plotOptions]="humGaugeOptions.plotOptions!" [labels]="humGaugeOptions.labels!"
+                    [colors]="humGaugeOptions.colors!">
+                  </apx-chart>
+                  }
+                  <p class="gauge-label">Humidity<br><small>Safe: {{ coldUnit1.humMin }}–{{ coldUnit1.humMax }}%</small>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="cold-unit mt-3" [class.cold-unit--alert]="!isTempSafe(coldUnit2) || !isHumSafe(coldUnit2)">
+              <div class="cold-unit__name">
+                <mat-icon class="unit-icon">vaccines</mat-icon>
+                <span>{{ coldUnit2.name }}</span>
+                @if (isTempSafe(coldUnit2) && isHumSafe(coldUnit2)) {
+                <span class="status-dot online ms-auto"></span>
+                } @else {
+                <mat-icon class="alert-flag ms-auto">error</mat-icon>
+                }
+              </div>
+              <div class="cold-unit__gauges">
+                <div class="gauge-wrap">
+                  @if (tempGauge2Options) {
+                  <apx-chart [series]="tempGauge2Options.series!" [chart]="tempGauge2Options.chart!"
+                    [plotOptions]="tempGauge2Options.plotOptions!" [labels]="tempGauge2Options.labels!"
+                    [colors]="tempGauge2Options.colors!">
+                  </apx-chart>
+                  }
+                  <p class="gauge-label">Temperature<br><small>Safe: {{ coldUnit2.tempMin }}–{{ coldUnit2.tempMax
+                      }}°C</small></p>
+                </div>
+                <div class="gauge-wrap">
+                  @if (humGauge2Options) {
+                  <apx-chart [series]="humGauge2Options.series!" [chart]="humGauge2Options.chart!"
+                    [plotOptions]="humGauge2Options.plotOptions!" [labels]="humGauge2Options.labels!"
+                    [colors]="humGauge2Options.colors!">
+                  </apx-chart>
+                  }
+                  <p class="gauge-label">Humidity<br><small>Safe: {{ coldUnit2.humMin }}–{{ coldUnit2.humMax }}%</small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supplier Orders Feed -->
+      <div class="col-xl-4 col-lg-6 col-md-12">
+        <div class="dash-card h-100">
+          <div class="dash-card__header">
+            <div class="dash-card__title-group">
+              <mat-icon class="title-icon text-green">local_shipping</mat-icon>
+              <h5 class="dash-card__title">Supplier Orders</h5>
+            </div>
+            <span class="count-badge">{{ supplierOrders.length }}</span>
+          </div>
+          <div class="dash-card__body">
+            <div class="supplier-timeline">
+              <ng-scrollbar style="height: 430px" visibility="hover">
+                @for (order of supplierOrders; track order.id) {
+                <div class="supplier-item">
+                  <div class="supplier-icon" [class]="order.statusClass + '-bg'">
+                    <mat-icon>{{ order.icon }}</mat-icon>
+                  </div>
+                  <div class="supplier-info">
+                    <div class="supplier-row1">
+                      <span class="supplier-id">{{ order.id }}</span>
+                      <span class="supplier-badge" [ngClass]="order.statusClass">{{ order.status }}</span>
+                    </div>
+                    <p class="supplier-name">{{ order.supplier }}</p>
+                    <p class="supplier-items text-truncate">{{ order.items }}</p>
+                    <div class="supplier-meta">
+                      <span><mat-icon class="meta-icon">event</mat-icon> ETA: {{ order.expectedDelivery }}</span>
+                      <span class="supplier-amount">{{ order.amount }}</span>
+                    </div>
+                  </div>
+                </div>
+                }
+              </ng-scrollbar>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Staff Roster -->
+      <div class="col-xl-4 col-lg-12 col-md-12">
+        <div class="dash-card h-100">
+          <div class="dash-card__header">
+            <div class="dash-card__title-group">
+              <mat-icon class="title-icon text-orange">badge</mat-icon>
+              <h5 class="dash-card__title">Shift Duty Roster</h5>
+            </div>
+            <span class="on-duty-count"><span class="status-dot online"></span>{{ staffOnDutyCount }} on duty</span>
+          </div>
+          <div class="dash-card__body">
+            <div class="staff-list">
+              <ng-scrollbar style="height: 430px" visibility="hover">
+                @for (member of staffRoster; track member.name) {
+                <div class="staff-item">
+                  <div class="staff-avatar" [style.background]="member.avatarColor">{{ member.initials }}</div>
+                  <div class="staff-info">
+                    <p class="staff-name">{{ member.name }}</p>
+                    <p class="staff-role">{{ member.role }}</p>
+                    <p class="staff-shift"><mat-icon class="meta-icon">schedule</mat-icon> {{ member.shift }}</p>
+                  </div>
+                  <div class="staff-status">
+                    <span class="status-dot" [ngClass]="member.status"></span>
+                    <span class="status-label">{{ getStatusLabel(member.status) }}</span>
+                  </div>
+                </div>
+                }
+              </ng-scrollbar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── ROW 4: Top Medicines + Recent Transactions ────────────────── -->
+    <div class="row g-3 mb-3">
+      <!-- Top Selling Medicines -->
+      <div class="col-xl-6 col-lg-6 col-md-12">
+        <div class="dash-card h-100">
+          <div class="dash-card__header">
+            <div class="dash-card__title-group">
+              <mat-icon class="title-icon text-blue">medication</mat-icon>
+              <h5 class="dash-card__title">Top Selling Medicines</h5>
+            </div>
+            <span class="period-badge">This Week</span>
+          </div>
+          <div class="dash-card__body">
+            <ng-scrollbar style="height: 400px" visibility="hover">
+              <div class="med-table-wrap">
+                <table class="med-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Medicine</th>
+                      <th>Qty Sold</th>
+                      <th>Stock</th>
+                      <th>Change</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (med of topMedicines; track med.name; let i = $index) {
+                    <tr>
+                      <td><span class="rank-badge">{{ i + 1 }}</span></td>
+                      <td>
+                        <p class="med-name">{{ med.name }}</p>
+                        <small class="med-cat">{{ med.category }}</small>
+                      </td>
+                      <td class="fw-bold">{{ med.sales }}</td>
+                      <td class="text-muted">{{ med.stock }}</td>
+                      <td>
+                        <span [class]="med.trendUp ? 'change-up' : 'change-down'">
+                          <mat-icon class="tiny-icon">{{ med.trendUp ? 'trending_up' : 'trending_down' }}</mat-icon>
+                          {{ med.change }}
+                        </span>
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </ng-scrollbar>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent POS Transactions -->
+      <div class="col-xl-6 col-lg-6 col-md-12">
+        <div class="dash-card h-100">
+          <div class="dash-card__header">
+            <div class="dash-card__title-group">
+              <mat-icon class="title-icon text-green">point_of_sale</mat-icon>
+              <h5 class="dash-card__title">Recent POS Transactions</h5>
+            </div>
+            <span class="live-badge"><span class="live-dot"></span>Live</span>
+          </div>
+          <div class="dash-card__body">
+            <ng-scrollbar style="height: 400px" visibility="hover">
+              <div class="tx-list">
+                @for (tx of recentTransactions; track tx.id) {
+                <div class="tx-item">
+                  <div class="tx-icon">
+                    <mat-icon>{{ tx.method === 'Card' ? 'credit_card' : tx.method === 'Insurance' ? 'health_and_safety'
+                      :
+                      'payments' }}</mat-icon>
+                  </div>
+                  <div class="tx-info">
+                    <div class="tx-row1">
+                      <span class="tx-id">{{ tx.id }}</span>
+                      <span class="tx-amount">{{ tx.amount }}</span>
+                    </div>
+                    <p class="tx-patient">{{ tx.patient }}</p>
+                    <p class="tx-items text-truncate">{{ tx.items }}</p>
+                  </div>
+                  <div class="tx-right">
+                    <span class="tx-badge" [ngClass]="tx.statusClass">{{ tx.status }}</span>
+                    <span class="tx-time">{{ tx.date }}</span>
+                    <span class="tx-method-badge">{{ tx.method }}</span>
+                  </div>
+                </div>
+                }
+              </div>
+            </ng-scrollbar>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── ROW 5: Critical Low Stock Quick Reorder ───────────────────── -->
+    <div class="row g-3 mb-3">
+      <div class="col-12">
+        <div class="dash-card">
+          <div class="dash-card__header">
+            <div class="dash-card__title-group">
+              <mat-icon class="title-icon text-danger">inventory</mat-icon>
+              <h5 class="dash-card__title">Critical Low Stock — Quick Reorder</h5>
+            </div>
+            <span class="alert-count-badge">{{ lowStockItems.length }} Items Need Attention</span>
+          </div>
+          <div class="dash-card__body">
+            <div class="reorder-grid">
+              @for (item of lowStockItems; track item.name) {
+              <div class="reorder-card" [class]="'reorder-card--' + item.status">
+                <div class="reorder-card__top">
+                  <div>
+                    <p class="reorder-name">{{ item.name }}</p>
+                    <p class="reorder-cat">{{ item.category }}</p>
+                  </div>
+                  <span class="status-chip" [class]="'chip-' + item.status">
+                    {{ item.status === 'critical' ? '⚠ Critical' : item.status === 'warning' ? '⚡ Low' : '🔄 Ordering'
+                    }}
+                  </span>
+                </div>
+                <div class="reorder-stock-row">
+                  <span class="reorder-stock-label">Stock: <strong>{{ item.currentStock }} {{ item.unit
+                      }}</strong></span>
+                  <span class="reorder-min-label">Min: {{ item.minStock }}</span>
+                </div>
+                <div class="stock-bar-track">
+                  <div class="stock-bar-fill" [style.width.%]="getStockPercent(item)" [class]="'fill-' + item.status">
+                  </div>
+                </div>
+                <button class="reorder-btn" [class]="'reorder-btn--' + item.status" (click)="quickReorder(item)"
+                  [disabled]="item.status === 'ordering' || item.reorderStatus === 'Order Placed ✓'">
+                  <mat-icon class="btn-icon">{{ item.reorderStatus === 'Order Placed ✓' ? 'check_circle' :
+                    'add_shopping_cart' }}</mat-icon>
+                  {{ item.reorderStatus }}
+                </button>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

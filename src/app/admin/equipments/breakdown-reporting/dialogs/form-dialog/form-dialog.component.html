@@ -1,0 +1,141 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="avatarDetails">
+            <div class="modalTitle">{{ dialogTitle }}</div>
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="reportForm" (ngSubmit)="submit()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Breakdown ID</mat-label>
+                        <input matInput formControlName="breakdown_id" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>qr_code</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Equipment ID</mat-label>
+                        <input matInput formControlName="equipment_id" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>medical_services</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Equipment Name</mat-label>
+                        <input matInput formControlName="equipment_name" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3"
+                            matSuffix>medical_information</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Department</mat-label>
+                        <mat-select formControlName="department" required>
+                            <mat-option value="Radiology">Radiology</mat-option>
+                            <mat-option value="ICU">ICU</mat-option>
+                            <mat-option value="Operation Theatre">Operation Theatre</mat-option>
+                            <mat-option value="Emergency">Emergency</mat-option>
+                            <mat-option value="Laboratory">Laboratory</mat-option>
+                            <mat-option value="Cardiology">Cardiology</mat-option>
+                            <mat-option value="General Ward">General Ward</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>apartment</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Reported Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="reported_date" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Reported Time</mat-label>
+                        <input matInput formControlName="reported_time" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>access_time</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Reported By</mat-label>
+                        <input matInput formControlName="reported_by" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>person</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Severity</mat-label>
+                        <mat-select formControlName="severity" required>
+                            <mat-option value="Critical">Critical</mat-option>
+                            <mat-option value="High">High</mat-option>
+                            <mat-option value="Medium">Medium</mat-option>
+                            <mat-option value="Low">Low</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>priority_high</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Problem Description</mat-label>
+                        <textarea matInput formControlName="problem_description" required></textarea>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>description</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Reported">Reported</mat-option>
+                            <mat-option value="Under Repair">Under Repair</mat-option>
+                            <mat-option value="Resolved">Resolved</mat-option>
+                            <mat-option value="Pending Parts">Pending Parts</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>flag</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Assigned To</mat-label>
+                        <input matInput formControlName="assigned_to">
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>assignment_ind</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Action Taken</mat-label>
+                        <textarea matInput formControlName="action_taken"></textarea>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>build</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!reportForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

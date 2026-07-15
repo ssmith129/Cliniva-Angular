@@ -1,0 +1,169 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Supplier List'" [items]="['Inventory']" [active_item]="'Supplier List'"></app-breadcrumb>
+    </div>
+
+    <!-- Actions and Search Header -->
+    <div class="row m-b-20">
+      <div class="col-lg-8 col-md-7 col-12">
+        <div class="search-box">
+          <mat-icon>search</mat-icon>
+          <input type="text" [(ngModel)]="searchText" (ngModelChange)="filterSuppliers()" placeholder="Search suppliers by name, contact, or category...">
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-5 col-12 text-end">
+        <button mat-raised-button color="primary" (click)="handleAdd()" class="add-supplier-btn">
+          <mat-icon class="m-r-5">add</mat-icon>Add New Supplier
+        </button>
+      </div>
+    </div>
+
+    <!-- Suppliers Card Grid -->
+    <div class="row">
+      @for (supplier of filteredSuppliers; track supplier) {
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <div class="card supplier-card">
+            <div class="card-body">
+              <div class="supplier-header">
+                <div class="supplier-avatar bg-light-primary">
+                  <mat-icon>{{ supplier.avatarIcon }}</mat-icon>
+                </div>
+                <div class="supplier-title">
+                  <h3>{{ supplier.name }}</h3>
+                  <span class="contact-name">Contact: {{ supplier.contactPerson }}</span>
+                </div>
+                <div class="supplier-actions">
+                  <button mat-icon-button [matMenuTriggerFor]="cardMenu" aria-label="Supplier Actions">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #cardMenu="matMenu">
+                    <button mat-menu-item (click)="handleEdit(supplier)">
+                      <mat-icon>edit</mat-icon>
+                      <span>Edit</span>
+                    </button>
+                    <button mat-menu-item (click)="handleDelete(supplier)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete</span>
+                    </button>
+                  </mat-menu>
+                </div>
+              </div>
+
+              <div class="supplier-details m-t-15">
+                <p><mat-icon class="detail-icon">email</mat-icon> {{ supplier.email }}</p>
+                <p><mat-icon class="detail-icon">phone</mat-icon> {{ supplier.phone }}</p>
+                <p><mat-icon class="detail-icon">place</mat-icon> {{ supplier.address }}</p>
+              </div>
+
+              <div class="supplier-footer m-t-20">
+                <div class="category-chips">
+                  @for (cat of supplier.categories; track cat) {
+                    <span class="badge badge-solid-blue m-r-5">{{ cat }}</span>
+                  }
+                </div>
+                <div class="rating-stars">
+                  @for (star of getStarsArray(supplier.rating); track $index) {
+                    <mat-icon class="star-filled">star</mat-icon>
+                  }
+                  @for (star of getStarsArray(5 - supplier.rating); track $index) {
+                    <mat-icon class="star-empty">star_border</mat-icon>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Empty State -->
+      @if (filteredSuppliers.length === 0) {
+        <div class="col-12 text-center p-t-30">
+          <div class="empty-state-card card">
+            <div class="card-body">
+              <mat-icon class="empty-icon">business_off</mat-icon>
+              <h4>No Suppliers Found</h4>
+              <p>Try refining your search terms or add a new supplier above.</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Dialog Template -->
+<ng-template #supplierDialog>
+  <div class="dialog-container">
+    <div class="dialog-header">
+      <h2>{{ dialogTitle }}</h2>
+      <button mat-icon-button (click)="dialog.closeAll()" class="close-btn">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    
+    <form [formGroup]="supplierForm" (ngSubmit)="submit()" class="supplier-form">
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Supplier Name</mat-label>
+            <input matInput formControlName="name" placeholder="e.g. Acme Medical Products">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Contact Person</mat-label>
+            <input matInput formControlName="contactPerson" placeholder="e.g. John Doe">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone" placeholder="e.g. +1 (555) 012-3456">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Email Address</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="e.g. order@acme.com">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address" placeholder="e.g. 123 Main Street, City, State">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Categories (comma separated)</mat-label>
+            <input matInput formControlName="categoriesStr" placeholder="e.g. Surgical Instruments, PPE">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-4">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Rating (1-5)</mat-label>
+            <input matInput type="number" formControlName="rating" min="1" max="5">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button mat-button type="button" (click)="dialog.closeAll()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!supplierForm.valid">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

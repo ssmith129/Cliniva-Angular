@@ -1,0 +1,160 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'General Settings'" [items]="['Settings']" [active_item]="'General'"></app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>General Configuration</h2>
+          </div>
+          <div class="body">
+            <form [formGroup]="generalForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <!-- Left Column -->
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Hospital Name</mat-label>
+                    <input matInput formControlName="hospitalName" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>local_hospital</mat-icon>
+                    @if (generalForm.get('hospitalName')?.hasError('required')) {
+                      <mat-error>
+                        Hospital name is required
+                      </mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Email Address</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>email</mat-icon>
+                    @if (generalForm.get('email')?.hasError('email')) {
+                      <mat-error>
+                        Please enter a valid email
+                      </mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput formControlName="phoneNumber">
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>phone</mat-icon>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Address</mat-label>
+                    <textarea matInput formControlName="address" rows="4"></textarea>
+                    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>location_on</mat-icon>
+                  </mat-form-field>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Time Zone</mat-label>
+                        <mat-select formControlName="timeZone">
+                          @for (zone of timeZones; track zone) {
+                            <mat-option [value]="zone.value">
+                              {{zone.viewValue}}
+                            </mat-option>
+                          }
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>schedule</mat-icon>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Date Format</mat-label>
+                        <mat-select formControlName="dateFormat">
+                          @for (format of dateFormats; track format) {
+                            <mat-option [value]="format.value">
+                              {{format.viewValue}}
+                            </mat-option>
+                          }
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>calendar_today</mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Currency</mat-label>
+                        <mat-select formControlName="currency">
+                          @for (currency of currencies; track currency) {
+                            <mat-option [value]="currency.value">
+                              {{currency.viewValue}}
+                            </mat-option>
+                          }
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>attach_money</mat-icon>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Language</mat-label>
+                        <mat-select formControlName="language">
+                          @for (lang of languages; track lang) {
+                            <mat-option [value]="lang.value">
+                              {{lang.viewValue}}
+                            </mat-option>
+                          }
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>language</mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="settings-section">
+                    <h3 class="section-title">Application Theme</h3>
+                    <div class="theme-toggle">
+                      <span>Dark Mode</span>
+                      <mat-slide-toggle formControlName="themeMode" color="primary"></mat-slide-toggle>
+                    </div>
+                  </div>
+
+                  <div class="settings-section">
+                    <h3 class="section-title">Hospital Logo</h3>
+                    <div class="file-upload-container" (click)="fileInput.click()" (drop)="onFileDrop($event)"
+                      (dragover)="onDragOver($event)">
+                      @if (!logoPreview) {
+                        <div class="upload-content">
+                          <mat-icon class="upload-icon">cloud_upload</mat-icon>
+                          <p>Drag & Drop or Click to Upload</p>
+                        </div>
+                      }
+                      @if (logoPreview) {
+                        <div class="preview-content">
+                          <img [src]="logoPreview" alt="Logo Preview">
+                          <button mat-mini-fab color="warn" class="remove-btn" (click)="removeLogo($event)">
+                            <mat-icon>close</mat-icon>
+                          </button>
+                        </div>
+                      }
+                      <input type="file" #fileInput hidden accept="image/*" (change)="onFileChange($event)">
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <div class="example-button-row align-end">
+                    <button mat-raised-button color="primary" [disabled]="!generalForm.valid" class="btn-space">Save
+                    Changes</button>
+                    <button mat-raised-button color="warn" type="button" (click)="onReset()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

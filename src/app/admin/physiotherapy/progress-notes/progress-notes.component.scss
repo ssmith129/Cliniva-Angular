@@ -1,0 +1,121 @@
+.form-card,
+.feed-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  min-height: 520px;
+
+  .mat-mdc-card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    .mat-mdc-card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+
+  .mat-mdc-card-content {
+    padding: 0 20px 20px 20px;
+  }
+}
+
+.pain-scale-container {
+  mat-slider {
+    width: 100%;
+  }
+}
+
+.note-item {
+  border-color: rgba(0, 0, 0, 0.04) !important;
+  background-color: #fafafa;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f5f7fa;
+  }
+}
+
+.pain-change-badge {
+  background-color: rgba(63, 81, 181, 0.08);
+  color: #3f51b5;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.note-description {
+  color: #333;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.badge-danger-soft { background-color: rgba(255, 77, 77, 0.08); color: #ff4d4d; }
+.badge-success-soft { background-color: rgba(76, 175, 80, 0.08); color: #4caf50; }
+
+/* Dark Theme Overrides */
+:host-context(body.dark) {
+  .form-card,
+  .feed-card {
+    background: #1a202e;
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+    .mat-mdc-card-header {
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+      .mat-mdc-card-title {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .note-item {
+    border-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: #1e293b;
+
+    &:hover {
+      background-color: #253347;
+    }
+  }
+
+  .note-description {
+    color: #e2e8f0;
+  }
+}
+
+/* Glassmorphism Theme Overrides */
+:host-context(body.layout-glassmorphism) {
+  .form-card,
+  .feed-card {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05) !important;
+  }
+
+  .note-item {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  /* Dark + Glassmorphism combined */
+  &.dark {
+    .form-card,
+    .feed-card {
+      background: rgba(15, 23, 42, 0.55) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .note-item {
+      background-color: rgba(0, 0, 0, 0.2) !important;
+      border-color: rgba(255, 255, 255, 0.05) !important;
+    }
+  }
+}

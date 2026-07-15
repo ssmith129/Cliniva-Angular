@@ -1,0 +1,135 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Lab Reports'" [items]="['Reports & Analytics']"
+                [active_item]="'Lab Reports'">
+            </app-breadcrumb>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="row clearfix">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-teal">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Total Tests (Nov)</p>
+                                <h3 class="kpi-value">1,135</h3>
+                                <p class="kpi-sub">
+                                    <span class="material-icons-outlined" style="font-size:14px; vertical-align:middle;">trending_up</span>
+                                    +10% vs last month
+                                </p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">biotech</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-blue">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Completed</p>
+                                <h3 class="kpi-value">983</h3>
+                                <p class="kpi-sub">86.6% completion rate</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">task_alt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-orange">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Avg TAT</p>
+                                <h3 class="kpi-value">5.2 hrs</h3>
+                                <p class="kpi-sub">Target: &lt; 6 hrs</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">schedule</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-red">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">Pending Tests</p>
+                                <h3 class="kpi-value">152</h3>
+                                <p class="kpi-sub">In progress</p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">hourglass_empty</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row clearfix">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header"><h2>Monthly Test Volume by Category</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="testVolumeOptions.series!" [chart]="testVolumeOptions.chart!"
+                            [xaxis]="testVolumeOptions.xaxis!" [yaxis]="testVolumeOptions.yaxis!"
+                            [title]="testVolumeOptions.title!" [colors]="testVolumeOptions.colors!"
+                            [plotOptions]="testVolumeOptions.plotOptions!" [dataLabels]="testVolumeOptions.dataLabels!"
+                            [legend]="testVolumeOptions.legend!" [stroke]="testVolumeOptions.stroke!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header"><h2>Test Category Mix</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="categoryDistributionOptions.series!" [chart]="categoryDistributionOptions.chart!"
+                            [labels]="categoryDistributionOptions.labels!" [colors]="categoryDistributionOptions.colors!"
+                            [legend]="categoryDistributionOptions.legend!" [responsive]="categoryDistributionOptions.responsive!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAT Chart -->
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header"><h2>TAT Distribution (Nov 2024)</h2></div>
+                    <div class="body">
+                        <apx-chart [series]="tatDistributionOptions.series!" [chart]="tatDistributionOptions.chart!"
+                            [xaxis]="tatDistributionOptions.xaxis!" [yaxis]="tatDistributionOptions.yaxis!"
+                            [title]="tatDistributionOptions.title!" [colors]="tatDistributionOptions.colors!"
+                            [plotOptions]="tatDistributionOptions.plotOptions!" [dataLabels]="tatDistributionOptions.dataLabels!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <app-master-table [dataSource]="dataSource" [columnDefinitions]="columnDefinitions"
+                    [title]="'Lab Test Reports'" [isLoading]="isLoading"
+                    (add)="handleAdd()" (edit)="handleEdit($event)" (delete)="handleDelete($event)"
+                    (bulkDelete)="handleBulkDelete($event)" (refresh)="handleRefresh()">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,185 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="avatarDetails">
+      <div class="modalTitle">
+        {{ dialogTitle }}
+      </div>
+    </div>
+    <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="preOpAssessmentForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Assessment ID</mat-label>
+            <input matInput formControlName="assessmentId" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>qr_code</mat-icon>
+            @if (preOpAssessmentForm.get('assessmentId')?.hasError('required')) {
+              <mat-error>
+                Assessment ID is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Patient Name</mat-label>
+            <input matInput formControlName="patientName" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>face</mat-icon>
+            @if (preOpAssessmentForm.get('patientName')?.hasError('required')) {
+              <mat-error>
+                Patient Name is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Surgery Type</mat-label>
+            <input matInput formControlName="surgeryType" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>medical_services</mat-icon>
+            @if (preOpAssessmentForm.get('surgeryType')?.hasError('required')) {
+              <mat-error>
+                Surgery Type is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Assessment Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="assessmentDate" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            @if (preOpAssessmentForm.get('assessmentDate')?.hasError('required')) {
+              <mat-error>
+                Date is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Assessed By</mat-label>
+            <input matInput formControlName="assessedBy" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>person</mat-icon>
+            @if (preOpAssessmentForm.get('assessedBy')?.hasError('required')) {
+              <mat-error>
+                Assessed By is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Vital Signs</mat-label>
+            <input matInput formControlName="vitalSigns" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>favorite</mat-icon>
+            @if (preOpAssessmentForm.get('vitalSigns')?.hasError('required')) {
+              <mat-error>
+                Vital Signs are required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Medical History</mat-label>
+            <textarea matInput formControlName="medicalHistory" required></textarea>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>history</mat-icon>
+            @if (preOpAssessmentForm.get('medicalHistory')?.hasError('required')) {
+              <mat-error>
+                Medical History is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Current Medications</mat-label>
+            <textarea matInput formControlName="currentMedications"></textarea>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>medication</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Allergies</mat-label>
+            <textarea matInput formControlName="allergies"></textarea>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>warning</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fitness Status</mat-label>
+            <mat-select formControlName="fitnessStatus" required>
+              <mat-option value="Fit">Fit</mat-option>
+              <mat-option value="Conditionally Fit">Conditionally Fit</mat-option>
+              <mat-option value="Not Fit">Not Fit</mat-option>
+            </mat-select>
+            @if (preOpAssessmentForm.get('fitnessStatus')?.hasError('required')) {
+              <mat-error>
+                Fitness Status is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Risk Level</mat-label>
+            <mat-select formControlName="riskLevel" required>
+              <mat-option value="Low">Low</mat-option>
+              <mat-option value="Medium">Medium</mat-option>
+              <mat-option value="High">High</mat-option>
+            </mat-select>
+            @if (preOpAssessmentForm.get('riskLevel')?.hasError('required')) {
+              <mat-error>
+                Risk Level is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Recommendations</mat-label>
+            <textarea matInput formControlName="recommendations"></textarea>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>recommend</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Notes</mat-label>
+            <textarea matInput formControlName="notes"></textarea>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>notes</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-flat-button class="formSubmitBtn" [disabled]="!preOpAssessmentForm.valid"
+            type="submit">Save</button>
+            <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

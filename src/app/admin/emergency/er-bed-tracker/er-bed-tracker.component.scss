@@ -1,0 +1,500 @@
+.bed-occupancy-card {
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eef2f6;
+  overflow: hidden;
+  font-family: "Outfit", "Inter", sans-serif;
+  margin-bottom: 30px;
+
+  // Header Bar styling
+  .card-header-bar {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f0f4f8;
+
+    .header-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a2e;
+
+      .header-count {
+        font-size: 16px;
+        font-weight: 500;
+        color: #788296;
+        margin-left: 6px;
+      }
+    }
+
+    .close-btn {
+      color: #94a3b8;
+      &:hover {
+        color: #64748b;
+        background-color: #f1f5f9;
+      }
+    }
+  }
+
+  // Flex Body Layout
+  .card-body-container {
+    display: flex;
+    min-height: 520px;
+  }
+
+  // Left Sidebar Wards list
+  .ward-sidebar {
+    width: 200px;
+    padding: 24px 16px;
+    border-right: 1px solid #f0f4f8;
+    flex-shrink: 0;
+
+    .sidebar-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      padding-left: 12px;
+    }
+
+    .ward-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 460px;
+      overflow-y: auto;
+      padding-right: 4px;
+
+      // custom scrollbar
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+    }
+
+    .ward-item {
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #64748b;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #f8fafc;
+        color: #334155;
+      }
+
+      &.active {
+        background-color: #dee2f6;
+        color: #4547a9;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // Center Grid Section
+  .grid-section {
+    flex: 1;
+    padding: 24px;
+    background-color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #f0f4f8;
+
+    .filters-row {
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .filter-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #64748b;
+        padding-left: 2px;
+      }
+
+      .filter-select {
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #334155;
+        background-color: #ffffff;
+        outline: none;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        cursor: pointer;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: #4547a9;
+        }
+      }
+    }
+
+    .beds-scroll-container {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 400px;
+      padding-right: 4px;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+    }
+
+    // Grid details matching image layout
+    .beds-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 4px;
+
+      @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media (max-width: 500px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+
+    .bed-box {
+      aspect-ratio: 1.4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      &.selected {
+        box-shadow: 0 0 0 2px #6890ff !important;
+        transform: scale(1.05);
+        font-weight: 700;
+      }
+
+      // Status-specific styles
+      &.status-not-ready {
+        background-color: #d4f4db;
+        color: #28a745;
+      }
+
+      &.status-arrived {
+        background-color: #eedffd;
+        color: #8e44ad;
+      }
+
+      &.status-open {
+        background-color: #fef2cb;
+        color: #dfa515;
+      }
+
+      &.status-admitted {
+        background-color: #fcdde0;
+        color: #df4759;
+      }
+
+      &.status-hold {
+        background-color: #4547a9;
+        color: #ffffff;
+      }
+
+      &.status-wait {
+        background-color: #dbf5f0;
+        color: #1abc9c;
+      }
+
+      &.status-registered {
+        background-color: #e9ecef;
+        color: #6c757d;
+      }
+    }
+  }
+
+  // Right Details Panel styling
+  .details-section {
+    width: 250px;
+    padding: 24px;
+    flex-shrink: 0;
+
+    .details-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .bed-label-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .status-badge {
+      padding: 4px 10px;
+      font-size: 11px;
+      border-radius: 12px;
+      font-weight: 600;
+      display: inline-block;
+
+      &.status-not-ready {
+        background-color: #d4f4db;
+        color: #28a745;
+      }
+      &.status-arrived {
+        background-color: #eedffd;
+        color: #8e44ad;
+      }
+      &.status-open {
+        background-color: #fef2cb;
+        color: #dfa515;
+      }
+      &.status-admitted {
+        background-color: #fcdde0;
+        color: #df4759;
+      }
+      &.status-hold {
+        background-color: #4547a9;
+        color: #ffffff;
+      }
+      &.status-wait {
+        background-color: #dbf5f0;
+        color: #1abc9c;
+      }
+      &.status-registered {
+        background-color: #e9ecef;
+        color: #6c757d;
+      }
+    }
+
+    .patient-details-list {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .details-group {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .detail-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #94a3b8;
+        letter-spacing: 0.5px;
+      }
+
+      .detail-val {
+        font-size: 14px;
+        color: #1a1a2e;
+        line-height: 1.4;
+
+        &.italic {
+          font-style: italic;
+        }
+      }
+
+      .detail-sub-val {
+        font-size: 12px;
+        color: #64748b;
+      }
+    }
+  }
+
+  // Footer bar styling
+  .card-footer-bar {
+    padding: 20px 24px;
+    border-top: 1px solid #f0f4f8;
+
+    .status-legend-dots {
+      max-width: 70%;
+
+      .legend-item {
+        font-size: 13px;
+        font-weight: 500;
+        color: #64748b;
+        gap: 6px;
+      }
+
+      .dot-indicator {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+
+        &.dot-not-ready {
+          background-color: #28a745;
+        }
+        &.dot-arrived {
+          background-color: #8e44ad;
+        }
+        &.dot-open {
+          background-color: #dfa515;
+        }
+        &.dot-admitted {
+          background-color: #df4759;
+        }
+        &.dot-hold {
+          background-color: #4547a9;
+        }
+        &.dot-wait {
+          background-color: #1abc9c;
+        }
+        &.dot-registered {
+          background-color: #6c757d;
+        }
+      }
+    }
+
+    .action-buttons-group {
+      .btn-refresh {
+        border-radius: 20px;
+        padding: 6px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #64748b;
+        background-color: #f1f5f9;
+        border: none;
+
+        &:hover {
+          background-color: #e2e8f0;
+          color: #334155;
+        }
+      }
+
+      .btn-confirm {
+        border-radius: 20px;
+        padding: 6px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        background-color: #4547a9 !important;
+        color: #ffffff !important;
+
+        &:hover {
+          background-color: #363887 !important;
+        }
+      }
+    }
+  }
+}
+
+// Theme Overrides (Dark & Glass)
+::ng-deep {
+  body.dark,
+  body.theme-dark {
+    .bed-occupancy-card,
+    mat-card.bed-occupancy-card,
+    .mat-mdc-card.bed-occupancy-card {
+      background-color: #1a202e !important;
+      background: #1a202e !important;
+      --mdc-card-container-color: #1a202e !important;
+      border-color: #2b2b40 !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+
+      .card-header-bar,
+      .card-footer-bar {
+        background-color: #1a202e !important;
+        background: #1a202e !important;
+        border-color: #2b2b40 !important;
+
+        .header-title {
+          color: #ffffff !important;
+        }
+      }
+
+      .card-body-container {
+        background-color: #1a202e !important;
+        background: #1a202e !important;
+      }
+
+      .ward-sidebar {
+        border-color: #2b2b40 !important;
+
+        .sidebar-label {
+          color: #718096 !important;
+        }
+
+        .ward-item {
+          color: #a0aec0 !important;
+
+          &:hover {
+            background-color: #2d3748 !important;
+            color: #ffffff !important;
+          }
+
+          &.active {
+            background-color: rgba(69, 71, 169, 0.2) !important;
+            color: #8c8dfa !important;
+          }
+        }
+      }
+
+      .grid-section {
+        background-color: #161b26 !important;
+        background: #161b26 !important;
+        border-color: #2b2b40 !important;
+
+        .filter-label {
+          color: #a0aec0 !important;
+        }
+
+        .filter-select {
+          background-color: #1a202e !important;
+          border-color: #2b2b40 !important;
+          color: #ffffff !important;
+
+          &:focus {
+            border-color: #8c8dfa !important;
+          }
+        }
+      }
+
+      .details-section {
+        background-color: #1a202e !important;
+        background: #1a202e !important;
+
+        .bed-label-title {
+          color: #ffffff !important;
+        }
+
+        .detail-val {
+          color: #ffffff !important;
+        }
+
+        .detail-label {
+          color: #718096 !important;
+        }
+      }
+
+      .btn-refresh {
+        background-color: #2d3748 !important;
+        color: #a0aec0 !important;
+
+        &:hover {
+          background-color: #4a5568 !important;
+          color: #ffffff !important;
+        }
+      }
+    }
+  }
+}

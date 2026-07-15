@@ -1,0 +1,88 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Terms & Conditions'" [items]="['Extra Pages']" [active_item]="'Terms & Conditions'">
+      </app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <!-- Navigation Sidebar -->
+      <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 mb-4">
+        <mat-card class="toc-card sticky-top" style="z-index: 10;">
+          <mat-card-header>
+            <mat-card-title class="font-18">Table of Contents</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="p-0">
+            <div class="list-group list-group-flush font-14">
+              <a href="javascript:void(0)" (click)="scrollTo('acceptance')"
+                class="list-group-item list-group-item-action border-0 py-3 px-4">1. Acceptance of Terms</a>
+              <a href="javascript:void(0)" (click)="scrollTo('services')"
+                class="list-group-item list-group-item-action border-0 py-3 px-4">2. Description of Services</a>
+              <a href="javascript:void(0)" (click)="scrollTo('accounts')"
+                class="list-group-item list-group-item-action border-0 py-3 px-4">3. User Accounts & Security</a>
+              <a href="javascript:void(0)" (click)="scrollTo('hipaa')"
+                class="list-group-item list-group-item-action border-0 py-3 px-4">4. Health Data Compliance</a>
+              <a href="javascript:void(0)" (click)="scrollTo('termination')"
+                class="list-group-item list-group-item-action border-0 py-3 px-4">5. Account Termination</a>
+              <a href="javascript:void(0)" (click)="scrollTo('liability')"
+                class="list-group-item list-group-item-action border-0 py-3 px-4">6. Limitation of Liability</a>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Main Legal Text -->
+      <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
+        <mat-card class="legal-card p-4">
+          <mat-card-content>
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+              <div>
+                <h1 class="legal-title mb-1">Terms of Service</h1>
+                <p class="text-muted mb-0 font-14">Last Updated: November 30, 2024</p>
+              </div>
+              <button mat-stroked-button color="primary" class="d-flex align-items-center">
+                <mat-icon class="me-1">print</mat-icon> Print Terms
+              </button>
+            </div>
+
+            <div class="legal-body font-15">
+              <p>Welcome to Cliniva. Please read these Terms of Service ("Terms") carefully before using our hospital
+                administration and patient portal application ("Service"). By accessing or using the Service, you agree
+                to be bound by these Terms.</p>
+
+              <h3 id="acceptance" class="mt-4 pt-2">1. Acceptance of Terms</h3>
+              <p>By registering, logging in, or accessing any part of the Cliniva platform, you agree to comply with all
+                applicable local, national, and international laws, including patient privacy standards and health
+                regulations. If you do not agree, you must terminate use immediately.</p>
+
+              <h3 id="services" class="mt-4 pt-2">2. Description of Services</h3>
+              <p>Cliniva provides cloud-based hospital management tools, including patient triage, appointment
+                calendars, laboratory reports, telemedicine integrations, and inventory rosters. We reserve the right to
+                modify, suspend, or discontinue any aspect of our Service at any time without notice.</p>
+
+              <h3 id="accounts" class="mt-4 pt-2">3. User Accounts & Security</h3>
+              <p>All administrative staff, doctors, nurses, and patients must secure their login credentials. Any
+                unauthorized access to accounts must be reported to the IT Department immediately. Multi-factor
+                authentication (MFA) must be enabled on accounts handling sensitive patient files.</p>
+
+              <h3 id="hipaa" class="mt-4 pt-2">4. Health Data & Privacy Compliance</h3>
+              <p>Cliniva is fully committed to HIPAA (Health Insurance Portability and Accountability Act) and GDPR
+                compliance. All diagnostic charts, medical documents, and patient communication feeds are encrypted
+                end-to-end. Users agree to handle patient records with maximum care and confidentiality.</p>
+
+              <h3 id="termination" class="mt-4 pt-2">5. Account Termination</h3>
+              <p>We reserve the right to suspend or terminate account access for users who violate these Terms, breach
+                patient confidentiality regulations, or engage in malicious security practices against the hospital
+                infrastructure.</p>
+
+              <h3 id="liability" class="mt-4 pt-2">6. Limitation of Liability</h3>
+              <p>Cliniva provides the application infrastructure on an "as-is" basis. Under no circumstances will
+                Cliniva, the hospital administration, or its developers be liable for direct, indirect, or incidental
+                damages resulting from service interruptions or emergency outage events.</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

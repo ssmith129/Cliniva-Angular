@@ -1,0 +1,124 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="avatarDetails">
+            <label class="hoverable">
+                <img [src]='session.img' alt="avatar">
+            </label>
+            <div class="modalTitle">
+                {{dialogTitle}}
+            </div>
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="sessionForm" (ngSubmit)="confirmAdd()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Session ID</mat-label>
+                        <input matInput formControlName="sessionId" required>
+                        <mat-icon matSuffix>receipt</mat-icon>
+                        @if (sessionForm.get('sessionId')?.hasError('required')) {
+                        <mat-error>ID is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Patient Name</mat-label>
+                        <input matInput formControlName="patientName" required>
+                        <mat-icon matSuffix>person</mat-icon>
+                        @if (sessionForm.get('patientName')?.hasError('required')) {
+                        <mat-error>Patient Name is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Patient ID</mat-label>
+                        <input matInput formControlName="patientId" required>
+                        <mat-icon matSuffix>badge</mat-icon>
+                        @if (sessionForm.get('patientId')?.hasError('required')) {
+                        <mat-error>Patient ID is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Scheduled Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="scheduledDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        @if (sessionForm.get('scheduledDate')?.hasError('required')) {
+                        <mat-error>Date is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Scheduled Time</mat-label>
+                        <input matInput formControlName="scheduledTime" required>
+                        <mat-icon matSuffix>access_time</mat-icon>
+                        @if (sessionForm.get('scheduledTime')?.hasError('required')) {
+                        <mat-error>Time is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Duration</mat-label>
+                        <input matInput formControlName="duration" required>
+                        <mat-icon matSuffix>timelapse</mat-icon>
+                        @if (sessionForm.get('duration')?.hasError('required')) {
+                        <mat-error>Duration is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Consultation Type</mat-label>
+                        <mat-select formControlName="consultationType" required>
+                            <mat-option value="Video">Video</mat-option>
+                            <mat-option value="Audio">Audio</mat-option>
+                            <mat-option value="Chat">Chat</mat-option>
+                        </mat-select>
+                        @if (sessionForm.get('consultationType')?.hasError('required')) {
+                        <mat-error>Type is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Scheduled">Scheduled</mat-option>
+                            <mat-option value="In Progress">In Progress</mat-option>
+                            <mat-option value="Completed">Completed</mat-option>
+                            <mat-option value="Cancelled">Cancelled</mat-option>
+                        </mat-select>
+                        @if (sessionForm.get('status')?.hasError('required')) {
+                        <mat-error>Status is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!sessionForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,214 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Executive Summary'" [items]="['Reports & Analytics']"
+                [active_item]="'Executive Summary'">
+            </app-breadcrumb>
+        </div>
+
+        <!-- Report Header Banner -->
+        <div class="row clearfix mb-3">
+            <div class="col-lg-12">
+                <div class="card"
+                    style="background: linear-gradient(135deg, #6777ef 0%, #209e91 100%); color: white; border: none;">
+                    <div class="body py-4 px-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="mb-1" style="color:white; font-size: 1.6rem; font-weight: 700;">
+                                    <span class="material-icons-outlined me-2"
+                                        style="vertical-align: middle; font-size: 2rem;">bar_chart</span>
+                                    Hospital Executive Summary Dashboard
+                                </h2>
+                                <p class="mb-0" style="color: rgba(255,255,255,0.85); font-size: 0.95rem;">
+                                    Month-to-Date Performance Report — November 2024 &nbsp;|&nbsp; Prepared for C-Suite
+                                    & Board
+                                </p>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge"
+                                    style="background:rgba(255,255,255,0.2); color:white; font-size:0.85rem; padding: 8px 16px; border-radius:20px;">
+                                    Last Updated: Nov 30, 2024
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Cards (8 cards) -->
+        <div class="row clearfix">
+            @for (kpi of kpiCards; track kpi.label) {
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="card kpi-card bg-gradient-{{ kpi.bg.substring(3) }}">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <p class="kpi-title">{{ kpi.label }}</p>
+                                <h3 class="kpi-value">{{ kpi.value }}</h3>
+                                <p class="kpi-sub">
+                                    <span class="material-icons-outlined" style="font-size:14px; vertical-align:middle;">
+                                        {{ kpi.trend === 'up' ? 'arrow_upward' : 'arrow_downward' }}
+                                    </span>
+                                    {{ kpi.change }} vs last month
+                                </p>
+                            </div>
+                            <div class="kpi-icon-box">
+                                <span class="material-icons-outlined">{{ kpi.icon }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- Revenue & Patient Satisfaction -->
+        <div class="row clearfix">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Revenue vs Target (2024)</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="revenueVsTargetOptions.series!" [chart]="revenueVsTargetOptions.chart!"
+                            [xaxis]="revenueVsTargetOptions.xaxis!" [yaxis]="revenueVsTargetOptions.yaxis!"
+                            [title]="revenueVsTargetOptions.title!" [colors]="revenueVsTargetOptions.colors!"
+                            [stroke]="revenueVsTargetOptions.stroke!" [dataLabels]="revenueVsTargetOptions.dataLabels!"
+                            [legend]="revenueVsTargetOptions.legend!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Patient Satisfaction Score</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="patientSatisfactionOptions.series!"
+                            [chart]="patientSatisfactionOptions.chart!"
+                            [plotOptions]="patientSatisfactionOptions.plotOptions!"
+                            [fill]="patientSatisfactionOptions.fill!" [stroke]="patientSatisfactionOptions.stroke!"
+                            [labels]="patientSatisfactionOptions.labels!" [colors]="patientSatisfactionOptions.colors!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Department Performance & Bed Occupancy -->
+        <div class="row clearfix">
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Department Performance Scores</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="departmentPerformanceOptions.series!"
+                            [chart]="departmentPerformanceOptions.chart!" [xaxis]="departmentPerformanceOptions.xaxis!"
+                            [colors]="departmentPerformanceOptions.colors!" [fill]="departmentPerformanceOptions.fill!"
+                            [title]="departmentPerformanceOptions.title!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Bed Occupancy by Ward</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="bedOccupancyOptions.series!" [chart]="bedOccupancyOptions.chart!"
+                            [xaxis]="bedOccupancyOptions.xaxis!" [plotOptions]="bedOccupancyOptions.plotOptions!"
+                            [dataLabels]="bedOccupancyOptions.dataLabels!" [colors]="bedOccupancyOptions.colors!"
+                            [title]="bedOccupancyOptions.title!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quality Metrics & Top Diagnoses -->
+        <div class="row clearfix">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Quality & Safety Metrics</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="qualityMetricsOptions.series!" [chart]="qualityMetricsOptions.chart!"
+                            [labels]="qualityMetricsOptions.labels!" [colors]="qualityMetricsOptions.colors!"
+                            [legend]="qualityMetricsOptions.legend!" [title]="qualityMetricsOptions.title!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Top 5 Diagnoses — November 2024</h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50px;">#</th>
+                                        <th>Diagnosis</th>
+                                        <th class="text-center">Patient Count</th>
+                                        <th>% of Total Admissions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (diagnosis of topDiagnoses; track diagnosis.rank) {
+                                    <tr>
+                                        <td>
+                                            <span class="badge badge-solid-blue rounded-circle"
+                                                style="width:28px; height:28px; line-height:28px; display:inline-flex; align-items:center; justify-content:center;">
+                                                {{ diagnosis.rank }}
+                                            </span>
+                                        </td>
+                                        <td class="fw-semibold">{{ diagnosis.name }}</td>
+                                        <td class="text-center">{{ diagnosis.count }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="progress flex-grow-1"
+                                                    style="height: 8px; border-radius: 4px;">
+                                                    <div class="progress-bar bg-primary" role="progressbar"
+                                                        [style.width]="diagnosis.percentage + '%'"
+                                                        [attr.aria-valuenow]="diagnosis.percentage" aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                    </div>
+                                                </div>
+                                                <span class="text-muted" style="min-width: 45px;">{{
+                                                    diagnosis.percentage }}%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Summary Metrics Row -->
+                        <div class="row mt-4 pt-3" style="border-top: 1px solid var(--body-color, #eee);">
+                            <div class="col-4 text-center">
+                                <div style="font-size:1.5rem; font-weight:700; color:#6777ef;">$1.24M</div>
+                                <small class="text-muted">Monthly Revenue</small>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div style="font-size:1.5rem; font-weight:700; color:#4caf50;">87%</div>
+                                <small class="text-muted">Bed Occupancy</small>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div style="font-size:1.5rem; font-weight:700; color:#ff9800;">94%</div>
+                                <small class="text-muted">HCAHPS Score</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

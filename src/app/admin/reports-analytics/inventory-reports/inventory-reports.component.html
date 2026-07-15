@@ -1,0 +1,50 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Inventory Reports'" [items]="['Reports & Analytics']"
+                [active_item]="'Inventory Reports'">
+            </app-breadcrumb>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Top 5 Low Stock Items</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="lowStockOptions.series!" [chart]="lowStockOptions.chart!"
+                            [xaxis]="lowStockOptions.xaxis!" [plotOptions]="lowStockOptions.plotOptions!"
+                            [dataLabels]="lowStockOptions.dataLabels!" [title]="lowStockOptions.title!"
+                            [colors]="lowStockOptions.colors!"></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 mb-0">
+                    <div class="header">
+                        <h2>Category Distribution</h2>
+                    </div>
+                    <div class="body">
+                        <apx-chart [series]="categoryDistributionOptions.series!"
+                            [chart]="categoryDistributionOptions.chart!" [labels]="categoryDistributionOptions.labels!"
+                            [colors]="categoryDistributionOptions.colors!"
+                            [legend]="categoryDistributionOptions.legend!"
+                            [responsive]="categoryDistributionOptions.responsive!">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <app-master-table [dataSource]="dataSource" [columnDefinitions]="columnDefinitions"
+                    [isLoading]="isLoading" (add)="handleAdd()" (edit)="handleEdit($event)"
+                    (delete)="handleDelete($event)" (bulkDelete)="handleBulkDelete($event)" (refresh)="handleRefresh()"
+                    [title]="'Inventory Status'">
+                </app-master-table>
+            </div>
+        </div>
+    </div>
+</section>

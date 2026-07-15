@@ -1,0 +1,162 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="avatarDetails">
+      <div class="modalTitle">
+        {{ dialogTitle }}
+      </div>
+    </div>
+    <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="testRequestForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Request ID</mat-label>
+            <input matInput formControlName="requestId" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>qr_code</mat-icon>
+            @if (testRequestForm.get('requestId')?.hasError('required')) {
+              <mat-error>
+                Request ID is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Patient Name</mat-label>
+            <input matInput formControlName="patientName" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>person</mat-icon>
+            @if (testRequestForm.get('patientName')?.hasError('required')) {
+              <mat-error>
+                Patient Name is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Doctor Name</mat-label>
+            <input matInput formControlName="doctorName" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>local_hospital</mat-icon>
+            @if (testRequestForm.get('doctorName')?.hasError('required')) {
+              <mat-error>
+                Doctor Name is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Test Name</mat-label>
+            <input matInput formControlName="testName" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>biotech</mat-icon>
+            @if (testRequestForm.get('testName')?.hasError('required')) {
+              <mat-error>
+                Test Name is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Request Date</mat-label>
+            <input matInput [matDatepicker]="requestDatePicker" formControlName="requestDate" required>
+            <mat-datepicker-toggle matSuffix [for]="requestDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #requestDatePicker></mat-datepicker>
+            @if (testRequestForm.get('requestDate')?.hasError('required')) {
+              <mat-error>
+                Request Date is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="datePicker" formControlName="date" required>
+            <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+            <mat-datepicker #datePicker></mat-datepicker>
+            @if (testRequestForm.get('date')?.hasError('required')) {
+              <mat-error>
+                Date is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" required>
+              <mat-option value="Pending">Pending</mat-option>
+              <mat-option value="Completed">Completed</mat-option>
+              <mat-option value="Cancelled">Cancelled</mat-option>
+              <mat-option value="In Progress">In Progress</mat-option>
+            </mat-select>
+            @if (testRequestForm.get('status')?.hasError('required')) {
+              <mat-error>
+                Status is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName="priority" required>
+              <mat-option value="Normal">Normal</mat-option>
+              <mat-option value="High">High</mat-option>
+              <mat-option value="Low">Low</mat-option>
+            </mat-select>
+            @if (testRequestForm.get('priority')?.hasError('required')) {
+              <mat-error>
+                Priority is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Sample Type</mat-label>
+            <input matInput formControlName="sampleType" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>science</mat-icon>
+            @if (testRequestForm.get('sampleType')?.hasError('required')) {
+              <mat-error>
+                Sample Type is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Notes</mat-label>
+            <textarea matInput formControlName="notes" rows="3"></textarea>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>description</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-flat-button class="formSubmitBtn" [disabled]="!testRequestForm.valid"
+            type="submit">Save</button>
+            <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

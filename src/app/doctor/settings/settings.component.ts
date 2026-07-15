@@ -1,0 +1,23 @@
+import { Component , ChangeDetectionStrategy} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    imports: [
+        BreadcrumbComponent,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+    ]
+})
+export class SettingsComponent {
+  constructor() {
+    // constructor code
+  }
+}

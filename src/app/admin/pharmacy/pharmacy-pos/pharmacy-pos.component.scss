@@ -1,0 +1,145 @@
+.catalog-card, .cart-card {
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #eef2f6;
+}
+
+.med-item-card {
+  transition: all 0.2s ease-in-out;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0 !important;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: #3f51b5 !important;
+  }
+}
+
+.bg-light-btn {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.bg-light-badge {
+  background-color: #eff6ff;
+  color: #3b82f6;
+}
+
+.btn-qty {
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  min-width: 28px;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.billing-summary {
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+}
+
+// Receipt Modal Overlay
+.receipt-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.receipt-modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+}
+
+.col-green { color: #4CAF50; }
+.text-danger { color: #F44336; }
+.text-primary { color: #2196F3; }
+
+.font-14 { font-size: 14px; }
+.font-16 { font-size: 16px; }
+.font-18 { font-size: 18px; }
+.font-20 { font-size: 20px; }
+.font-48 { font-size: 48px; }
+.font-weight-bold { font-weight: 700; }
+
+// Theme compatibility (Dark Mode)
+:host-context(.dark),
+:host-context(.theme-dark) {
+  .catalog-card, .cart-card, .receipt-modal {
+    background-color: #1a202e !important;
+    border-color: #2b2b40 !important;
+    color: #ffffff;
+  }
+
+  .med-item-card {
+    background-color: #161b26;
+    border-color: #2b2b40 !important;
+
+    &:hover {
+      border-color: #8c8dfa !important;
+    }
+  }
+
+  .bg-light-btn {
+    background-color: #2b2b40 !important;
+    color: #ffffff !important;
+  }
+
+  .btn-qty {
+    background-color: #2b2b40 !important;
+    color: #ffffff !important;
+  }
+
+  .billing-summary {
+    background-color: #161b26 !important;
+    border-color: #2b2b40 !important;
+  }
+}
+
+// Theme compatibility (Glassmorphism)
+:host-context(.layout-glassmorphism) {
+  .catalog-card, .cart-card, .receipt-modal {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px);
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff;
+  }
+
+  .med-item-card {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.1) !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+  }
+
+  .bg-light-btn {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+  }
+
+  .btn-qty {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+  }
+
+  .billing-summary {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+  }
+}
