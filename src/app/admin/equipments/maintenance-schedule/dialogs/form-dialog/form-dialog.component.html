@@ -1,0 +1,110 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="avatarDetails">
+            <div class="modalTitle">{{ dialogTitle }}</div>
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="scheduleForm" (ngSubmit)="submit()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Maintenance ID</mat-label>
+                        <input matInput formControlName="maintenance_id" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>qr_code</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Equipment ID</mat-label>
+                        <input matInput formControlName="equipment_id" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>medical_services</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Equipment Name</mat-label>
+                        <input matInput formControlName="equipment_name" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3"
+                            matSuffix>medical_information</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Maintenance Type</mat-label>
+                        <mat-select formControlName="maintenance_type" required>
+                            <mat-option value="Preventive">Preventive</mat-option>
+                            <mat-option value="Corrective">Corrective</mat-option>
+                            <mat-option value="Calibration">Calibration</mat-option>
+                            <mat-option value="Inspection">Inspection</mat-option>
+                            <mat-option value="Cleaning">Cleaning</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>build</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Scheduled Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="scheduled_date" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Scheduled">Scheduled</mat-option>
+                            <mat-option value="In Progress">In Progress</mat-option>
+                            <mat-option value="Completed">Completed</mat-option>
+                            <mat-option value="Overdue">Overdue</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>flag</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Performed By</mat-label>
+                        <input matInput formControlName="performed_by" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>person</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Done/Next Date</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="next_maintenance">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Notes</mat-label>
+                        <textarea matInput formControlName="notes"></textarea>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>notes</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!scheduleForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

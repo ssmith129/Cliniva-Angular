@@ -1,0 +1,21 @@
+import { Component , ChangeDetectionStrategy} from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-today-appointment',
+    templateUrl: './today-appointment.component.html',
+    styleUrls: ['./today-appointment.component.scss'],
+    imports: [
+        BreadcrumbComponent,
+        MatButtonModule,
+        MatIconModule,
+    ]
+})
+export class TodayAppointmentComponent {
+  constructor() {
+    // constructor code
+  }
+}

@@ -1,0 +1,70 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Income report'" [items]="['Accounts']" [active_item]="'Income report'"></app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <mat-card>
+          <mat-card-header class="header-menu">
+            <mat-card-title>Income Chart</mat-card-title>
+            <mat-form-field appearance="outline" class="header-form-field">
+              <mat-select [(value)]="selectedTimePeriod" (selectionChange)="onTimePeriodChange($event)">
+                <mat-option class="header-select-option" value="Daily">Daily</mat-option>
+                <mat-option class="header-select-option" value="Monthly">Monthly</mat-option>
+                <mat-option class="header-select-option" value="Yearly">Yearly</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-card-header>
+          <mat-card-content>
+            <apx-chart [series]="areaChartOptions.series!" [chart]="areaChartOptions.chart!"
+              [xaxis]="areaChartOptions.xaxis!" [yaxis]="areaChartOptions.yaxis!" [colors]="areaChartOptions.colors!"
+              [stroke]="areaChartOptions.stroke!" [tooltip]="areaChartOptions.tooltip!" [grid]="areaChartOptions.grid!"
+              [dataLabels]="areaChartOptions.dataLabels!"></apx-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        
+        <!-- Custom Year Filter (above table) -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="body pb-0">
+            <div class="row align-items-center">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="example-full-width mb-0">
+                  <mat-label>Select Year</mat-label>
+                  <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
+                    @for (year of availableYears; track year) {
+                    <mat-option [value]="year">
+                      {{year}}
+                    </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <app-master-table 
+          [title]="'Income Table'" 
+          [columnDefinitions]="columnDefinitions"
+          [dataSource]="dataSource" 
+          [isLoading]="isLoading" 
+          [exportFileName]="'income_report'"
+          [showCheckbox]="false"
+          [showAdd]="false"
+          [showEdit]="false"
+          [showDelete]="false"
+          [showDetails]="false"
+          [showRefresh]="true"
+          [showExport]="true"
+          (refresh)="handleRefresh()">
+        </app-master-table>
+      </div>
+    </div>
+  </div>
+</section>

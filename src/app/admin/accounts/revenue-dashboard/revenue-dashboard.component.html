@@ -1,0 +1,101 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Revenue Dashboard'" [items]="['Accounts']" [active_item]="'Revenue Dashboard'"></app-breadcrumb>
+    </div>
+
+    <!-- Info Cards Row -->
+    <div class="row">
+      <div class="col-lg-3 col-sm-6">
+        <div class="card">
+          <div class="body">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <h5 class="text-muted text-uppercase mb-0" style="font-size: 13px;">Total Revenue</h5>
+                <h3 class="mb-0 mt-2">$248,500</h3>
+                <span class="text-success" style="font-size: 12px;"><i class="material-icons" style="font-size: 14px; vertical-align: middle;">arrow_upward</i> +8.5% YoY</span>
+              </div>
+              <div class="bg-soft-blue p-3 rounded-circle">
+                <i class="material-icons text-blue" style="font-size: 28px;">monetization_on</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="card">
+          <div class="body">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <h5 class="text-muted text-uppercase mb-0" style="font-size: 13px;">OPD Revenue</h5>
+                <h3 class="mb-0 mt-2">$132,400</h3>
+                <span class="text-success" style="font-size: 12px;"><i class="material-icons" style="font-size: 14px; vertical-align: middle;">arrow_upward</i> +12.3%</span>
+              </div>
+              <div class="bg-soft-green p-3 rounded-circle">
+                <i class="material-icons text-green" style="font-size: 28px;">medical_services</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="card">
+          <div class="body">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <h5 class="text-muted text-uppercase mb-0" style="font-size: 13px;">IPD Revenue</h5>
+                <h3 class="mb-0 mt-2">$78,200</h3>
+                <span class="text-success" style="font-size: 12px;"><i class="material-icons" style="font-size: 14px; vertical-align: middle;">arrow_upward</i> +4.1%</span>
+              </div>
+              <div class="bg-soft-orange p-3 rounded-circle">
+                <i class="material-icons text-orange" style="font-size: 28px;">hotel</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="card">
+          <div class="body">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <h5 class="text-muted text-uppercase mb-0" style="font-size: 13px;">Pharmacy Revenue</h5>
+                <h3 class="mb-0 mt-2">$37,900</h3>
+                <span class="text-danger" style="font-size: 12px;"><i class="material-icons" style="font-size: 14px; vertical-align: middle;">arrow_downward</i> -2.4%</span>
+              </div>
+              <div class="bg-soft-purple p-3 rounded-circle">
+                <i class="material-icons text-purple" style="font-size: 28px;">local_pharmacy</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart Row -->
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>Revenue Analysis (Monthly Stacked Streams)</h2>
+          </div>
+          <div class="body">
+            <div id="chart">
+              <apx-chart
+                [series]="chartOptions.series"
+                [chart]="chartOptions.chart"
+                [xaxis]="chartOptions.xaxis"
+                [stroke]="chartOptions.stroke"
+                [dataLabels]="chartOptions.dataLabels"
+                [yaxis]="chartOptions.yaxis"
+                [legend]="chartOptions.legend"
+                [fill]="chartOptions.fill"
+                [tooltip]="chartOptions.tooltip"
+              ></apx-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

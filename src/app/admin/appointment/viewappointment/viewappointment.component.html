@@ -1,0 +1,16 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'View Appointment'" [items]="['Appointment']" [active_item]="'View'"></app-breadcrumb>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <app-master-table [title]="'Appointment'" [columnDefinitions]="columnDefinitions" [dataSource]="dataSource"
+          [isLoading]="isLoading" [exportFileName]="'appointments'" (add)="handleAdd()" (edit)="handleEdit($event)"
+          (delete)="handleDelete($event)" (refresh)="handleRefresh()" (bulkDelete)="handleBulkDelete($event)">
+        </app-master-table>
+      </div>
+    </div>
+  </div>
+</section>

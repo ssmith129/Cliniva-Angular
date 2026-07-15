@@ -1,0 +1,175 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb
+        [title]="'Post-Consultation Notes'"
+        [items]="['Telemedicine']"
+        [active_item]="'Post-Consultation Notes'"
+      ></app-breadcrumb>
+    </div>
+
+    <div class="pcn-layout">
+      <!-- Sidebar list -->
+      <div class="pcn-sidebar">
+        <div class="pcn-sidebar-header">
+          <span class="pcn-sidebar-title">Consultation Notes</span>
+          <div class="pcn-filter-chips">
+            <button class="pcn-chip" [class.active]="filterStatus() === 'all'" (click)="setFilter('all')">All</button>
+            <button class="pcn-chip" [class.active]="filterStatus() === 'draft'" (click)="setFilter('draft')">Draft</button>
+            <button class="pcn-chip" [class.active]="filterStatus() === 'finalized'" (click)="setFilter('finalized')">Final</button>
+            <button class="pcn-chip" [class.active]="filterStatus() === 'shared'" (click)="setFilter('shared')">Shared</button>
+          </div>
+        </div>
+
+        <div class="pcn-note-list">
+          @if (filteredNotes().length === 0) {
+            <div class="pcn-empty-list">No notes found</div>
+          }
+          @for (note of filteredNotes(); track note.id) {
+            <div
+              class="pcn-note-item"
+              [class.active]="selectedNote()?.id === note.id"
+              (click)="selectNote(note)"
+            >
+              <div class="pcn-note-avatar">{{ note.patientAvatar }}</div>
+              <div class="pcn-note-info">
+                <div class="pcn-note-name">{{ note.patientName }}</div>
+                <div class="pcn-note-date">{{ formatDate(note.date) }}</div>
+                <div class="pcn-note-complaint">{{ note.chiefComplaint }}</div>
+              </div>
+              <span class="pcn-note-status pcn-note-status--{{ note.status }}">{{ note.status }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Detail panel -->
+      <div class="pcn-detail">
+        @if (!selectedNote()) {
+          <div class="pcn-no-selection">
+            <span class="material-icons-outlined">description</span>
+            <p>Select a note to view details</p>
+          </div>
+        } @else {
+          <div class="pcn-detail-inner">
+            <!-- Header -->
+            <div class="pcn-detail-header">
+              <div class="pcn-detail-patient">
+                <div class="pcn-detail-avatar">{{ selectedNote()!.patientAvatar }}</div>
+                <div>
+                  <div class="pcn-detail-name">{{ selectedNote()!.patientName }}</div>
+                  <div class="pcn-detail-sub">
+                    {{ selectedNote()!.patientAge }} yrs ·
+                    {{ selectedNote()!.specialty }} ·
+                    {{ selectedNote()!.doctor }}
+                  </div>
+                  <div class="pcn-detail-meta">
+                    <span class="material-icons-outlined">calendar_today</span>
+                    {{ formatDate(selectedNote()!.date) }} at {{ selectedNote()!.time }}
+                    · {{ selectedNote()!.duration }} min
+                  </div>
+                </div>
+              </div>
+              <div class="pcn-header-actions">
+                <span class="pcn-status-badge pcn-status-badge--{{ selectedNote()!.status }}">
+                  {{ selectedNote()!.status }}
+                </span>
+                @if (selectedNote()!.status === 'draft') {
+                  <button class="pcn-action-btn pcn-action-btn--finalize"
+                    (click)="finalizeNote(selectedNote()!)">
+                    <span class="material-icons-outlined">check_circle</span> Finalize
+                  </button>
+                }
+                @if (selectedNote()!.status === 'finalized') {
+                  <button class="pcn-action-btn pcn-action-btn--share"
+                    (click)="shareNote(selectedNote()!)">
+                    <span class="material-icons-outlined">share</span> Share with Patient
+                  </button>
+                }
+                <button class="pcn-action-btn pcn-action-btn--print">
+                  <span class="material-icons-outlined">print</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Vitals Strip -->
+            <div class="pcn-vitals-strip">
+              <div class="pcn-vital-chip">
+                <span class="material-icons-outlined">favorite</span>
+                <span>{{ selectedNote()!.vitals.bp }} mmHg</span>
+                <label>BP</label>
+              </div>
+              <div class="pcn-vital-chip">
+                <span class="material-icons-outlined">monitor_heart</span>
+                <span>{{ selectedNote()!.vitals.hr }} bpm</span>
+                <label>HR</label>
+              </div>
+              <div class="pcn-vital-chip">
+                <span class="material-icons-outlined">thermostat</span>
+                <span>{{ selectedNote()!.vitals.temp }}°C</span>
+                <label>Temp</label>
+              </div>
+              <div class="pcn-vital-chip">
+                <span class="material-icons-outlined">air</span>
+                <span>{{ selectedNote()!.vitals.spo2 }}%</span>
+                <label>SpO₂</label>
+              </div>
+            </div>
+
+            <!-- Sections -->
+            <div class="pcn-section">
+              <div class="pcn-section-title">
+                <span class="material-icons-outlined">report</span> Chief Complaint
+              </div>
+              <p class="pcn-section-content">{{ selectedNote()!.chiefComplaint }}</p>
+            </div>
+
+            <div class="pcn-section">
+              <div class="pcn-section-title">
+                <span class="material-icons-outlined">article</span> Clinical Notes
+              </div>
+              <p class="pcn-section-content">{{ selectedNote()!.clinicalNotes }}</p>
+            </div>
+
+            <div class="pcn-section">
+              <div class="pcn-section-title">
+                <span class="material-icons-outlined">diagnosis</span> Diagnosis
+              </div>
+              <div class="pcn-dx-list">
+                @for (dx of selectedNote()!.diagnosis; track dx) {
+                  <span class="pcn-dx-chip">{{ dx }}</span>
+                }
+              </div>
+            </div>
+
+            <div class="pcn-section">
+              <div class="pcn-section-title">
+                <span class="material-icons-outlined">medication</span> Prescriptions
+              </div>
+              <div class="pcn-rx-table">
+                <div class="pcn-rx-header">
+                  <span>Drug</span><span>Dosage</span><span>Frequency</span><span>Duration</span>
+                </div>
+                @for (rx of selectedNote()!.prescriptions; track rx.drug) {
+                  <div class="pcn-rx-row">
+                    <span class="pcn-rx-drug">{{ rx.drug }}</span>
+                    <span>{{ rx.dosage }}</span>
+                    <span>{{ rx.frequency }}</span>
+                    <span>{{ rx.duration }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="pcn-section">
+              <div class="pcn-section-title">
+                <span class="material-icons-outlined">event_upcoming</span> Follow-up
+              </div>
+              <p class="pcn-section-content pcn-followup">{{ formatDate(selectedNote()!.followUp) }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,188 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="modalTitle">
+            {{dialogTitle}}
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="docForm" (ngSubmit)="confirmAdd()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Document ID</mat-label>
+                        <input matInput formControlName="docId" required>
+                        <mat-icon matSuffix>receipt</mat-icon>
+                        @if (docForm.get('docId')?.hasError('required')) {
+                        <mat-error>Document ID is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Title</mat-label>
+                        <input matInput formControlName="title" required>
+                        <mat-icon matSuffix>title</mat-icon>
+                        @if (docForm.get('title')?.hasError('required')) {
+                        <mat-error>Title is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Type (e.g., PDF, JPG)</mat-label>
+                        <input matInput formControlName="type" required>
+                        <mat-icon matSuffix>file_present</mat-icon>
+                        @if (docForm.get('type')?.hasError('required')) {
+                        <mat-error>Type is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Category</mat-label>
+                        <mat-select formControlName="category" required>
+                            <mat-option value="Laboratory">Laboratory</mat-option>
+                            <mat-option value="Insurance">Insurance</mat-option>
+                            <mat-option value="Radiology">Radiology</mat-option>
+                            <mat-option value="Medical History">Medical History</mat-option>
+                            <mat-option value="Other">Other</mat-option>
+                        </mat-select>
+                        @if (docForm.get('category')?.hasError('required')) {
+                        <mat-error>Category is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Upload Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="uploadDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        @if (docForm.get('uploadDate')?.hasError('required')) {
+                        <mat-error>Date is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>File Size</mat-label>
+                        <input matInput formControlName="size" required>
+                        <mat-icon matSuffix>aspect_ratio</mat-icon>
+                        @if (docForm.get('size')?.hasError('required')) {
+                        <mat-error>Size is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Approved">Approved</mat-option>
+                            <mat-option value="Pending">Pending</mat-option>
+                            <mat-option value="Rejected">Rejected</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput formControlName="description"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col-12">
+                    <div class="ai-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                            <h5 class="ai-card-title">
+                                <mat-icon>psychology</mat-icon>
+                                AI Doctor-Speak Explainer
+                            </h5>
+                            <button type="button" mat-flat-button class="ai-btn-gradient"
+                                [disabled]="isTranslating() || !docForm.get('description')?.value"
+                                (click)="explainMedicalJargon()">
+                                @if (isTranslating()) {
+                                    <span><mat-spinner diameter="16" class="ai-btn-spinner"></mat-spinner> Analyzing Notes...</span>
+                                } @else {
+                                    <span><mat-icon class="ai-btn-icon">auto_awesome</mat-icon> Translate Medical Terms</span>
+                                }
+                            </button>
+                        </div>
+
+                        @if (!docForm.get('description')?.value) {
+                            <div class="ai-placeholder">
+                                <mat-icon>info</mat-icon>
+                                <p>Enter a description or clinical notes above, then click "Translate Medical Terms" to get a plain-English explanation.</p>
+                            </div>
+                        }
+
+                        @if (explainedData(); as data) {
+                            <div class="ai-results-body">
+                                <div class="mb-3 ai-result-card">
+                                    <strong class="ai-result-header">Simple Summary:</strong>
+                                    <p class="ai-result-text">{{ data.simpleSummary }}</p>
+                                </div>
+
+                                @if (data.translations && data.translations.length > 0) {
+                                    <div class="mb-3">
+                                        <strong class="ai-section-header">Jargon Translator:</strong>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-sm ai-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Medical Jargon</th>
+                                                        <th>Plain English Explanation</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (t of data.translations; track t.medicalTerm) {
+                                                        <tr>
+                                                            <td class="ai-jargon-term">{{ t.medicalTerm }}</td>
+                                                            <td class="ai-jargon-meaning">{{ t.plainEnglish }}</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (data.patientTips && data.patientTips.length > 0) {
+                                    <div>
+                                        <strong class="ai-section-header">Care & Safety Tips:</strong>
+                                        <ul class="ai-tip-list">
+                                            @for (tip of data.patientTips; track tip) {
+                                                <li class="d-flex align-items-start gap-2 mb-2 ai-tip-item">
+                                                    <mat-icon>check_circle</mat-icon>
+                                                    <span>{{ tip }}</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!docForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,131 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="avatarDetails">
+      <div class="modalTitle">
+        {{ dialogTitle }}
+      </div>
+    </div>
+    <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form [formGroup]="patientDocumentForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Document ID</mat-label>
+            <input matInput formControlName="docId" required />
+            @if (patientDocumentForm.get('docId')?.hasError('required')) {
+              <mat-error>
+                Document ID is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Patient Name</mat-label>
+            <input matInput formControlName="patientName" required />
+            @if (patientDocumentForm.get('patientName')?.hasError('required')) {
+              <mat-error>
+                Patient Name is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Document Type</mat-label>
+            <mat-select formControlName="docType" required>
+              @for (type of docTypeOptions; track type) {
+                <mat-option [value]="type">{{ type }}</mat-option>
+              }
+            </mat-select>
+            @if (patientDocumentForm.get('docType')?.hasError('required')) {
+              <mat-error>
+                Document Type is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Uploaded By</mat-label>
+            <input matInput formControlName="uploadedBy" required />
+            @if (patientDocumentForm.get('uploadedBy')?.hasError('required')) {
+              <mat-error>
+                Uploaded By is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Upload Date</mat-label>
+            <input matInput [matDatepicker]="uploadPicker" formControlName="uploadDate" required />
+            <mat-datepicker-toggle matSuffix [for]="uploadPicker"></mat-datepicker-toggle>
+            <mat-datepicker #uploadPicker></mat-datepicker>
+            @if (patientDocumentForm.get('uploadDate')?.hasError('required')) {
+              <mat-error>
+                Upload Date is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>File Size</mat-label>
+            <input matInput formControlName="fileSize" required />
+            @if (patientDocumentForm.get('fileSize')?.hasError('required')) {
+              <mat-error>
+                File Size is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>File URL</mat-label>
+            <input matInput formControlName="fileUrl" required />
+            @if (patientDocumentForm.get('fileUrl')?.hasError('required')) {
+              <mat-error>
+                File URL is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" required>
+              @for (status of statusOptions; track status) {
+                <mat-option [value]="status">{{ status }}</mat-option>
+              }
+            </mat-select>
+            @if (patientDocumentForm.get('status')?.hasError('required')) {
+              <mat-error>
+                Status is required
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-flat-button class="formSubmitBtn" [disabled]="!patientDocumentForm.valid"
+            type="submit">Save</button>
+            <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

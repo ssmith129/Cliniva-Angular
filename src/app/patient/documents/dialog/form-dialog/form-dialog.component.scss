@@ -1,0 +1,134 @@
+.ai-card {
+  background: rgba(168, 85, 247, 0.05);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.ai-card-title {
+  color: #6366f1;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  mat-icon {
+    color: #a855f7;
+  }
+}
+
+.ai-btn-gradient {
+  background: linear-gradient(135deg, #a855f7, #6366f1) !important;
+  color: white !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px;
+  border-radius: 6px !important;
+  padding: 4px 14px !important;
+}
+
+.ai-btn-spinner {
+  margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ai-btn-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.ai-placeholder {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  color: #94a3b8;
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+.ai-result-card {
+  background: #ffffff;
+  border-left: 4px solid #a855f7;
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.ai-result-header {
+  color: #4b5563;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.ai-result-text {
+  color: #1f2937;
+  font-size: 0.88rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.ai-section-header {
+  color: #4b5563;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ai-table {
+  font-size: 0.85rem;
+  background: #ffffff;
+
+  thead tr {
+    background: #f8fafc;
+  }
+
+  th {
+    font-weight: 600;
+    color: #475569;
+  }
+}
+
+.ai-jargon-term {
+  color: #e11d48;
+  font-weight: 600;
+  width: 35%;
+}
+
+.ai-jargon-meaning {
+  color: #334155;
+}
+
+.ai-tip-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.ai-tip-item {
+  font-size: 0.88rem;
+  color: #334155;
+
+  mat-icon {
+    color: #10b981;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}

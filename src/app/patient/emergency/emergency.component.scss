@@ -1,0 +1,107 @@
+.emergency-card {
+  border: none;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
+  margin-bottom: 24px;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+    .icon-box {
+      transform: scale(1.1);
+    }
+  }
+
+  .body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .icon-box {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    transition: transform 0.3s ease;
+    
+    i {
+      font-size: 32px;
+    }
+
+    &.ambulance {
+      background: rgba(255, 76, 76, 0.1);
+      color: #ff4c4c;
+    }
+
+    &.doctor {
+      background: rgba(255, 193, 7, 0.1);
+      color: #ffc107;
+    }
+
+    &.health-card {
+      background: rgba(23, 162, 184, 0.1);
+      color: #17a2b8;
+    }
+  }
+
+  h5 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .btn-action {
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: all 0.3s;
+    background: transparent;
+    border: 1px solid;
+    
+    &.btn-outline-danger {
+      color: #ff4c4c !important;
+      border-color: #ff4c4c !important;
+      &:hover {
+        background: #ff4c4c !important;
+        color: #fff !important;
+      }
+    }
+
+    &.btn-outline-warning {
+      color: #ffc107 !important;
+      border-color: #ffc107 !important;
+      &:hover {
+        background: #ffc107 !important;
+        color: #000 !important;
+      }
+    }
+
+    &.btn-outline-info {
+      color: #17a2b8 !important;
+      border-color: #17a2b8 !important;
+      &:hover {
+        background: #17a2b8 !important;
+        color: #fff !important;
+      }
+    }
+  }
+}

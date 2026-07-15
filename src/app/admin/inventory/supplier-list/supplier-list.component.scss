@@ -1,0 +1,360 @@
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 30px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+  width: 100%;
+
+  mat-icon {
+    color: #888;
+    margin-right: 8px;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+  }
+}
+
+.add-supplier-btn {
+  height: 42px;
+  border-radius: 30px;
+  font-weight: 500;
+  padding: 0 20px;
+}
+
+.supplier-card {
+  border-radius: 12px;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .supplier-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .supplier-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e3f2fd;
+      color: #1e88e5;
+
+      mat-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    .supplier-title {
+      flex: 1;
+
+      h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .contact-name {
+        font-size: 12px;
+        color: #777;
+      }
+    }
+  }
+
+  .supplier-details {
+    p {
+      margin: 8px 0;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .detail-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: #888;
+      }
+    }
+  }
+
+  .supplier-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f5f5f5;
+    padding-top: 15px;
+
+    .category-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .rating-stars {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
+
+      .star-filled {
+        color: #ffb300;
+      }
+
+      .star-empty {
+        color: #ccc;
+      }
+    }
+  }
+}
+
+.empty-state-card {
+  border-radius: 12px;
+  padding: 40px;
+
+  .empty-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: #ccc;
+    margin-bottom: 15px;
+  }
+
+  h4 {
+    margin: 0 0 8px 0;
+    font-weight: 600;
+    color: #555;
+  }
+
+  p {
+    margin: 0;
+    color: #888;
+  }
+}
+
+.dialog-container {
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 8px;
+
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .close-btn {
+      color: #666;
+    }
+  }
+
+  .supplier-form {
+    .full-width {
+      width: 100%;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+  }
+}
+
+// Dark Mode Support
+:host-context(.dark),
+:host-context(.theme-dark) {
+  .search-box {
+    background-color: #1a202e;
+    border-color: #2b2b40;
+    box-shadow: none;
+
+    input {
+      color: #ffffff;
+    }
+  }
+
+  .supplier-card {
+    background-color: #1a202e;
+    border-color: #2b2b40;
+    box-shadow: none;
+
+    .supplier-header {
+      .supplier-avatar {
+        background-color: #2b2b40;
+        color: #4b8df8;
+      }
+
+      .supplier-title {
+        h3 {
+          color: #ffffff;
+        }
+
+        .contact-name {
+          color: #a0a5b5;
+        }
+      }
+    }
+
+    .supplier-details {
+      p {
+        color: #c0c5d5;
+
+        .detail-icon {
+          color: #a0a5b5;
+        }
+      }
+    }
+
+    .supplier-footer {
+      border-top-color: #2b2b40;
+
+      .rating-stars {
+        .star-empty {
+          color: #444;
+        }
+      }
+    }
+  }
+
+  .empty-state-card {
+    background-color: #1a202e;
+    border-color: #2b2b40;
+
+    h4 {
+      color: #ffffff;
+    }
+
+    p {
+      color: #a0a5b5;
+    }
+  }
+
+  .dialog-container {
+    background-color: #1a202e;
+    color: #ffffff;
+
+    .dialog-header {
+      border-bottom-color: #2b2b40;
+
+      h2 {
+        color: #ffffff;
+      }
+
+      .close-btn {
+        color: #b0b3b8;
+      }
+    }
+  }
+}
+
+// Glassmorphism Support
+:host-context(.layout-glassmorphism) {
+  .search-box {
+    background-color: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+
+    mat-icon {
+      color: #333 !important;
+    }
+
+    input {
+      color: #000 !important;
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.5) !important;
+      }
+    }
+  }
+
+  .supplier-card {
+    backdrop-filter: blur(10px);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+
+    .supplier-header {
+      // Intentionally left empty or remove the whole block if nothing else is inside
+    }
+
+    .supplier-footer {
+      border-top-color: rgba(255, 255, 255, 0.1);
+
+      .rating-stars {
+        .star-empty {
+          color: rgba(255, 255, 255, 0.2);
+        }
+      }
+    }
+  }
+
+  .empty-state-card {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    h4 {
+      color: #ffffff;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  .dialog-container {
+    background-color: rgba(30, 30, 45, 0.85) !important;
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+
+    .dialog-header {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+
+      h2 {
+        color: #ffffff;
+      }
+
+      .close-btn {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+}

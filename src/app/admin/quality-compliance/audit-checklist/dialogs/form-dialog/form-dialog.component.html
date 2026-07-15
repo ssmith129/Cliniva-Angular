@@ -1,0 +1,166 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="avatarDetails">
+            <div class="modalTitle">{{ dialogTitle }}</div>
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="auditForm" (ngSubmit)="submit()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Audit ID</mat-label>
+                        <input matInput formControlName="audit_id" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>qr_code</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Audit Type</mat-label>
+                        <mat-select formControlName="audit_type" required>
+                            <mat-option value="Internal Audit">Internal Audit</mat-option>
+                            <mat-option value="External Audit">External Audit</mat-option>
+                            <mat-option value="Regulatory Audit">Regulatory Audit</mat-option>
+                            <mat-option value="Quality Audit">Quality Audit</mat-option>
+                            <mat-option value="Safety Audit">Safety Audit</mat-option>
+                            <mat-option value="Infection Control Audit">Infection Control Audit</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>assignment</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Department</mat-label>
+                        <mat-select formControlName="department" required>
+                            <mat-option value="ICU">ICU</mat-option>
+                            <mat-option value="Operation Theatre">Operation Theatre</mat-option>
+                            <mat-option value="Emergency">Emergency</mat-option>
+                            <mat-option value="Laboratory">Laboratory</mat-option>
+                            <mat-option value="Radiology">Radiology</mat-option>
+                            <mat-option value="Pharmacy">Pharmacy</mat-option>
+                            <mat-option value="All Departments">All Departments</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>domain</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Audit Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="audit_date" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Auditor Name</mat-label>
+                        <input matInput formControlName="auditor_name" required>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>person</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Auditor Organization</mat-label>
+                        <input matInput formControlName="auditor_organization">
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>business</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Compliance Score (%)</mat-label>
+                        <input matInput formControlName="compliance_score">
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>percent</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option value="Passed">Passed</mat-option>
+                            <mat-option value="Failed">Failed</mat-option>
+                            <mat-option value="In Progress">In Progress</mat-option>
+                            <mat-option value="Scheduled">Scheduled</mat-option>
+                        </mat-select>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>check_circle</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Total Items</mat-label>
+                        <input matInput formControlName="total_items">
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>list</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Items Passed</mat-label>
+                        <input matInput formControlName="items_passed">
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>check</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Items Failed</mat-label>
+                        <input matInput formControlName="items_failed">
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>close</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Key Findings</mat-label>
+                        <textarea matInput formControlName="findings"></textarea>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Recommendations</mat-label>
+                        <textarea matInput formControlName="recommendations"></textarea>
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>recommend</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Follow-up Date</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="follow_up_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Notes</mat-label>
+                        <input matInput formControlName="notes">
+                        <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>notes</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!auditForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

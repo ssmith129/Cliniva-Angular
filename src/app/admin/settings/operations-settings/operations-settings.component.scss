@@ -1,0 +1,36 @@
+.settings-section {
+  padding: 10px 0;
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .section-icon {
+      color: #666;
+    }
+  }
+}
+
+.tbl-action-btn {
+   width: 35px;
+   height: 35px;
+   line-height: 35px;
+   
+   app-feather-icons {
+      width: 16px;
+      height: 16px;
+   }
+}
+
+.table {
+  thead th {
+    border-top: none;
+    font-weight: 600;
+    color: #777;
+  }
+}

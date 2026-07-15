@@ -1,0 +1,53 @@
+.ai-scribe-btn {
+  background: linear-gradient(135deg, #a855f7, #6366f1) !important;
+  color: white;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 0 15px;
+  transition: all 0.3s ease;
+  height: 36px;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .ai-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    margin-right: 5px;
+
+    &.rotate {
+      animation: spin 2s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:host-context(.dark) {
+  .ai-scribe-btn {
+    background: linear-gradient(135deg, #2c3e50 0%, #000000 100%);
+    border-color: rgba(33, 150, 243, 0.3);
+    color: #64b5f6;
+
+    &:hover {
+      background: linear-gradient(135deg, #34495e 0%, #000000 100%);
+    }
+
+    .ai-icon {
+      color: #64b5f6;
+    }
+  }
+}

@@ -1,0 +1,119 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Inventory Dashboard'" [items]="['Inventory']"
+        [active_item]="'Inventory Dashboard'"></app-breadcrumb>
+    </div>
+
+    <!-- Stats row -->
+    <div class="row">
+      <!-- Card 1: Total Stock Value -->
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+        <div class="card card-statistic-3 bg-gradient-cyan text-white widget-card">
+          <div class="card-icon card-icon-large"><mat-icon>monetization_on</mat-icon></div>
+          <div class="card-body">
+            <h5 class="card-title">Total Stock Value</h5>
+            <h2>{{ totalStockValue }}</h2>
+            <div class="progress m-t-10" style="height: 4px;">
+              <div class="progress-bar bg-white" style="width: 78%"></div>
+            </div>
+            <p class="m-t-10 m-b-0 text-sm">78% of capacity utilized</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Inventory Turnover -->
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+        <div class="card card-statistic-3 bg-gradient-green text-white widget-card">
+          <div class="card-icon card-icon-large"><mat-icon>published_with_changes</mat-icon></div>
+          <div class="card-body">
+            <h5 class="card-title">Turnover Ratio</h5>
+            <h2>{{ turnoverRatio }}</h2>
+            <div class="progress m-t-10" style="height: 4px;">
+              <div class="progress-bar bg-white" style="width: 62%"></div>
+            </div>
+            <p class="m-t-10 m-b-0 text-sm">Target: 5.0 (Optimal)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Safety Stock Alerts -->
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+        <div class="card card-statistic-3 bg-gradient-orange text-white widget-card">
+          <div class="card-icon card-icon-large"><mat-icon>warning</mat-icon></div>
+          <div class="card-body">
+            <h5 class="card-title">Low Stock Alerts</h5>
+            <h2>{{ safetyAlertsCount }}</h2>
+            <div class="progress m-t-10" style="height: 4px;">
+              <div class="progress-bar bg-white" style="width: 45%"></div>
+            </div>
+            <p class="m-t-10 m-b-0 text-sm">Action required immediately</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Active Suppliers -->
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+        <div class="card card-statistic-3 bg-gradient-purple text-white widget-card">
+          <div class="card-icon card-icon-large"><mat-icon>business</mat-icon></div>
+          <div class="card-body">
+            <h5 class="card-title">Active Suppliers</h5>
+            <h2>{{ activeSuppliersCount }}</h2>
+            <div class="progress m-t-10" style="height: 4px;">
+              <div class="progress-bar bg-white" style="width: 90%"></div>
+            </div>
+            <p class="m-t-10 m-b-0 text-sm">5 Contract renewals pending</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+      <!-- Chart 1: Stock Value Distribution -->
+      <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12">
+        <mat-card>
+          <mat-card-header class="header-style">
+            <mat-card-title>Stock Value by Category</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <apx-chart [series]="donutChartOptions.series!" [chart]="donutChartOptions.chart!"
+              [labels]="donutChartOptions.labels!" [legend]="donutChartOptions.legend!"
+              [dataLabels]="donutChartOptions.dataLabels!" [colors]="donutChartOptions.colors!">
+            </apx-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Chart 2: Inventory Consumption Trend -->
+      <div class="col-xl-7 col-lg-6 col-md-12 col-sm-12">
+        <mat-card>
+          <mat-card-header class="header-style">
+            <mat-card-title>Monthly Consumption Trend</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <apx-chart [series]="areaChartOptions.series!" [chart]="areaChartOptions.chart!"
+              [xaxis]="areaChartOptions.xaxis!" [yaxis]="areaChartOptions.yaxis!" [colors]="areaChartOptions.colors!"
+              [stroke]="areaChartOptions.stroke!" [legend]="areaChartOptions.legend!"
+              [tooltip]="areaChartOptions.tooltip!">
+            </apx-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Recent Transactions Table -->
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <mat-card-header class="header-style">
+            <mat-card-title>Recent Stock Transactions</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <app-table-card [dataSource]="recentTransactions" [columnDefinitions]="transactionColumns"></app-table-card>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,372 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <app-breadcrumb [title]="'ICU Command Center'" [items]="['ICU']" [active_item]="'Dashboard'" class="flex-grow-1"></app-breadcrumb>
+      <button mat-raised-button color="primary" (click)="runAiDispatcher()" [disabled]="isAiLoading()" class="ai-forecast-btn">
+        @if (isAiLoading()) {
+          <span class="d-flex align-items-center"><mat-icon class="spinning me-1">sync</mat-icon> Analyzing...</span>
+        } @else {
+          <span class="d-flex align-items-center"><mat-icon class="me-1">psychology</mat-icon> AI Forecaster</span>
+        }
+      </button>
+    </div>
+
+    <!-- Vitals Row -->
+    <div class="row">
+      <!-- HR -->
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+        <mat-card class="vital-card">
+          <mat-card-content>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="vital-header">
+                <mat-icon class="text-danger vital-icon-danger">favorite</mat-icon>
+                <span class="vital-title">Heart Rate</span>
+              </div>
+              <span class="vital-badge badge-danger">Elevated</span>
+            </div>
+            <div class="vital-body d-flex justify-content-between align-items-end">
+              <div class="vital-value">
+                <h3>90</h3>
+                <small>bpm avg</small>
+              </div>
+              <div class="vital-chart">
+                <apx-chart [series]="hrSeries" [chart]="sparklineOptions.chart!" [stroke]="sparklineOptions.stroke!" [tooltip]="sparklineOptions.tooltip!" [colors]="['#ff4d4d']"></apx-chart>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <!-- BP -->
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+        <mat-card class="vital-card">
+          <mat-card-content>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="vital-header">
+                <mat-icon class="text-warning vital-icon-warning">timeline</mat-icon>
+                <span class="vital-title">Blood Pressure</span>
+              </div>
+              <span class="vital-badge badge-warning">Monitor</span>
+            </div>
+            <div class="vital-body d-flex justify-content-between align-items-end">
+              <div class="vital-value">
+                <h3>120<span class="bp-diastolic">/80</span></h3>
+                <small>mmHg</small>
+              </div>
+              <div class="vital-chart">
+                <apx-chart [series]="bpSeries" [chart]="sparklineOptions.chart!" [stroke]="sparklineOptions.stroke!" [tooltip]="sparklineOptions.tooltip!" [colors]="['#ffc107']"></apx-chart>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <!-- SpO2 -->
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+        <mat-card class="vital-card">
+          <mat-card-content>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="vital-header">
+                <mat-icon class="text-info vital-icon-info">waves</mat-icon>
+                <span class="vital-title">SpO2</span>
+              </div>
+              <span class="vital-badge badge-info">Stable</span>
+            </div>
+            <div class="vital-body d-flex justify-content-between align-items-end">
+              <div class="vital-value">
+                <h3>96</h3>
+                <small>% avg</small>
+              </div>
+              <div class="vital-chart">
+                <apx-chart [series]="spo2Series" [chart]="sparklineOptions.chart!" [stroke]="sparklineOptions.stroke!" [tooltip]="sparklineOptions.tooltip!" [colors]="['#00bcd4']"></apx-chart>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <!-- Temp -->
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+        <mat-card class="vital-card">
+          <mat-card-content>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="vital-header">
+                <mat-icon class="text-success vital-icon-success">thermostat</mat-icon>
+                <span class="vital-title">Temperature</span>
+              </div>
+              <span class="vital-badge badge-success">Normal</span>
+            </div>
+            <div class="vital-body d-flex justify-content-between align-items-end">
+              <div class="vital-value">
+                <h3>37.8</h3>
+                <small>°C avg</small>
+              </div>
+              <div class="vital-chart">
+                <apx-chart [series]="tempSeries" [chart]="sparklineOptions.chart!" [stroke]="sparklineOptions.stroke!" [tooltip]="sparklineOptions.tooltip!" [colors]="['#4caf50']"></apx-chart>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- AI Forecasting Row -->
+    @if (aiForecast()) {
+      <div class="row mb-4">
+        <div class="col-12">
+          <mat-card class="ai-forecast-card">
+            <mat-card-content class="p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div class="d-flex align-items-center">
+                  <mat-icon class="text-primary me-2">psychology</mat-icon>
+                  <h4 class="mb-0 text-primary section-title section-title-weight">AI Resource Dispatch & Staffing Forecast</h4>
+                </div>
+                <span class="modern-badge" [ngClass]="{
+                  'badge-danger-soft text-danger': aiForecast()?.inflowRisk === 'High',
+                  'badge-warning-soft text-warning': aiForecast()?.inflowRisk === 'Medium',
+                  'badge-success-soft text-success': aiForecast()?.inflowRisk === 'Low'
+                }">{{ aiForecast()?.inflowRisk }} Admission Inflow Risk</span>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-2">
+                  <div class="forecast-metric-card p-3 rounded h-100">
+                    <div class="text-muted mb-1 forecast-label">Recommended Staffing</div>
+                    <div class="h5 mb-2 text-indigo forecast-value">{{ aiForecast()?.recommendedStaffing }}</div>
+                    <small class="text-muted">{{ aiForecast()?.staffingDetails }}</small>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                  <div class="forecast-metric-card p-3 rounded h-100">
+                    <div class="text-muted mb-1 forecast-label">Capacity Alerts</div>
+                    <div class="h5 mb-2 text-danger forecast-value">{{ aiForecast()?.capacityAlert }}</div>
+                    <small class="text-muted">Available beds: 2/8</small>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                  <div class="forecast-metric-card p-3 rounded h-100">
+                    <div class="text-muted mb-1 forecast-label">Predicted Peak Period</div>
+                    <div class="h5 mb-2 text-warning forecast-value">{{ aiForecast()?.predictedPeak }}</div>
+                    <small class="text-muted">Proactive action suggested</small>
+                  </div>
+                </div>
+                <div class="col-12 mt-3">
+                  <div class="p-3 bg-light rounded advisory-box">
+                    <h6 class="text-secondary mb-2 advisory-title">Clinical Proactive Recommendations</h6>
+                    <p class="mb-0 text-muted advisory-text">{{ aiForecast()?.recommendations }}</p>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    }
+
+    <!-- Main Dashboard Row -->
+    <div class="row">
+      <!-- Alerts -->
+      <div class="col-xl-4 col-lg-4 col-md-12">
+        <mat-card class="dashboard-card h-100">
+          <mat-card-header class="d-flex justify-content-between align-items-center">
+            <mat-card-title>Active Alerts</mat-card-title>
+            <span class="badge bg-danger-soft text-danger fw-bold px-2 py-1 badge-font-sm">3 High Priority</span>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="modern-alert-item danger mb-3">
+              <div class="alert-icon-container">
+                <mat-icon>error_outline</mat-icon>
+              </div>
+              <div class="alert-details">
+                <div class="alert-message"><strong>Bed 02:</strong> SpO2 dropped below 92%</div>
+                <div class="alert-meta">
+                  <span class="alert-time">2 mins ago</span>
+                  <span class="alert-action-link">Acknowledge</span>
+                </div>
+              </div>
+            </div>
+            <div class="modern-alert-item warning mb-3">
+              <div class="alert-icon-container">
+                <mat-icon>warning_amber</mat-icon>
+              </div>
+              <div class="alert-details">
+                <div class="alert-message"><strong>Bed 05:</strong> Heart Rate elevated (115 bpm)</div>
+                <div class="alert-meta">
+                  <span class="alert-time">8 mins ago</span>
+                  <span class="alert-action-link">Acknowledge</span>
+                </div>
+              </div>
+            </div>
+            <div class="modern-alert-item info mb-3">
+              <div class="alert-icon-container">
+                <mat-icon>info_outline</mat-icon>
+              </div>
+              <div class="alert-details">
+                <div class="alert-message"><strong>Bed 01:</strong> IV Fluid running low</div>
+                <div class="alert-meta">
+                  <span class="alert-time">15 mins ago</span>
+                  <span class="alert-action-link">Acknowledge</span>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Capacity -->
+      <div class="col-xl-4 col-lg-4 col-md-12">
+        <mat-card class="dashboard-card h-100">
+          <mat-card-header>
+            <mat-card-title>ICU Capacity</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="capacity-container">
+              <div class="chart-wrapper">
+                <apx-chart 
+                  [series]="capacityOptions.series!" 
+                  [chart]="capacityOptions.chart!" 
+                  [labels]="capacityOptions.labels!" 
+                  [colors]="capacityOptions.colors!"
+                  [plotOptions]="capacityOptions.plotOptions!">
+                </apx-chart>
+              </div>
+              <div class="capacity-stats mt-3 d-flex justify-content-around">
+                <div class="stat-item text-center">
+                  <span class="stat-dot occupied"></span>
+                  <div class="stat-label text-muted">Occupied</div>
+                  <div class="stat-value fw-bold">6 Beds</div>
+                </div>
+                <div class="stat-item text-center">
+                  <span class="stat-dot available"></span>
+                  <div class="stat-label text-muted">Available</div>
+                  <div class="stat-value fw-bold">2 Beds</div>
+                </div>
+                <div class="stat-item text-center">
+                  <span class="stat-dot total"></span>
+                  <div class="stat-label text-muted">Total</div>
+                  <div class="stat-value fw-bold">8 Beds</div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Recent Admissions -->
+      <div class="col-xl-4 col-lg-4 col-md-12">
+        <mat-card class="dashboard-card h-100">
+          <mat-card-header>
+            <mat-card-title>Recent Admissions</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <ng-scrollbar style="height: 290px" visibility="hover">
+              <div class="recent-admissions-list pe-3">
+                @for (admin of recentAdmissions; track admin) {
+                  <div class="admission-item d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <img [src]="admin.avatar" alt="{{ admin.name }}" class="avatar-img me-3">
+                      <div class="admission-info">
+                        <div class="patient-name fw-bold">{{ admin.name }}</div>
+                        <div class="patient-meta text-muted">
+                          <span>{{ admin.bed }}</span> &bull; <span>{{ admin.time }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <span class="modern-badge" [ngClass]="{
+                        'badge-danger-soft text-danger': admin.status === 'Critical', 
+                        'badge-success-soft text-success': admin.status === 'Stable', 
+                        'badge-info-soft text-info': admin.status === 'Observation'
+                      }">{{ admin.status }}</span>
+                      <button mat-icon-button class="ms-2 text-muted">
+                        <mat-icon>chevron_right</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
+            </ng-scrollbar>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Secondary Dashboard Row -->
+    <div class="row mt-4">
+      <!-- Ventilator Status -->
+      <div class="col-xl-6 col-lg-6 col-md-12">
+        <mat-card class="dashboard-card h-100">
+          <mat-card-header>
+            <mat-card-title>Ventilator Status</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Bed</th>
+                    <th>Mode</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Bed 03</strong></td>
+                    <td>SIMV Mode</td>
+                    <td><span class="badge bg-success">Stable</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Bed 04</strong></td>
+                    <td>PCV Mode</td>
+                    <td><span class="badge bg-danger">High Pressure</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Bed 06</strong></td>
+                    <td>CPAP</td>
+                    <td><span class="badge bg-warning text-dark">Weaning</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Nurse Call Logs -->
+      <div class="col-xl-6 col-lg-6 col-md-12">
+        <mat-card class="dashboard-card h-100">
+          <mat-card-header>
+            <mat-card-title>Recent Nurse Calls</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Bed</th>
+                    <th>Request</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>10:45 AM</td>
+                    <td><strong>Bed 05</strong></td>
+                    <td>Requested assistance</td>
+                  </tr>
+                  <tr>
+                    <td>10:30 AM</td>
+                    <td><strong>Bed 02</strong></td>
+                    <td>Requested pain meds</td>
+                  </tr>
+                  <tr>
+                    <td>10:15 AM</td>
+                    <td><strong>Bed 01</strong></td>
+                    <td>Water refill</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+  </div>
+</section>

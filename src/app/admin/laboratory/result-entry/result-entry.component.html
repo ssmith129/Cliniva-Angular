@@ -1,0 +1,146 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Result Entry'" [items]="['Laboratory']" [active_item]="'Result Entry'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Enter Test Results</h2>
+          </div>
+          <div class="body">
+            <form class="register-form m-4" [formGroup]="resultForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Request ID</mat-label>
+                    <input matInput formControlName="testRequestId" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3"
+                    matSuffix>qr_code</mat-icon>
+                    @if (resultForm.get('testRequestId')?.hasError('required')) {
+                      <mat-error>
+                        Request ID is required
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Patient Name</mat-label>
+                    <input matInput formControlName="patientName" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3"
+                    matSuffix>person</mat-icon>
+                    @if (resultForm.get('patientName')?.hasError('required')) {
+                      <mat-error>
+                        Patient Name is required
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Test Name</mat-label>
+                    <input matInput formControlName="testName" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3"
+                    matSuffix>biotech</mat-icon>
+                    @if (resultForm.get('testName')?.hasError('required')) {
+                      <mat-error>
+                        Test Name is required
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Sample ID</mat-label>
+                    <input matInput formControlName="sampleId" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3"
+                    matSuffix>science</mat-icon>
+                    @if (resultForm.get('sampleId')?.hasError('required')) {
+                      <mat-error>
+                        Sample ID is required
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Result Value</mat-label>
+                    <input matInput formControlName="resultValue" required>
+                    @if (resultForm.get('resultValue')?.hasError('required')) {
+                      <mat-error>
+                        Result Value is required
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Units</mat-label>
+                    <input matInput formControlName="units" required>
+                    @if (resultForm.get('units')?.hasError('required')) {
+                      <mat-error>
+                        Units is required
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Normal Range</mat-label>
+                    <input matInput formControlName="normalRange">
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Verified By</mat-label>
+                    <input matInput formControlName="verifiedBy" required>
+                    <mat-icon class="material-icons-outlined color-icon p-3"
+                    matSuffix>verified_user</mat-icon>
+                    @if (resultForm.get('verifiedBy')?.hasError('required')) {
+                      <mat-error>
+                        Verified By is required
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Comments</mat-label>
+                    <textarea matInput formControlName="comments"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <app-file-upload formControlName="reportFile"></app-file-upload>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <div class="example-button-row">
+                    <button mat-raised-button color="primary" [disabled]="!resultForm.valid"
+                    type="submit">Submit Result</button>
+                    <button mat-raised-button color="warn" type="button"
+                    (click)="resultForm.reset()">Clear</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

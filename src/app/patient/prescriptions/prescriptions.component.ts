@@ -1,0 +1,21 @@
+import { Component , ChangeDetectionStrategy} from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-prescriptions',
+    templateUrl: './prescriptions.component.html',
+    styleUrls: ['./prescriptions.component.scss'],
+    imports: [
+        BreadcrumbComponent,
+        MatButtonModule,
+        MatIconModule,
+    ]
+})
+export class PrescriptionsComponent {
+  constructor() {
+    // constructor code
+  }
+}

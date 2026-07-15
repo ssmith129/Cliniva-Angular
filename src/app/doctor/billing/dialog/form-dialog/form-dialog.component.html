@@ -1,0 +1,120 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="avatarDetails">
+            <label class="hoverable">
+                <img [src]='billing.img' alt="avatar">
+            </label>
+            <div class="modalTitle">
+                {{dialogTitle}}
+            </div>
+        </div>
+        <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="billingForm" (ngSubmit)="confirmAdd()">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Invoice ID</mat-label>
+                        <input matInput formControlName="invoiceId" required>
+                        <mat-icon matSuffix>receipt</mat-icon>
+                        @if (billingForm.get('invoiceId')?.hasError('required')) {
+                        <mat-error>Invoice ID is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Patient Name</mat-label>
+                        <input matInput formControlName="patientName" required>
+                        <mat-icon matSuffix>person</mat-icon>
+                        @if (billingForm.get('patientName')?.hasError('required')) {
+                        <mat-error>Patient Name is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Patient ID</mat-label>
+                        <input matInput formControlName="patientId" required>
+                        <mat-icon matSuffix>badge</mat-icon>
+                        @if (billingForm.get('patientId')?.hasError('required')) {
+                        <mat-error>Patient ID is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Consultation Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="consultationDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        @if (billingForm.get('consultationDate')?.hasError('required')) {
+                        <mat-error>Date is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Service Type</mat-label>
+                        <input matInput formControlName="serviceType" required>
+                        <mat-icon matSuffix>medical_services</mat-icon>
+                        @if (billingForm.get('serviceType')?.hasError('required')) {
+                        <mat-error>Service Type is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Amount</mat-label>
+                        <input matInput formControlName="amount" type="number" required>
+                        <mat-icon matSuffix>attach_money</mat-icon>
+                        @if (billingForm.get('amount')?.hasError('required')) {
+                        <mat-error>Amount is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Payment Status</mat-label>
+                        <mat-select formControlName="paymentStatus" required>
+                            <mat-option [value]="'Paid'">Paid</mat-option>
+                            <mat-option [value]="'Pending'">Pending</mat-option>
+                            <mat-option [value]="'Unpaid'">Unpaid</mat-option>
+                        </mat-select>
+                        @if (billingForm.get('paymentStatus')?.hasError('required')) {
+                        <mat-error>Status is required</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Payment Method</mat-label>
+                        <mat-select formControlName="paymentMethod">
+                            <mat-option [value]="'Credit Card'">Credit Card</mat-option>
+                            <mat-option [value]="'Cash'">Cash</mat-option>
+                            <mat-option [value]="'Insurance'">Insurance</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-flat-button class="formSubmitBtn" [disabled]="!billingForm.valid"
+                            type="submit">Save</button>
+                        <button mat-flat-button mat-dialog-close class="formCancelBtn" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

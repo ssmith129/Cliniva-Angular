@@ -1,0 +1,15 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'All Staff'" [items]="['Staff']" [active_item]="'All Staff'"></app-breadcrumb>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <app-master-table [title]="'Staff'" [columnDefinitions]="columnDefinitions" [dataSource]="dataSource"
+          [isLoading]="isLoading" [exportFileName]="'staff'" (add)="handleAdd()" (edit)="handleEdit($event)"
+          (delete)="handleDelete($event)" (refresh)="handleRefresh()" (bulkDelete)="handleBulkDelete($event)">
+        </app-master-table>
+      </div>
+    </div>
+  </div>
+</section>

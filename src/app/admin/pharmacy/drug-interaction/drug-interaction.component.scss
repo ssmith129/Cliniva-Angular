@@ -1,0 +1,105 @@
+.interaction-card, .results-card {
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #eef2f6;
+}
+
+.alert-box {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+// Soft colors
+.bg-soft-danger {
+  background-color: rgba(244, 67, 54, 0.08) !important;
+  color: #F44336;
+}
+.border-danger {
+  border-color: rgba(244, 67, 54, 0.3) !important;
+}
+
+.bg-soft-warning {
+  background-color: rgba(255, 152, 0, 0.08) !important;
+  color: #ff9800;
+}
+.border-warning {
+  border-color: rgba(255, 152, 0, 0.3) !important;
+}
+
+.bg-soft-blue {
+  background-color: rgba(33, 150, 243, 0.08) !important;
+  color: #2196F3;
+}
+.border-blue {
+  border-color: rgba(33, 150, 243, 0.3) !important;
+}
+
+.bg-soft-green {
+  background-color: rgba(102, 187, 106, 0.08) !important;
+  color: #66BB6A;
+}
+.border-green {
+  border-color: rgba(102, 187, 106, 0.3) !important;
+}
+
+.font-32 { font-size: 32px; }
+.font-18 { font-size: 18px; }
+.font-16 { font-size: 16px; }
+.font-15 { font-size: 15px; }
+.font-14 { font-size: 14px; }
+.font-weight-bold { font-weight: 700; }
+.letter-spacing { letter-spacing: 0.5px; }
+.leading-relaxed { line-height: 1.6; }
+.text-dark-mode-color { color: #1e293b; }
+
+// Animation
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Theme compatibility (Dark Mode)
+:host-context(.dark),
+:host-context(.theme-dark) {
+  .interaction-card, .results-card {
+    background-color: #1a202e !important;
+    border-color: #2b2b40 !important;
+    color: #ffffff;
+
+    .text-muted {
+      color: #a0aec0 !important;
+    }
+  }
+
+  .text-dark-mode-color {
+    color: #cbd5e1 !important;
+  }
+}
+
+// Theme compatibility (Glassmorphism)
+:host-context(.layout-glassmorphism) {
+  .interaction-card, .results-card {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px);
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff;
+
+    .text-muted {
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+  }
+
+  .text-dark-mode-color {
+    color: #e2e8f0 !important;
+  }
+}

@@ -1,0 +1,280 @@
+import { Component, OnDestroy, OnInit, inject, viewChild , ChangeDetectionStrategy} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
+import { InventoryReportsFormComponent } from './dialogs/form-dialog/form-dialog.component';
+import { InventoryReportDeleteComponent } from './dialogs/delete/delete.component';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import {
+  MasterTableComponent,
+  ColumnDefinition,
+} from '@shared/components/master-table/master-table.component';
+import { InventoryReportsService } from './inventory-reports.service';
+import { InventoryReport } from './inventory-reports.model';
+
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexDataLabels,
+  ApexTooltip,
+  ApexStroke,
+  ApexTitleSubtitle,
+  ApexYAxis,
+  ApexFill,
+  ApexLegend,
+  ApexPlotOptions,
+  NgApexchartsModule,
+  ChartComponent,
+  ApexResponsive,
+  ApexGrid,
+} from 'ng-apexcharts';
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries | number[];
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
+  title: ApexTitleSubtitle;
+  dataLabels: ApexDataLabels;
+  stroke: ApexStroke;
+  fill: ApexFill;
+  tooltip: ApexTooltip;
+  legend: ApexLegend;
+  plotOptions: ApexPlotOptions;
+  colors: string[];
+  labels: string[];
+  responsive: ApexResponsive[];
+  grid: ApexGrid;
+};
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-inventory-reports',
+  templateUrl: './inventory-reports.component.html',
+  styleUrls: ['./inventory-reports.component.scss'],
+  standalone: true,
+  imports: [BreadcrumbComponent, MasterTableComponent, NgApexchartsModule],
+})
+export class InventoryReportsComponent implements OnInit, OnDestroy {
+  dialog = inject(MatDialog);
+  inventoryReportsService = inject(InventoryReportsService);
+  private snackBar = inject(MatSnackBar);
+
+  readonly chart = viewChild.required<ChartComponent>('chart');
+  public lowStockOptions!: Partial<ChartOptions>;
+  public categoryDistributionOptions!: Partial<ChartOptions>;
+
+  columnDefinitions: ColumnDefinition[] = [
+    { def: 'select', label: 'Checkbox', type: 'check', visible: true },
+    { def: 'id', label: 'ID', type: 'text', visible: false },
+    { def: 'itemName', label: 'Item Name', type: 'text', visible: true },
+    { def: 'category', label: 'Category', type: 'text', visible: true },
+    { def: 'stockLevel', label: 'Stock Level', type: 'text', visible: true },
+    { def: 'unit', label: 'Unit', type: 'text', visible: true },
+    {
+      def: 'status',
+      label: 'Status',
+      type: 'status',
+      visible: true,
+      statusBadgeMap: {
+        'In Stock': 'badge badge-solid-green',
+        'Low Stock': 'badge badge-solid-orange',
+        'Out of Stock': 'badge badge-solid-red',
+      },
+    },
+    { def: 'lastUpdated', label: 'Last Updated', type: 'date', visible: true },
+    { def: 'actions', label: 'Actions', type: 'actionBtn', visible: true },
+  ];
+
+  dataSource = new MatTableDataSource<InventoryReport>([]);
+  isLoading = true;
+  private destroy$ = new Subject<void>();
+
+  constructor() {
+    this.initCharts();
+  }
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  loadData() {
+    this.isLoading = true;
+    this.inventoryReportsService.getAllInventoryReports().subscribe({
+      next: (data) => {
+        this.dataSource.data = data;
+        this.isLoading = false;
+      },
+      error: (_err) => {
+        this.isLoading = false;
+      },
+    });
+  }
+
+  initCharts() {
+    // Bar Chart: Low Stock Items
+    this.lowStockOptions = {
+      series: [
+        {
+          name: 'Current Stock',
+          data: [5, 8, 12, 15, 20],
+        },
+      ],
+      chart: {
+        type: 'bar',
+        height: 300,
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: [
+          'Paracetamol',
+          'Amoxicillin',
+          'Ibuprofen',
+          'Cetirizine',
+          'Aspirin',
+        ],
+        title: {
+          text: 'Quantity',
+        },
+      },
+      title: {
+        text: 'Top 5 Low Stock Items',
+        align: 'left',
+      },
+      colors: ['#fc544b'],
+    };
+
+    // Pie Chart: Category Distribution
+    this.categoryDistributionOptions = {
+      series: [44, 55, 13, 43, 22],
+      chart: {
+        height: 300,
+        type: 'pie',
+      },
+      labels: ['Tablets', 'Syrups', 'Injections', 'Ointments', 'Surgicals'],
+      colors: ['#6777ef', '#ff9800', '#f44336', '#00bcd4', '#4caf50'],
+      legend: {
+        position: 'bottom',
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: 'bottom',
+            },
+          },
+        },
+      ],
+    };
+  }
+
+  handleAdd() {
+    this.openDialog('add');
+  }
+
+  handleEdit(row: InventoryReport) {
+    this.openDialog('edit', row);
+  }
+
+  handleDelete(row: InventoryReport) {
+    const dialogRef = this.dialog.open(InventoryReportDeleteComponent, {
+      data: row,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.dataSource.data = this.dataSource.data.filter(
+          (record) => record.id !== row.id
+        );
+        this.showNotification(
+          'snackbar-danger',
+          'Delete Record Successfully...!!!',
+          'bottom',
+          'center'
+        );
+      }
+    });
+  }
+
+  handleBulkDelete(selectedRows: InventoryReport[]) {
+    this.dataSource.data = this.dataSource.data.filter(
+      (item) => !selectedRows.includes(item)
+    );
+    this.showNotification(
+      'snackbar-danger',
+      `${selectedRows.length} Record(s) Deleted Successfully...!!!`,
+      'bottom',
+      'center'
+    );
+  }
+
+  handleRefresh() {
+    this.loadData();
+  }
+
+  openDialog(action: 'add' | 'edit', data?: InventoryReport) {
+    const dialogRef = this.dialog.open(InventoryReportsFormComponent, {
+      width: '60vw',
+      maxWidth: '100vw',
+      data: { inventoryReport: data, action },
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        if (action === 'add') {
+          this.dataSource.data = [result, ...this.dataSource.data];
+        } else {
+          const index = this.dataSource.data.findIndex(
+            (record) => record.id === result.id
+          );
+          if (index !== -1) {
+            this.dataSource.data[index] = result;
+            this.dataSource._updateChangeSubscription();
+          }
+        }
+        this.showNotification(
+          action === 'add' ? 'snackbar-success' : 'black',
+          `${action === 'add' ? 'Add' : 'Edit'} Record Successfully...!!!`,
+          'bottom',
+          'center'
+        );
+      }
+    });
+  }
+
+  showNotification(
+    colorName: string,
+    text: string,
+    placementFrom: MatSnackBarVerticalPosition,
+    placementAlign: MatSnackBarHorizontalPosition
+  ) {
+    this.snackBar.open(text, '', {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
+  }
+}
