@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { AiService, AiConfig } from '@core/service/ai.service';
+import { AiService, AiConfig, DEFAULT_AI_CONFIG } from '@core/service/ai.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,9 +62,9 @@ export class DoctorAiSettingsComponent implements OnInit {
 
   constructor() {
     this.aiForm = this.fb.group({
-      provider: ['none', Validators.required],
-      apiKey: [''],
-      model: [''],
+      provider: [DEFAULT_AI_CONFIG.provider, Validators.required],
+      apiKey: [DEFAULT_AI_CONFIG.apiKey, DEFAULT_AI_CONFIG.provider !== 'none' ? Validators.required : []],
+      model: [DEFAULT_AI_CONFIG.model],
     });
   }
 
