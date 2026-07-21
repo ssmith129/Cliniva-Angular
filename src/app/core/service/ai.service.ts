@@ -2,12 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, delay } from 'rxjs/operators';
+import { environment } from 'environments/environment';
 
 export interface AiConfig {
   provider: 'openai' | 'gemini' | 'claude' | 'none';
   apiKey: string;
   model: string;
 }
+
+/**
+ * Default AI configuration applied out-of-the-box every time the Cliniva
+ * platform is accessed. Sourced from the build environment so the values can
+ * be swapped per-build without touching component logic. Ships with Google
+ * Gemini pre-selected so AI features work without any manual setup. Users can
+ * still override these values from any AI Settings page and their choice is
+ * persisted to local storage.
+ */
+export const DEFAULT_AI_CONFIG: AiConfig = {
+  provider: environment.ai.provider,
+  apiKey: environment.ai.apiKey,
+  model: environment.ai.model,
+};
 
 interface OpenAIResponse {
   choices: {
@@ -33,7 +48,21 @@ interface GeminiResponse {
 export class AiService {
   private readonly STORAGE_KEY = 'cliniva_ai_config';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Seed the default AI configuration on first access so that the Gemini
+    // defaults are already incorporated every time the platform is opened,
+    // without the user having to visit an AI Settings page first.
+    this.ensureConfigSeeded();
+  }
+
+  /**
+   * Persists the default AI configuration to local storage if none exists yet.
+   */
+  private ensureConfigSeeded(): void {
+    if (!localStorage.getItem(this.STORAGE_KEY)) {
+      this.saveConfig({ ...DEFAULT_AI_CONFIG });
+    }
+  }
 
   /**
    * Saves the AI configuration to local storage
@@ -43,13 +72,22 @@ export class AiService {
   }
 
   /**
-   * Retrieves the AI configuration from local storage
+   * Retrieves the AI configuration from local storage.
+   * Falls back to the default (Google Gemini) configuration and back-fills any
+   * missing fields so the platform always has a usable AI provider selected.
    */
   getConfig(): AiConfig {
-    const config = localStorage.getItem(this.STORAGE_KEY);
-    return config
-      ? JSON.parse(config)
-      : { provider: 'none', apiKey: '', model: '' };
+    const stored = localStorage.getItem(this.STORAGE_KEY);
+    if (!stored) {
+      return { ...DEFAULT_AI_CONFIG };
+    }
+
+    try {
+      const parsed = JSON.parse(stored) as Partial<AiConfig>;
+      return { ...DEFAULT_AI_CONFIG, ...parsed };
+    } catch {
+      return { ...DEFAULT_AI_CONFIG };
+    }
   }
 
   /**
